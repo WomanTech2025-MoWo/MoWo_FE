@@ -23,27 +23,32 @@ import OnboardingStep3 from '../pages/auth/onboarding/OnboardingStep3';
 // 에러 페이지
 import NotFoundPage from '../pages/NotFoundPage';
 
+// 레이아웃 컴포넌트
+import CommonLayout from '../layouts/CommonLayout';
+
 const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<BriefingPage />} />
-        <Route path="/todos" element={<TodosPage />} />
-        <Route path="/todos/drafts" element={<TodosPage />} />
-        <Route path="/guides" element={<GuidesPage />} />
-        <Route path="/guides/:id" element={<GuideDetailPage />} />
-        <Route path="/aianalysis" element={<AiAnalysisPage />} />
-        <Route path="/infos" element={<InfosPage />} />
-        <Route path="/infos/:type/:id" element={<InfosDetailPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/signup/onboarding/step1" element={<OnboardingStep1 />} />
-        <Route path="/signup/onboarding/step2" element={<OnboardingStep2 />} />
-        <Route path="/signup/onboarding/step3" element={<OnboardingStep3 />} />
+        <Route element={<CommonLayout />}>
+          <Route path="/" element={<BriefingPage />} />
+          <Route path="/todos" element={<TodosPage />} />
+          <Route path="/todos/drafts" element={<TodosPage />} />
+          <Route path="/guides" element={<GuidesPage />} />
+          <Route path="/guides/:id" element={<GuideDetailPage />} />
+          <Route path="/aianalysis" element={<AiAnalysisPage />} />
+          <Route path="/infos" element={<InfosPage />} />
+          <Route path="/infos/:type/:id" element={<InfosDetailPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/signup/onboarding/step1" element={<OnboardingStep1 />} />
+          <Route path="/signup/onboarding/step2" element={<OnboardingStep2 />} />
+          <Route path="/signup/onboarding/step3" element={<OnboardingStep3 />} />
 
-        {/* 404 Not Found */}
-        <Route path="*" element={<NotFoundPage />} />
+          {/* 404 Not Found */}
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
