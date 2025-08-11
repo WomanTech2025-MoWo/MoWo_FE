@@ -1,16 +1,16 @@
 :root {
   /* 메인 컬러: 민트 */
   --color-main-primary: #4fd1c5;
-  --color-main-light-100: #e8f0fe; /* 확인 필요 */
+  --color-main-light-100: #a9ebd8;
   --color-main-light-200: #d2e3fc; /* 확인 필요 */
   --color-main-light-300: #cdf0ed;
-  --color-main-dark: #6ec0a8;
+  --color-main-dark: #25b7aa;
   --color-main-deeper-dark: #4285f4; /* 확인 필요 */
 
   /* 서브 컬러: 보라 */
   --color-secondary-primary: #9494f8;
   --color-secondary-100: #fdf5d4; /* 확인 필요 */
-  --color-secondary-200: #fbe6a3; /* 확인 필요 */
+  --color-secondary-200: #cdcdfc;
   --color-secondary-300: #e7e7ff;
   --color-secondary-dark: #7777d5;
 
