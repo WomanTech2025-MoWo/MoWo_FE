@@ -1,7 +1,7 @@
 import React from 'react';
 
 const OnboardingStep3 = () => {
-  return;
+  return <></>;
 };
 
 export default OnboardingStep3;

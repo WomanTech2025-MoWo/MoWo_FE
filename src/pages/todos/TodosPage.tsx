@@ -1,7 +1,7 @@
 import React from 'react';
 
 const TodosPage = () => {
-  return;
+  return <></>;
 };
 
 export default TodosPage;

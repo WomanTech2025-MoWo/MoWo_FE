@@ -1,7 +1,7 @@
 import React from 'react';
 
 const GuidesPage = () => {
-  return;
+  return <></>;
 };
 
 export default GuidesPage;
