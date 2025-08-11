@@ -26,7 +26,7 @@ const baseStyles = css<{ $disabled?: boolean }>`
   background-color: ${({ $disabled }) => ($disabled ? 'var(--color-gray-200)' : 'var(--color-main-light-300)')};
   border-radius: 8px;
   font-weight: 600;
-  color: var(--color-gray-900);
+  color: inherit;
   margin: 5px 0;
   cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
 
