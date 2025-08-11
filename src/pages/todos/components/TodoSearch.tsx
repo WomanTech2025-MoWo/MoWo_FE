@@ -1,7 +1,7 @@
 import React from 'react';
 
 const TodoSearch = () => {
-  return;
+  return <></>;
 };
 
 export default TodoSearch;

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const AiAnalysisPage = () => {
-  return;
+  return <></>;
 };
 
 export default AiAnalysisPage;
