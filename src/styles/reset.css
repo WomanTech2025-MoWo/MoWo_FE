@@ -88,7 +88,8 @@ summary,
 time,
 mark,
 audio,
-video {
+video,
+button {
   margin: 0;
   padding: 0;
   border: 0;
@@ -131,4 +132,11 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+a,
+button {
+  transition: 0.2s all ease-in-out;
+}
+a {
+  text-decoration: none;
 }
