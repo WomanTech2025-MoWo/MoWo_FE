@@ -27,15 +27,7 @@ const AccountForm = () => {
         onChange={(e) => setNickname(e.target.value)}
         required
       />
-      <InputField
-        label="생년월일"
-        type="date"
-        iconType="date"
-        placeholder="비밀번호"
-        value={birthdate}
-        onChange={(e) => setBirthdate(e.target.value)}
-        required
-      />
+      <InputField label="생년월일" type="date" iconType="date" value={birthdate} onChange={(e) => setBirthdate(e.target.value)} required />
     </>
   );
 };
