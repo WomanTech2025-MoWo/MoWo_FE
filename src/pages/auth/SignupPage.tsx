@@ -1,6 +1,7 @@
 import React from 'react';
 import InnerLayout from '../../layouts/InnerLayout';
 import HeaderWithBack from '../../layouts/HeaderWithBack';
+import IdPwForm from './components/IdPwForm';
 import AccountForm from './components/AccountForm';
 import { PrimaryButton } from '../../components/buttons/PrimaryButton';
 
@@ -15,6 +16,7 @@ const SignupPage = () => {
       <HeaderWithBack>회원가입</HeaderWithBack>
       <InnerLayout>
         <form onSubmit={handleSubmit}>
+          <IdPwForm />
           <AccountForm />
           <PrimaryButton type="submit">회원가입</PrimaryButton>
         </form>
