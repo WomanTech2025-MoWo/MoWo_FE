@@ -21,7 +21,7 @@ const StyledSelectLabel = styled(Label)<{ selected: boolean }>`
   border-radius: 8px;
   text-align: center;
   color: ${(props) => (props.selected ? 'var(--color-gray-900)' : 'var(--color-gray-400)')};
-  background-color: ${(props) => (props.selected ? 'var(--color-gray-200)' : 'transparent')};
+  background-color: ${(props) => (props.selected ? 'var(--color-gray-200)' : 'var(--color-basic-white)')};
   transition: all 0.2s ease;
   margin: 0;
 `;
