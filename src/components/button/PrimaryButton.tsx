@@ -23,10 +23,10 @@ const baseStyles = css<{ $disabled?: boolean }>`
   justify-content: center;
   width: 100%;
   height: 48px;
-  background-color: ${({ $disabled }) => ($disabled ? 'var(--color-gray-200)' : 'var(--color-main-primary)')};
+  background-color: ${({ $disabled }) => ($disabled ? 'var(--color-text-muted)' : 'var(--color-main-primary)')};
   border-radius: 8px;
   font-weight: 600;
-  color: white;
+  color: var(--color-text-on-color);
   margin: 5px 0;
   cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
 

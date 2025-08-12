@@ -23,7 +23,7 @@ const baseStyles = css<{ $disabled?: boolean }>`
   justify-content: center;
   width: 100%;
   height: 48px;
-  background-color: ${({ $disabled }) => ($disabled ? 'var(--color-gray-200)' : 'var(--color-main-light-300)')};
+  background-color: ${({ $disabled }) => ($disabled ? 'var(--color-text-muted)' : 'var(--color-gray-200)')};
   border-radius: 8px;
   font-weight: 600;
   color: inherit;
@@ -34,7 +34,7 @@ const baseStyles = css<{ $disabled?: boolean }>`
     !$disabled &&
     css`
       &:hover {
-        background-color: var(--color-main-light-100);
+        background-color: var(--color-gray-300);
       }
     `}
 `;
