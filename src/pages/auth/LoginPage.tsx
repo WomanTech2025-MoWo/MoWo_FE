@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import InnerLayout from '../../layouts/InnerLayout';
-import PrimaryButton from '../../components/button/PrimaryButton';
-import SecondaryButton from '../../components/button/SecondaryButton';
+import { PrimaryButton } from '../../components/button/PrimaryButton';
+import { SecondaryButton } from '../../components/button/SecondaryButton';
 import InputField from '../../components/input/InputField';
 
 const LoginPage = () => {
@@ -25,13 +25,9 @@ const LoginPage = () => {
           required
         />
         <InputField label="비밀번호" type="password" placeholder="비밀번호" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <PrimaryButton as="button" type="submit">
-          로그인
-        </PrimaryButton>
+        <PrimaryButton type="submit">로그인</PrimaryButton>
       </form>
-      <SecondaryButton as="link" to="/signup">
-        회원가입
-      </SecondaryButton>
+      <SecondaryButton to="/signup">회원가입</SecondaryButton>
     </InnerLayout>
   );
 };
