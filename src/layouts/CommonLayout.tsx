@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 
 const CommonLayout = () => {
   return (
-    <div id="wrapper">
+    <div id="wrap">
       <Outlet />
     </div>
   );
