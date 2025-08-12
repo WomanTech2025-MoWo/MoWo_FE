@@ -1,35 +1,37 @@
 import React from 'react';
 import styled from 'styled-components';
+import { generateId } from '../../utils/generateId';
 
 type InputFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   id?: string;
+  inputWidth?: string;
 };
 
-const Wrap = styled.div`
-  margin-bottom: 12px;
+export const Wrap = styled.div`
+  margin-bottom: 16px;
 `;
 
-const Label = styled.label`
+export const Label = styled.label`
   display: block;
   margin-bottom: 8px;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 `;
 
-const StyledInput = styled.input`
+export const StyledInput = styled.input`
   width: 100%;
   height: 45px;
   border-radius: 8px;
   padding: 8px 12px;
 `;
 
-const InputField = ({ label, id, ...inputProps }: InputFieldProps) => {
-  const inputId = id ?? `input-${Math.random().toString(36).slice(2, 9)}`;
+const InputField = ({ label, id, ...props }: InputFieldProps) => {
+  const inputId = id ?? generateId();
 
   return (
     <Wrap>
       {label && <Label htmlFor={inputId}>{label}</Label>}
-      <StyledInput id={inputId} {...inputProps} />
+      <StyledInput id={inputId} {...props} />
     </Wrap>
   );
 };
