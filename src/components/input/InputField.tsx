@@ -7,13 +7,13 @@ type InputFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const Wrap = styled.div`
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 `;
 
 const Label = styled.label`
   display: block;
   margin-bottom: 8px;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
 `;
 
 const StyledInput = styled.input`

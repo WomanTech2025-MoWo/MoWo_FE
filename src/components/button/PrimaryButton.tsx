@@ -22,10 +22,9 @@ const baseStyles = css<{ $disabled?: boolean }>`
   height: 48px;
   background-color: ${({ $disabled }) => ($disabled ? 'var(--color-text-muted)' : 'var(--color-main-primary)')};
   border-radius: 8px;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   color: var(--color-text-on-color);
   margin: 5px 0;
-  cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
 
   ${({ $disabled }) =>
     !$disabled &&
