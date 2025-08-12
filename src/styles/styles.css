@@ -1,8 +1,8 @@
 :root {
   /* 메인 컬러: 민트 */
   --color-main-primary: #4fd1c5;
-  --color-main-light-100: #8bebe2;
-  --color-main-light-200: #afeee8;
+  --color-main-light-100: #a0e8e1;
+  --color-main-light-200: #ace5e0;
   --color-main-light-300: #d2fffb;
   --color-main-light-400: #edfffd;
   --color-main-dark: #25b7aa;
@@ -30,6 +30,10 @@
   --color-category-health: #22c55e;
   --color-category-work: #3b82f6;
   --color-category-personal: #a855f7;
+
+  --color-category-bg-health: #dcfce7;
+  --color-category-bg-work: #dbeafe;
+  --color-category-bg-personal: #f0e0ff;
 
   /* 베이직 컬러 */
   --color-basic-bg: #f9f9f9;

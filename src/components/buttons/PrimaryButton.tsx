@@ -9,7 +9,7 @@ export const PrimaryButton = styled(BaseButton)<{ $disabled?: boolean }>`
     !$disabled &&
     css`
       &:hover {
-        background-color: var(--color-main-dark);
+        background-color: var(--color-main-light-200);
       }
     `}
 `;
