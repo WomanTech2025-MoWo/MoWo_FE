@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import InnerLayout from '../../layouts/InnerLayout';
 import PrimaryButton from '../../components/button/PrimaryButton';
 import SecondaryButton from '../../components/button/SecondaryButton';
 import InputField from '../../components/input/InputField';
@@ -13,7 +14,7 @@ const LoginPage = () => {
   };
 
   return (
-    <>
+    <InnerLayout>
       <form onSubmit={handleSubmit}>
         <InputField
           label="이메일 (아이디)"
@@ -31,7 +32,7 @@ const LoginPage = () => {
       <SecondaryButton as="link" to="/signup">
         회원가입
       </SecondaryButton>
-    </>
+    </InnerLayout>
   );
 };
 

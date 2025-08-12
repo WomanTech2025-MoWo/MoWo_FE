@@ -55,6 +55,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+input {
+  border: 1px solid var(--color-border-color);
+  font-size: 1rem;
+}
+
 #wrapper {
   min-width: 350px;
   max-width: 450px;
@@ -64,6 +69,7 @@ body {
   margin: 0 auto;
 }
 
-input {
-  border: 1px solid var(--color-border-color);
+.page-inner {
+  width: calc(100% - 40px);
+  margin: 0 auto;
 }
