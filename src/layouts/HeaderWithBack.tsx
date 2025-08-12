@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 import { WithChildren } from '../types/common';
-import IconBackArrow from '../components/icons/IconBackArrow';
+import IconPrevious from '../components/icons/layout/IconPrevious';
 
 const baseStyles = css`
   height: 68px;
@@ -38,7 +38,7 @@ const HeaderWithBack = ({ children }: WithChildren) => {
   return (
     <Header>
       <BackButton type="button" onClick={() => navigate(-1)} aria-label="뒤로가기">
-        <IconBackArrow />
+        <IconPrevious />
       </BackButton>
       <Title>{children}</Title>
     </Header>

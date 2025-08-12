@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import InputField, { Wrap, Label, StyledInput } from './InputField';
-import { PrimaryButton } from '../button/PrimaryButton';
+import InputField, { Wrap, InputWrapper, Label, StyledInput } from './InputField';
+import InputIcon from './InputIcon';
+import { PrimaryButton } from '../buttons/PrimaryButton';
 import { generateId } from '../../utils/generateId';
 
 type InputWithButtonProps = React.ComponentProps<typeof InputField> & {
@@ -20,19 +21,19 @@ const CheckBtn = styled(PrimaryButton)`
   height: 45px;
 `;
 
-const StyledInputFlex = styled(StyledInput)`
-  width: auto;
-  flex-grow: 1;
-`;
+const StyledInputFlex = styled(StyledInput)``;
 
-const InputWithButton = ({ label, id, buttonText = '중복확인', onButtonClick, ...props }: InputWithButtonProps) => {
+const InputWithButton = ({ label, id, iconType, buttonText = '중복확인', onButtonClick, ...props }: InputWithButtonProps) => {
   const inputId = id ?? generateId();
 
   return (
     <Wrap>
       {label && <Label htmlFor={inputId}>{label}</Label>}
       <InputRow>
-        <StyledInputFlex id={inputId} {...props} />
+        <InputWrapper>
+          <InputIcon type={iconType} />
+          <StyledInputFlex id={inputId} {...props} />
+        </InputWrapper>
         <CheckBtn type="button" onClick={onButtonClick}>
           {buttonText}
         </CheckBtn>
