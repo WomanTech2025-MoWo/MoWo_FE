@@ -1,18 +1,15 @@
 import React from 'react';
 import { Link, LinkProps } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-
-type CommonProps = {
-  children: React.ReactNode;
-};
+import { WithChildren } from '../../types/common';
 
 type SecondaryButtonProps =
-  | (CommonProps &
+  | (WithChildren &
       React.ButtonHTMLAttributes<HTMLButtonElement> & {
         as?: 'button';
         type?: 'button' | 'submit' | 'reset';
       })
-  | (CommonProps &
+  | (WithChildren &
       LinkProps & {
         as: 'link';
       });
@@ -25,7 +22,7 @@ const baseStyles = css<{ $disabled?: boolean }>`
   height: 48px;
   background-color: ${({ $disabled }) => ($disabled ? 'var(--color-text-muted)' : 'var(--color-gray-200)')};
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: 700;
   color: inherit;
   margin: 5px 0;
   cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
@@ -50,11 +47,11 @@ const SecondaryLink = styled(Link)<{ $disabled?: boolean }>`
 
 const SecondaryButton = ({ as: Component = 'button', children, ...props }: SecondaryButtonProps) => {
   if (Component === 'link') {
-    const { ...restProps } = props as LinkProps & CommonProps;
+    const { ...restProps } = props as LinkProps & WithChildren;
     return <SecondaryLink {...restProps}>{children}</SecondaryLink>;
   }
 
-  const { type = 'button', ...restProps } = props as React.ButtonHTMLAttributes<HTMLButtonElement> & CommonProps;
+  const { type = 'button', ...restProps } = props as React.ButtonHTMLAttributes<HTMLButtonElement> & WithChildren;
   return (
     <SecondaryBtn type={type} {...restProps}>
       {children}
