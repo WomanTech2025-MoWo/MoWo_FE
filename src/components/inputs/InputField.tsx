@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import InputIcon, { InputIconType } from './InputIcon';
 import { generateId } from '../../utils/generateId';
 
 type InputFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   id?: string;
   inputWidth?: string;
+  iconType?: InputIconType;
 };
 
 export const Wrap = styled.div`
@@ -18,20 +20,37 @@ export const Label = styled.label`
   font-weight: var(--font-weight-medium);
 `;
 
-export const StyledInput = styled.input`
-  width: 100%;
+export const InputWrapper = styled.div`
+  width: auto;
   height: 45px;
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  border: 1px solid var(--color-border-color);
   border-radius: 8px;
-  padding: 8px 12px;
+  padding-left: 16px;
+  overflow: hidden;
+
+  &:focus-within {
+    border-color: var(--color-main-primary);
+  }
 `;
 
-const InputField = ({ label, id, ...props }: InputFieldProps) => {
+export const StyledInput = styled.input`
+  width: 100%;
+  padding: 0 16px 0 12px;
+`;
+
+const InputField = ({ label, id, iconType, ...props }: InputFieldProps) => {
   const inputId = id ?? generateId();
 
   return (
     <Wrap>
       {label && <Label htmlFor={inputId}>{label}</Label>}
-      <StyledInput id={inputId} {...props} />
+      <InputWrapper>
+        <InputIcon type={iconType} />
+        <StyledInput id={inputId} {...props} />
+      </InputWrapper>
     </Wrap>
   );
 };
