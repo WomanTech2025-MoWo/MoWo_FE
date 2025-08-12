@@ -3,12 +3,12 @@ import OnboardingFieldset from './OnboardingFieldset';
 import InputField from '../../../components/inputs/InputField';
 import SelectableInput from '../../../components/inputs/SelectableInput';
 
-const OnboardingStep2Form = () => {
+const OnboardingStep2Form = ({ className }: { className?: string }) => {
   const [duedate, setDuedate] = useState(''); // 출산예정일
   const [hasTwins, sethasTwins] = useState(''); // 쌍둥이
 
   return (
-    <>
+    <div className={className}>
       <InputField label="출산예정일" type="date" iconType="date" value={duedate} onChange={(e) => setDuedate(e.target.value)} required />
       <OnboardingFieldset columns={2}>
         <legend>쌍둥이 여부</legend>
@@ -29,7 +29,7 @@ const OnboardingStep2Form = () => {
           onChange={(e) => sethasTwins(e.target.value)}
         />
       </OnboardingFieldset>
-    </>
+    </div>
   );
 };
 

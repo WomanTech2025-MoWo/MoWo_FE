@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import OnboardingFieldset from './OnboardingFieldset';
 import SelectableInput from '../../../components/inputs/SelectableInput';
 
-const OnboardingStep1Form = () => {
+const OnboardingStep1Form = ({ className }: { className?: string }) => {
   const [pregnantStatus, setPregnantStatus] = useState(''); // 임신 여부
   const [isMultiparous, setIsMultiparous] = useState(''); // 출산 경험
 
   return (
-    <>
+    <div className={className}>
       <OnboardingFieldset columns={3}>
         <legend>임신 여부</legend>
         <SelectableInput
@@ -54,7 +54,7 @@ const OnboardingStep1Form = () => {
           onChange={(e) => setIsMultiparous(e.target.value)}
         />
       </OnboardingFieldset>
-    </>
+    </div>
   );
 };
 
