@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import InputField, { Wrap, Label, StyledInput } from './InputField';
-import { PrimaryButton } from '../button/PrimaryButton';
+import { PrimaryButton } from '../buttons/PrimaryButton';
 import { generateId } from '../../utils/generateId';
 
 type InputWithButtonProps = React.ComponentProps<typeof InputField> & {

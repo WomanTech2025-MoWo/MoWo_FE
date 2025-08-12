@@ -2,7 +2,7 @@ import React from 'react';
 import InnerLayout from '../../layouts/InnerLayout';
 import HeaderWithBack from '../../layouts/HeaderWithBack';
 import AccountForm from './components/AccountForm';
-import { PrimaryButton } from '../../components/button/PrimaryButton';
+import { PrimaryButton } from '../../components/buttons/PrimaryButton';
 
 const SignupPage = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

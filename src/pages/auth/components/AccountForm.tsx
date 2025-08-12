@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import InputField from '../../../components/input/InputField';
-import InputWithButton from '../../../components/input/InputWithButton';
+import InputField from '../../../components/inputs/InputField';
+import InputWithButton from '../../../components/inputs/InputWithButton';
 
 const AccountForm = () => {
   const [memberId, setMemberId] = useState('');

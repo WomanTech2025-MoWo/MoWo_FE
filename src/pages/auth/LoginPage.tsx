@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import InnerLayout from '../../layouts/InnerLayout';
-import { PrimaryButton } from '../../components/button/PrimaryButton';
-import { SecondaryButton } from '../../components/button/SecondaryButton';
-import InputField from '../../components/input/InputField';
+import { PrimaryButton } from '../../components/buttons/PrimaryButton';
+import { SecondaryButton } from '../../components/buttons/SecondaryButton';
+import InputField from '../../components/inputs/InputField';
 
 const LoginPage = () => {
   const [memberId, setMemberId] = useState('');
