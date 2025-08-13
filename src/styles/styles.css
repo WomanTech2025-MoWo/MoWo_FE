@@ -84,7 +84,7 @@ body {
   font-size: 16px;
   font-weight: var(--font-weight-regular);
   color: var(--color-text-primary);
-  background-color: var(--color-basic-bg);
+  background-color: var(--color-gray-900);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
