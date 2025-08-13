@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import HeaderWithBack from '../../layouts/HeaderWithBack';
 import InnerLayout from '../../layouts/InnerLayout';
 import IconArrowRight from '../../components/icons/common/IconArrowRight';
-import { weekGuideData } from './data/weekGuideData';
+import { weekGuideData } from '../../data/weekGuideData';
 
 export const GuideWrap = styled.div`
   background-color: var(--color-basic-bg);
@@ -44,7 +44,7 @@ const PeriodBox = styled.div`
   }
 `;
 
-const TitleWrapper = styled.div`
+export const TitleWrapper = styled.div`
   width: 80px;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
@@ -52,7 +52,7 @@ const TitleWrapper = styled.div`
   color: var(--color-gray-600);
 `;
 
-const TestList = styled.ul`
+export const TestList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 36px;
@@ -70,7 +70,7 @@ const TestList = styled.ul`
   }
 `;
 
-const TestItem = styled.li`
+export const TestItem = styled.li`
   position: relative;
   padding-left: 24px;
 
