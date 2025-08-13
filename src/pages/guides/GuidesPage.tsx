@@ -6,8 +6,10 @@ import InnerLayout from '../../layouts/InnerLayout';
 import IconArrowRight from '../../components/icons/common/IconArrowRight';
 import { weekGuideData } from './data/weekGuideData';
 
-const GuideWrap = styled.div`
+export const GuideWrap = styled.div`
   background-color: var(--color-basic-bg);
+  min-height: 100vh;
+  position: relative;
 `;
 
 const GuideWrapper = styled.div`
