@@ -4,8 +4,8 @@ import { Outlet } from 'react-router-dom';
 
 const Wrap = styled.div`
   width: 100%;
-  min-width: 350px;
-  max-width: 450px;
+  min-width: var(--view-min-width);
+  max-width: var(--view-max-width);
   min-height: 100vh;
   background-color: white;
   overflow-x: hidden;

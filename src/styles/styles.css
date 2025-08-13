@@ -53,6 +53,7 @@
   --font-size-xs: 0.75rem; /* 12px */
   --font-size-sm: 0.875rem; /* 14px */
   --font-size-md: 1rem; /* 16px */
+  --font-size-sl: 1.125rem; /* 18px */
   --font-size-lg: 1.625rem; /* 26px */
 
   /* 폰트: 줄간격 */
@@ -67,10 +68,16 @@
   --font-weight-semi-bold: 600;
   --font-weight-bold: 700;
 
+  /* 사이즈: 뷰포트 */
+  --view-min-width: 350px;
+  --view-max-width: 450px;
+
   /* 사이즈: 여백 */
   --size-layout-padding: 20px;
 
   /* 사이즈: 모서리 */
+  --size-border-radius-xs: 2px;
+  --size-border-radius-sm: 4px;
   --size-border-radius-md: 8px;
   --size-border-radius-lg: 12px;
   --size-border-radius-xl: 16px;
