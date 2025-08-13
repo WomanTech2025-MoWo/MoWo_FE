@@ -143,7 +143,6 @@ table {
 
 a,
 button {
-  transition: 0.2s all ease-in-out;
   color: inherit;
 }
 

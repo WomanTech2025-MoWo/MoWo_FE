@@ -76,6 +76,7 @@
 
   /* 효과 */
   --box-shadow-default: 0px 1px 5px rgba(0, 0, 0, 0.1);
+  --transition: 0.2s all ease-in-out;
 }
 
 body {
@@ -84,19 +85,14 @@ body {
   font-size: 16px;
   font-weight: var(--font-weight-regular);
   color: var(--color-text-primary);
-  background-color: var(--color-basic-bg);
+  background-color: var(--color-gray-900);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#wrap {
-  width: 100%;
-  min-width: 350px;
-  max-width: 450px;
-  min-height: 100vh;
-  background-color: white;
-  overflow-x: hidden;
-  margin: 0 auto;
+a,
+button {
+  transition: var(--transition);
 }
 
 input::placeholder {
