@@ -89,16 +89,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-#wrap {
-  width: 100%;
-  min-width: 350px;
-  max-width: 450px;
-  min-height: 100vh;
-  background-color: white;
-  overflow-x: hidden;
-  margin: 0 auto;
-}
-
 input::placeholder {
   color: var(--color-gray-300);
 }
