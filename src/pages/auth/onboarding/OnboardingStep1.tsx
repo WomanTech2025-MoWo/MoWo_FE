@@ -19,6 +19,7 @@ export const onboardingBaseForm = css`
     padding: var(--size-layout-padding);
 
     fieldset {
+      grid-template-columns: 1fr;
       margin-bottom: 0;
 
       legend {
@@ -45,12 +46,6 @@ export const onboardingBaseForm = css`
 
 const StyledOnboardingStep1Form = styled(OnboardingStep1Form)`
   ${onboardingBaseForm}
-
-  & > div:first-child {
-    fieldset {
-      grid-template-columns: 1fr;
-    }
-  }
 `;
 
 const OnboardingStep1 = () => {
