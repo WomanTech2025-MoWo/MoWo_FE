@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import InnerLayout from '../../../layouts/InnerLayout';
 import OnboardingIntro from '../components/OnboardingIntro';
 import OnboardingStep1Form from '../components/OnboardingStep1Form';
@@ -10,7 +10,7 @@ export const OnboardingWrap = styled.div`
   background-color: var(--color-main-light-400);
 `;
 
-const StyledOnboardingStep1Form = styled(OnboardingStep1Form)`
+export const onboardingBaseForm = css`
   & > div {
     background-color: var(--color-basic-white);
     border-radius: var(--size-border-radius-lg);
@@ -44,13 +44,17 @@ const StyledOnboardingStep1Form = styled(OnboardingStep1Form)`
   }
 `;
 
+const StyledOnboardingStep1Form = styled(OnboardingStep1Form)`
+  ${onboardingBaseForm}
+`;
+
 const OnboardingStep1 = () => {
   return (
     <OnboardingWrap>
       <InnerLayout>
         <OnboardingIntro />
         <StyledOnboardingStep1Form />
-        <PrimaryButton>다음</PrimaryButton>
+        <PrimaryButton to="/signup/onboarding/step2">다음</PrimaryButton>
       </InnerLayout>
     </OnboardingWrap>
   );
