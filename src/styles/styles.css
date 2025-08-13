@@ -73,6 +73,7 @@
   /* 사이즈: 모서리 */
   --size-border-radius-md: 8px;
   --size-border-radius-lg: 12px;
+  --size-border-radius-xl: 16px;
 
   /* 효과 */
   --box-shadow-default: 0px 1px 5px rgba(0, 0, 0, 0.1);
@@ -91,7 +92,10 @@ body {
 }
 
 a,
-button {
+button,
+svg,
+path,
+rect {
   transition: var(--transition);
 }
 
