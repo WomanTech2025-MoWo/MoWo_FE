@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import AiCharacterDefault from '../../../components/icons/ai/AiCharacterDefault';
+import AiCharacter from '../../../components/icons/ai/AiCharacter';
 
 const IntroWrap = styled.div`
   text-align: center;
@@ -24,7 +24,7 @@ const IntroSubText = styled.p`
 const OnboardingIntro = () => {
   return (
     <IntroWrap>
-      <AiCharacterDefault />
+      <AiCharacter />
       <IntroTitle>
         반가워요!
         <br />
