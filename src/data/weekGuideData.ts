@@ -1,5 +1,10 @@
 export const weekGuideData = [
   {
+    period: '1~3주차',
+    category: '착상 확인 및 건강 상태 점검',
+    tests: ['임신 진단용 혈청 hCG 검사', '정밀 초음파', '기초 산전 혈액 검사'],
+  },
+  {
     period: '4~6주차',
     category: '임신확인 검사',
     tests: ['초음파 검사', '경부암 검사', '혈액 임신호르몬 검사', '소변 임신테스트 검사'],
@@ -40,7 +45,7 @@ export const weekGuideData = [
     tests: ['정밀 초음파 검사 (태아 심장 초음파)'],
   },
   {
-    period: '24~28주',
+    period: '25~28주',
     category: '임신성 당뇨 검사',
     tests: ['초음파 검사', '3D(입체) 초음파 검사', '50gm OGTT', '빈혈 검사', '소변 검사'],
   },
@@ -66,7 +71,7 @@ export const weekGuideData = [
     ],
   },
   {
-    period: '36~40주',
+    period: '37~40주',
     category: '분만 준비 및 태동 검사',
     tests: ['초음파 검사', '태동 검사(NST)'],
   },

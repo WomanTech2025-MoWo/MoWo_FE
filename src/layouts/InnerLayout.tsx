@@ -8,8 +8,8 @@ const PageInner = styled.div`
   padding: var(--size-layout-padding);
 `;
 
-const InnerLayout = ({ children }: WithChildren) => {
-  return <PageInner>{children}</PageInner>;
+const InnerLayout = ({ children, className }: WithChildren) => {
+  return <PageInner className={className}>{children}</PageInner>;
 };
 
 export default InnerLayout;

@@ -8,7 +8,6 @@ const Wrap = styled.div`
   max-width: var(--view-max-width);
   min-height: 100vh;
   background-color: white;
-  overflow-x: hidden;
   margin: 0 auto;
 `;
 
