@@ -110,8 +110,8 @@ const GuidesPage = () => {
               <TestList>
                 {week.tests.map((test, i) => (
                   <TestItem key={i}>
-                    <Link to={`/guides/${test}`}>
-                      {test}
+                    <Link to={`/guides/${encodeURIComponent(week.period)}/${encodeURIComponent(test.testName)}`}>
+                      {test.testName}
                       <IconArrowRight />
                     </Link>
                   </TestItem>

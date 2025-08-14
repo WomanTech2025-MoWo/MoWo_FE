@@ -89,7 +89,7 @@ const BriefingWeekGuide = () => {
             </TitleWrapper>
             <WeekGuideTestList>
               {currentWeekGuide.tests.map((test, i) => (
-                <WeekGuideTestItem key={i}>{test}</WeekGuideTestItem>
+                <WeekGuideTestItem key={i}>{test.testName}</WeekGuideTestItem>
               ))}
             </WeekGuideTestList>
           </>
