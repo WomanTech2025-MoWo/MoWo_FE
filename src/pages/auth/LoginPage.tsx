@@ -7,7 +7,7 @@ import Logo from '../../components/common/Logo';
 import { NormalButton } from '../../components/buttons/NormalButton';
 
 const LoginWrap = styled(InnerLayout)`
-  padding-top: var(--size-padding-top-without-header);
+  padding-top: var(--size-padding-top);
 `;
 
 const LoginPage = () => {
@@ -17,7 +17,7 @@ const LoginPage = () => {
   };
 
   return (
-    <LoginWrap bgColor="gray-light">
+    <LoginWrap bgColor="gray-light" withHeader={true}>
       <Logo />
       <form onSubmit={handleSubmit}>
         <IdPwForm />

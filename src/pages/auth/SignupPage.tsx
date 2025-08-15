@@ -1,9 +1,15 @@
 import React from 'react';
+import styled from 'styled-components';
 import InnerLayout from '../../layouts/InnerLayout';
 import HeaderWithBack from '../../layouts/HeaderWithBack';
 import IdPwForm from './components/IdPwForm';
 import AccountForm from './components/AccountForm';
 import { PrimaryButton } from '../../components/buttons/PrimaryButton';
+import Logo from '../../components/common/Logo';
+
+const SignupWrap = styled(InnerLayout)`
+  padding-top: var(--size-padding-top);
+`;
 
 const SignupPage = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -12,16 +18,17 @@ const SignupPage = () => {
   };
 
   return (
-    <>
+    <SignupWrap bgColor="gray-light" innerPadding={false} withHeader={true}>
       <HeaderWithBack>회원가입</HeaderWithBack>
-      <InnerLayout>
+      <Logo />
+      <InnerLayout paddingTop={false}>
         <form onSubmit={handleSubmit}>
           <IdPwForm />
           <AccountForm />
           <PrimaryButton type="submit">회원가입</PrimaryButton>
         </form>
       </InnerLayout>
-    </>
+    </SignupWrap>
   );
 };
 
