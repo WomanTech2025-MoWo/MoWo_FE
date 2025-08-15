@@ -4,7 +4,7 @@ import AiCharacter from '../../../components/icons/ai/AiCharacter';
 
 const IntroWrap = styled.div`
   text-align: center;
-  padding: 16px 0 40px;
+  padding: var(--size-gap-lg) 0 var(--size-gap-xxl);
 `;
 
 const IntroTitle = styled.h1`
