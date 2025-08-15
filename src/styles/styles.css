@@ -40,7 +40,7 @@
   --color-background-gray-dark: var(--color-gray-300);
 
   /* 색상: 선 */
-  --color-border-color: var(--color-gray-300);
+  --color-border-color: var(--color-gray-200);
 
   /* 색상: 투두 카테고리(건강, 업무, 개인) */
   --color-category-health: #22c55e;
