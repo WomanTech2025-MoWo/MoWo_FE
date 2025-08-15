@@ -8,10 +8,10 @@ const IdPwForm = () => {
   return (
     <>
       <InputField
-        label="이메일 (아이디)"
+        label="이메일 아이디"
         type="email"
         iconType="email"
-        placeholder="이메일 주소"
+        placeholder="이메일 아이디"
         value={memberId}
         onChange={(e) => setMemberId(e.target.value)}
         required
