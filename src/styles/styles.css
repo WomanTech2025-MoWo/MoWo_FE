@@ -1,5 +1,5 @@
 :root {
-  /* 색상: 메인 컬러(민트) */
+  /* 색상: 메인 */
   --color-main-primary: #4fd1c5;
   --color-main-light-100: #a0e8e1;
   --color-main-light-200: #ace5e0;
@@ -8,7 +8,7 @@
   --color-main-dark: #25b7aa;
   --color-main-deeper-dark: #2b4d44;
 
-  /* 색상: 서브 컬러(보라) */
+  /* 색상: 서브 */
   --color-secondary-primary: #9494f8;
   --color-secondary-100: #b1b1fa;
   --color-secondary-200: #cdcdfc;
@@ -16,7 +16,7 @@
   --color-secondary-400: #eae8fd;
   --color-secondary-dark: #7777d5;
 
-  /* 색상: 무채색 계열 */
+  /* 색상: 무채색 */
   --color-gray-100: #f5f5f5;
   --color-gray-200: #ededed;
   --color-gray-300: #cccccc;
@@ -27,7 +27,23 @@
   --color-gray-800: #444444;
   --color-gray-900: #333333;
 
-  /* 색상: 카테고리(건강, 업무, 개인) */
+  /* 색상: 기본색 및 포인트 */
+  --color-basic-white: #fff;
+  --color-basic-red: #ff3333;
+  --color-gradient-sub: linear-gradient(to bottom right, var(--color-secondary-200), #9494f8);
+  --color-gradient-bg: linear-gradient(#f5f3ff, #f5f3ff);
+
+  /* 색상: 배경 */
+  --color-background-white: var(--color-basic-white);
+  --color-background-gray-light: #f9f9f9;
+  --color-background-gray-default: var(--color-gray-200);
+  --color-background-gray-dark: var(--color-gray-300);
+
+  /* 색상: 선 */
+  --color-border-color-light: var(--color-gray-200);
+  --color-border-color-dark: var(--color-gray-300);
+
+  /* 색상: 투두 카테고리(건강, 업무, 개인) */
   --color-category-health: #22c55e;
   --color-category-work: #3b82f6;
   --color-category-personal: #a855f7;
@@ -36,32 +52,25 @@
   --color-category-bg-work: #dbeafe;
   --color-category-bg-personal: #f0e0ff;
 
-  /* 색상: 베이직 */
-  --color-basic-bg: #f9f9f9;
-  --color-basic-red: #ff3333;
-  --color-basic-white: #fff;
-
-  /* 색상: 선 */
-  --color-border-color: #e5e7eb;
-
   /* 색상: 폰트 */
-  --color-text-primary: var(--color-gray-900);
-  --color-text-on-color: #ffffff;
-  --color-text-muted: #b3b3b3;
-  --color-text-main: var(--color-main-primary);
+  --color-text-brand-primary: var(--color-main-dark);
+  --color-text-brand-secondary: var(--color-secondary-dark);
+  --color-text-on-color: var(--color-basic-white);
+  --color-text-default: var(--color-gray-900);
+  --color-text-gray-100: var(--color-gray-300);
+  --color-text-gray-200: var(--color-gray-400);
+  --color-text-gray-300: var(--color-gray-500);
+  --color-text-gray-400: var(--color-gray-600);
+  --color-text-gray-500: var(--color-gray-700);
 
   /* 폰트: 사이즈 */
+  --font-size-xxs: 0.625rem; /* 10px */
   --font-size-xs: 0.75rem; /* 12px */
   --font-size-sm: 0.875rem; /* 14px */
   --font-size-md: 1rem; /* 16px */
-  --font-size-sl: 1.125rem; /* 18px */
-  --font-size-lg: 1.625rem; /* 26px */
-
-  /* 폰트: 줄간격 */
-  --line-height-xs: 1rem; /* 16px */
-  --line-height-sm: 1.5rem; /* 24px */
-  --line-height-md: 1.625rem; /* 26px */
-  --line-height-lg: 2.25rem; /* 32px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-xxl: 1.625rem; /* 26px */
 
   /* 폰트: 두께 */
   --font-weight-regular: 400;
@@ -69,16 +78,33 @@
   --font-weight-semi-bold: 600;
   --font-weight-bold: 700;
 
-  /* 사이즈: 뷰포트 및 레이아웃 */
+  /* 폰트: 줄간격 */
+  --line-height-xxs: 1rem; /* 16px */
+  --line-height-xs: 1.375rem; /* 22px */
+  --line-height-sm: 1.5rem; /* 24px */
+  --line-height-md: 1.625rem; /* 26px */
+  --line-height-lg: 2.25rem; /* 36px */
+  --line-height-xl: 2.5rem; /* 40px */
+
+  /* 사이즈: 화면 */
   --view-min-width: 350px;
   --view-max-width: 450px;
-  --view-min-height: calc(100vh - 90px);
-  --view-global-nav-height: 90px;
+  --view-min-height: 100vh;
+  --view-g-nav-height: 90px;
 
-  /* 사이즈: 여백 및 간격 */
-  --size-layout-padding: 20px;
+  /* 사이즈: 내부 여백 */
+  --size-inner-padding: 20px;
+  --size-inner-padding-hx: 30px;
+  --size-inner-padding-2x: 40px;
 
-  /* 사이즈: 모서리 */
+  /* 사이즈: 간격 */
+  --size-gap-xs: 8px;
+  --size-gap-sm: 12px;
+  --size-gap-md: 16px;
+  --size-gap-lg: 20px;
+  --size-gap-xl: 36px;
+
+  /* 사이즈: 둥근 모서리 */
   --size-border-radius-xs: 2px;
   --size-border-radius-sm: 4px;
   --size-border-radius-md: 8px;
@@ -95,8 +121,8 @@ body {
     'Helvetica Neue', '맑은 고딕', 'Malgun Gothic', '고딕', 'Dotum', '돋움', sans-serif;
   font-size: 16px;
   font-weight: var(--font-weight-regular);
-  color: var(--color-text-primary);
-  background-color: var(--color-gray-900);
+  color: var(--color-text-default);
+  background-color: var(--color-background-white);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
