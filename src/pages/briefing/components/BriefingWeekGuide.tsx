@@ -1,31 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import IconArrowRight from '../../../components/icons/common/IconArrowRight';
 import { TitleWrapper, TestList, TestItem } from '../../guides/GuidesPage';
 import { weekGuideData } from '../../../data/weekGuideData';
+import SectionHeader from '../../../components/common/SectionHeader';
 
 const WeekGuideWrap = styled.div``;
-
-const WeekGuideTitle = styled.h3`
-  display: flex;
-  justify-content: space-between;
-  font-size: var(--font-size-sl);
-  font-weight: var(--font-weight-semi-bold);
-  margin: 12px 0 16px;
-`;
-
-const WeekGuideMoreLink = styled(Link)`
-  display: flex;
-  align-items: center;
-  font-size: var(--font-size-sm);
-  color: var(--color-gray-500);
-  gap: 8px;
-
-  path {
-    fill: var(--color-gray-500);
-  }
-`;
 
 const WeekGuideItem = styled.div`
   display: flex;
@@ -72,13 +51,9 @@ const BriefingWeekGuide = () => {
 
   return (
     <WeekGuideWrap>
-      <WeekGuideTitle>
+      <SectionHeader morebutton={true} path="/guides">
         {currentWeek}주차 가이드
-        <WeekGuideMoreLink to="/guides">
-          더보기
-          <IconArrowRight width="6" />
-        </WeekGuideMoreLink>
-      </WeekGuideTitle>
+      </SectionHeader>
       <WeekGuideItem>
         {/* 주차별 가이드 정보 */}
         {currentWeekGuide ? (

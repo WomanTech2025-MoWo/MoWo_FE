@@ -2,18 +2,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import InfosListItem from './InfosListItem';
 import InfosListFilter from './InfosListFilter';
+import SectionHeader from '../../../components/common/SectionHeader';
 
 const InfosListWrap = styled.div``;
-
-const InfosListTitle = styled.h2`
-  font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-sl);
-`;
 
 const InfosList = () => {
   return (
     <InfosListWrap>
-      <InfosListTitle>정책 지원</InfosListTitle>
+      <SectionHeader>정책 지원</SectionHeader>
       <InfosListFilter />
       <InfosListItem />
     </InfosListWrap>
