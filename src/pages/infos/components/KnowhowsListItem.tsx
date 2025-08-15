@@ -79,7 +79,6 @@ const StyledIconArrowRightCircle = styled(IconArrowRightCircle)`
 const KnowhowsListItem = () => {
   const [posts, setPosts] = useState<KnowhowsPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const listRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     // 실제로는 여기에 fetch 등을 사용하여 API를 호출합니다.
@@ -94,23 +93,6 @@ const KnowhowsListItem = () => {
     fetchPosts();
   }, []);
 
-  useEffect(() => {
-    const el = listRef.current;
-    if (!el) return;
-
-    const onWheel = (e: WheelEvent) => {
-      // 수평 제스처가 아닌 순수 수직 휠인 경우에만 가로로 이동
-      if (e.deltaY !== 0 && e.shiftKey === false) {
-        el.scrollLeft += e.deltaY;
-        e.preventDefault();
-        e.stopPropagation();
-      }
-    };
-
-    el.addEventListener('wheel', onWheel, { passive: false });
-    return () => el.removeEventListener('wheel', onWheel);
-  }, []);
-
   if (loading) {
     return <div>로딩 중...</div>;
   }
@@ -119,7 +101,7 @@ const KnowhowsListItem = () => {
   const recentPosts = posts.slice(0, 5);
 
   return (
-    <KnowhowsListItemWrap ref={listRef} role="region" aria-label="노하우 가로 리스트" tabIndex={0}>
+    <KnowhowsListItemWrap>
       {recentPosts.length > 0 ? (
         recentPosts.map((post) => (
           <li key={post.id}>
