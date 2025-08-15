@@ -179,3 +179,7 @@ fieldset {
 body:not(:-moz-handler-blocked) fieldset {
   display: table-cell;
 }
+
+img {
+  max-width: 100%;
+}
