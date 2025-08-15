@@ -99,8 +99,7 @@
   --size-inner-padding-hx: 30px;
   --size-inner-padding-2x: 40px;
   --size-inner-padding-4x: 80px;
-  --size-padding-top: 3vh;
-  --size-padding-top-without-header: calc(var(--size-padding-top) + var(--size-header-with-back));
+  --size-padding-top: 3vh; /* 상단 여백 필요할 때 */
 
   /* 사이즈: 간격 */
   --size-gap-xxs: 4px;
@@ -108,7 +107,8 @@
   --size-gap-sm: 12px;
   --size-gap-md: 16px;
   --size-gap-lg: 20px;
-  --size-gap-xl: 36px;
+  --size-gap-xl: 24px;
+  --size-gap-xxl: 36px;
 
   /* 사이즈: 버튼, 폼 */
   --size-height-xxs: 32px;
