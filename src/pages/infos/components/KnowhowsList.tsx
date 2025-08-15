@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import InfosListItem from './InfosListItem';
 import SectionHeader from '../../../components/common/SectionHeader';
 import KnowhowsListItem from './KnowhowsListItem';
 
