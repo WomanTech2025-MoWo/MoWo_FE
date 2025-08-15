@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import InnerLayout from '../../layouts/InnerLayout';
 import HeaderWithBack from '../../layouts/HeaderWithBack';
 import IdPwForm from './components/IdPwForm';
@@ -8,6 +9,8 @@ import OnboardingStep2Form from './components/OnboardingStep2Form';
 import OnboardingStep3Form from './components/OnboardingStep3Form';
 import { PrimaryButton } from '../../components/buttons/PrimaryButton';
 
+const ProfileWrap = styled(InnerLayout)``;
+
 const ProfilePage = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // 페이지 새로고침 방지
@@ -15,8 +18,8 @@ const ProfilePage = () => {
   };
 
   return (
-    <>
-      <HeaderWithBack>회원정보수정</HeaderWithBack>
+    <ProfileWrap bgColor="gray-light" innerPadding={false} withHeader={true}>
+      <HeaderWithBack>회원정보</HeaderWithBack>
       <InnerLayout>
         <form onSubmit={handleSubmit}>
           <IdPwForm />
@@ -24,10 +27,10 @@ const ProfilePage = () => {
           <OnboardingStep1Form />
           <OnboardingStep2Form />
           <OnboardingStep3Form />
-          <PrimaryButton type="submit">회원정보수정</PrimaryButton>
+          <PrimaryButton type="submit">수정하기</PrimaryButton>
         </form>
       </InnerLayout>
-    </>
+    </ProfileWrap>
   );
 };
 
