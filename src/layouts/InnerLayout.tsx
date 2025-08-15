@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { WithChildren } from '../types/common';
-import { BgColorContext } from './CommonLayout';
+import { LayoutContext } from './CommonLayout';
 
 interface InnerLayoutProps extends WithChildren {
   bgColor?: string;
@@ -47,7 +47,7 @@ const InnerLayout = ({
   innerPadding = true,
   withHeader = false,
 }: InnerLayoutProps) => {
-  const context = useContext(BgColorContext);
+  const context = useContext(LayoutContext);
 
   useEffect(() => {
     if (bgColor && context?.setBgColor) {
