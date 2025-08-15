@@ -22,6 +22,7 @@ const baseButtonStyles = css`
   border-radius: var(--size-border-radius-md);
   font-weight: var(--font-weight-semi-bold);
   margin: var(--size-gap-xxs) 0;
+  box-shadow: var(--box-shadow-default);
 `;
 
 const BaseBtn = styled.button`
