@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import ShadowBox from '../../../components/common/ShadowBox';
 import IconBookmark from '../../../components/icons/features/infos/IconBookmark';
 
@@ -55,7 +56,7 @@ const InfosListItem = () => {
       setTimeout(() => {
         setPosts(dummyPosts);
         setLoading(false);
-      }, 1000);
+      }, 0);
     };
     fetchPosts();
   }, []);
@@ -77,13 +78,15 @@ const InfosListItem = () => {
       {recentPosts.length > 0 ? (
         recentPosts.map((post) => (
           <li key={post.id}>
-            <InfosListItemBox>
-              <ItemTitle>{post.title}</ItemTitle>
-              <BookmarkButton onClick={() => handleBookmarkToggle(post.id)} $bookmarked={post.bookmarked}>
-                {/* 북마크 상태에 따라 다른 이모지 또는 아이콘을 표시합니다 */}
-                {post.bookmarked ? <IconBookmark status="fill" /> : <IconBookmark status="empty" />}
-              </BookmarkButton>
-            </InfosListItemBox>
+            <Link to={`/infos/policies/${post.id}`}>
+              <InfosListItemBox>
+                <ItemTitle>{post.title}</ItemTitle>
+                <BookmarkButton onClick={() => handleBookmarkToggle(post.id)} $bookmarked={post.bookmarked}>
+                  {/* 북마크 상태에 따라 다른 이모지 또는 아이콘을 표시합니다 */}
+                  {post.bookmarked ? <IconBookmark status="fill" /> : <IconBookmark status="empty" />}
+                </BookmarkButton>
+              </InfosListItemBox>
+            </Link>
           </li>
         ))
       ) : (
