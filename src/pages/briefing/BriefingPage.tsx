@@ -9,7 +9,7 @@ import BriefingWeekGuide from './components/BriefingWeekGuide';
 
 const BriefingWrap = styled.div`
   background-color: var(--color-basic-bg);
-  min-height: 100vh;
+  min-height: var(--view-min-height);
 `;
 
 const AiBanner = styled.div`

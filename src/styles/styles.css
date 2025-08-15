@@ -69,9 +69,11 @@
   --font-weight-semi-bold: 600;
   --font-weight-bold: 700;
 
-  /* 사이즈: 뷰포트 */
+  /* 사이즈: 뷰포트 및 레이아웃 */
   --view-min-width: 350px;
   --view-max-width: 450px;
+  --view-min-height: calc(100vh - 90px);
+  --view-global-nav-height: 90px;
 
   /* 사이즈: 여백 및 간격 */
   --size-layout-padding: 20px;
