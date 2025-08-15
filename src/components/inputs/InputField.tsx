@@ -11,7 +11,7 @@ type InputFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
 };
 
 export const Wrap = styled.div`
-  margin-bottom: var(--size-gap-md);
+  margin-bottom: var(--size-gap-xl);
 `;
 
 export const Label = styled.label`

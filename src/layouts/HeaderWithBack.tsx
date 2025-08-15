@@ -5,14 +5,17 @@ import { WithChildren } from '../types/common';
 import IconPrevious from '../components/icons/layout/IconPrevious';
 
 const baseStyles = css`
-  height: 68px;
-  line-height: 68px;
-  padding: 0 var(--size-layout-padding);
+  height: var(--size-header-with-back);
+  line-height: var(--size-header-with-back);
+  padding: 0 var(--size-inner-padding);
 `;
 
 const Header = styled.header`
   ${baseStyles}
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   text-align: center;
   width: 100%;
 `;
@@ -29,6 +32,7 @@ const BackButton = styled.button`
 `;
 
 const Title = styled.h1`
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-medium);
 `;
 
