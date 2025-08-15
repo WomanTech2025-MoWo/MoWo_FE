@@ -5,7 +5,7 @@ import IconLogo from '../icons/common/IconLogo';
 const LogoWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin: var(--size-inner-padding-4x) 0;
+  margin: var(--size-inner-padding-3x) 0;
 `;
 
 const Logo = () => {
