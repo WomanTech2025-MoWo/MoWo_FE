@@ -40,8 +40,7 @@
   --color-background-gray-dark: var(--color-gray-300);
 
   /* 색상: 선 */
-  --color-border-color-light: var(--color-gray-200);
-  --color-border-color-dark: var(--color-gray-300);
+  --color-border-color: var(--color-gray-300);
 
   /* 색상: 투두 카테고리(건강, 업무, 개인) */
   --color-category-health: #22c55e;
@@ -90,19 +89,39 @@
   --view-min-width: 350px;
   --view-max-width: 450px;
   --view-min-height: 100vh;
-  --view-g-nav-height: 90px;
+
+  /* 사이즈: 레이아웃 */
+  --size-g-nav-height: 90px;
+  --size-header-with-back: 80px;
 
   /* 사이즈: 내부 여백 */
-  --size-inner-padding: 20px;
+  --size-inner-padding: 24px;
   --size-inner-padding-hx: 30px;
   --size-inner-padding-2x: 40px;
+  --size-inner-padding-4x: 80px;
+  --size-padding-top: 3vh;
+  --size-padding-top-without-header: calc(var(--size-padding-top) + var(--size-header-with-back));
 
   /* 사이즈: 간격 */
+  --size-gap-xxs: 4px;
   --size-gap-xs: 8px;
   --size-gap-sm: 12px;
   --size-gap-md: 16px;
   --size-gap-lg: 20px;
   --size-gap-xl: 36px;
+
+  /* 사이즈: 버튼, 폼 */
+  --size-height-xxs: 32px;
+  --size-height-xs: 36px;
+  --size-height-sm: 40px;
+  --size-height-md: 45px;
+  --size-height-lg: 50px;
+  --size-height-xl: 60px;
+  --size-height-xxl: 95px;
+
+  /* 사이즈: 큰 UI 요소 */
+  --size-height-banner: 120px;
+  --size-height-card: 140px;
 
   /* 사이즈: 둥근 모서리 */
   --size-border-radius-xs: 2px;
@@ -122,6 +141,7 @@ body {
   font-size: 16px;
   font-weight: var(--font-weight-regular);
   color: var(--color-text-default);
+  letter-spacing: -0.01rem;
   background-color: var(--color-background-white);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -135,6 +155,15 @@ rect {
   transition: var(--transition);
 }
 
+input {
+  background-color: var(--color-background-white);
+}
+
 input::placeholder {
-  color: var(--color-gray-300);
+  color: var(--color-gray-400);
+}
+
+*:disabled {
+  background-color: var(--color-gray-200) !important;
+  color: var(--color-gray-400) !important;
 }
