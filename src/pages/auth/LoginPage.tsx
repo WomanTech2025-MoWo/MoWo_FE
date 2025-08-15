@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import InnerLayout from '../../layouts/InnerLayout';
 import IdPwForm from './components/IdPwForm';
 import { PrimaryButton } from '../../components/buttons/PrimaryButton';
 import Logo from '../../components/common/Logo';
 import { NormalButton } from '../../components/buttons/NormalButton';
-
-const LoginWrap = styled(InnerLayout)`
-  padding-top: var(--size-padding-top);
-`;
 
 const LoginPage = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -17,14 +12,14 @@ const LoginPage = () => {
   };
 
   return (
-    <LoginWrap bgColor="gray-light" withHeader={true}>
+    <InnerLayout bgColor="gray-light" withHeader={true} paddingTop={false}>
       <Logo />
       <form onSubmit={handleSubmit}>
         <IdPwForm />
         <PrimaryButton type="submit">로그인</PrimaryButton>
       </form>
       <NormalButton to="/signup">회원가입</NormalButton>
-    </LoginWrap>
+    </InnerLayout>
   );
 };
 

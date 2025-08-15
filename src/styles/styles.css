@@ -98,8 +98,8 @@
   --size-inner-padding: 24px;
   --size-inner-padding-hx: 30px;
   --size-inner-padding-2x: 40px;
+  --size-inner-padding-3x: 60px;
   --size-inner-padding-4x: 80px;
-  --size-padding-top: 3vh; /* 상단 여백 필요할 때 */
 
   /* 사이즈: 간격 */
   --size-gap-xxs: 4px;
