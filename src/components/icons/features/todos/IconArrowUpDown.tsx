@@ -7,17 +7,17 @@ interface IconArrowUpDownProps extends IconSvgProps {
   status?: 'up' | 'down';
 }
 
-const IconArrowUpDown = ({ status = 'down', width = '20px', height = '11px', viewBox = '0 0 20 11' }: IconArrowUpDownProps) => {
+const IconArrowUpDown = ({ className, status = 'down', width = '20px', height = '11px', viewBox = '0 0 20 11' }: IconArrowUpDownProps) => {
   if (status === 'up') {
     return (
       <>
-        <IconArrowUp width={width} height={height} viewBox={viewBox} />
+        <IconArrowUp className={className} width={width} height={height} viewBox={viewBox} />
       </>
     );
   }
   return (
     <>
-      <IconArrowDown width={width} height={height} viewBox={viewBox} />
+      <IconArrowDown className={className} width={width} height={height} viewBox={viewBox} />
     </>
   );
 };

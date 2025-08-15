@@ -13,6 +13,7 @@
   --color-secondary-100: #b1b1fa;
   --color-secondary-200: #cdcdfc;
   --color-secondary-300: #e7e7ff;
+  --color-secondary-400: #eae8fd;
   --color-secondary-dark: #7777d5;
 
   /* 색상: 무채색 계열 */
@@ -59,7 +60,7 @@
   /* 폰트: 줄간격 */
   --line-height-xs: 1rem; /* 16px */
   --line-height-sm: 1.5rem; /* 24px */
-  --line-height-md: 1.625rem; /* 24px */
+  --line-height-md: 1.625rem; /* 26px */
   --line-height-lg: 2.25rem; /* 32px */
 
   /* 폰트: 두께 */
@@ -68,11 +69,13 @@
   --font-weight-semi-bold: 600;
   --font-weight-bold: 700;
 
-  /* 사이즈: 뷰포트 */
+  /* 사이즈: 뷰포트 및 레이아웃 */
   --view-min-width: 350px;
   --view-max-width: 450px;
+  --view-min-height: calc(100vh - 90px);
+  --view-global-nav-height: 90px;
 
-  /* 사이즈: 여백 */
+  /* 사이즈: 여백 및 간격 */
   --size-layout-padding: 20px;
 
   /* 사이즈: 모서리 */
