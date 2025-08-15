@@ -11,24 +11,25 @@ type InputFieldProps = React.InputHTMLAttributes<HTMLInputElement> & {
 };
 
 export const Wrap = styled.div`
-  margin-bottom: 16px;
+  margin-bottom: var(--size-gap-md);
 `;
 
 export const Label = styled.label`
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: var(--size-gap-xs);
   font-weight: var(--font-weight-medium);
 `;
 
 export const InputWrapper = styled.div`
   width: auto;
-  height: 45px;
+  height: var(--size-height-md);
   display: flex;
   flex-grow: 1;
   align-items: center;
+  background-color: var(--color-background-white);
   border: 1px solid var(--color-border-color);
-  border-radius: 8px;
-  padding-left: 16px;
+  border-radius: var(--size-border-radius-md);
+  padding-left: var(--size-gap-md);
   overflow: hidden;
 
   &:focus-within {
@@ -38,7 +39,7 @@ export const InputWrapper = styled.div`
 
 export const StyledInput = styled.input`
   width: 100%;
-  padding: 0 16px 0 12px;
+  padding: 0 var(--size-gap-md) 0 var(--size-gap-sm);
 `;
 
 const InputField = ({ label, id, iconType, ...props }: InputFieldProps) => {
