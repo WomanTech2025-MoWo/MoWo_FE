@@ -1,19 +1,52 @@
 import React, { useContext, useEffect } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { WithChildren } from '../types/common';
 import { BgColorContext } from './CommonLayout';
 
 interface InnerLayoutProps extends WithChildren {
   bgColor?: string;
+  paddingLeft?: boolean;
+  paddingRight?: boolean;
+  paddingTop?: boolean;
+  paddingBottom?: boolean;
+  innerPadding?: boolean;
+  withHeader?: boolean;
 }
 
-const PageInner = styled.div`
+const PageInner = styled.div<{
+  $paddingLeft: boolean;
+  $paddingRight: boolean;
+  $paddingTop: boolean;
+  $paddingBottom: boolean;
+  $innerPadding: boolean;
+}>`
   width: 100%;
   margin: 0 auto;
-  padding: var(--size-inner-padding);
+
+  ${({ $innerPadding, $paddingLeft, $paddingRight, $paddingTop, $paddingBottom }) =>
+    $innerPadding
+      ? css`
+          padding-left: ${$paddingLeft ? `var(--size-inner-padding)` : `0`};
+          padding-right: ${$paddingRight ? `var(--size-inner-padding)` : `0`};
+          padding-top: ${$paddingTop ? `var(--size-inner-padding)` : `0`};
+          padding-bottom: ${$paddingBottom ? `var(--size-inner-padding)` : `0`};
+        `
+      : css`
+          padding: 0;
+        `}
 `;
 
-const InnerLayout = ({ bgColor, children, className }: InnerLayoutProps) => {
+const InnerLayout = ({
+  bgColor = 'white',
+  children,
+  className,
+  paddingLeft = true,
+  paddingRight = true,
+  paddingTop = true,
+  paddingBottom = true,
+  innerPadding = true,
+  withHeader = false,
+}: InnerLayoutProps) => {
   const context = useContext(BgColorContext);
 
   useEffect(() => {
@@ -22,7 +55,25 @@ const InnerLayout = ({ bgColor, children, className }: InnerLayoutProps) => {
     }
   }, [bgColor, context]);
 
-  return <PageInner className={className}>{children}</PageInner>;
+  useEffect(() => {
+    if (withHeader && context?.setHeaderPadding) {
+      context.setHeaderPadding(true);
+    } else {
+      context?.setHeaderPadding(false);
+    }
+  }, [withHeader, context]);
+
+  return (
+    <PageInner
+      className={className}
+      $paddingLeft={paddingLeft}
+      $paddingRight={paddingRight}
+      $paddingTop={paddingTop}
+      $paddingBottom={paddingBottom}
+      $innerPadding={innerPadding}>
+      {children}
+    </PageInner>
+  );
 };
 
 export default InnerLayout;
