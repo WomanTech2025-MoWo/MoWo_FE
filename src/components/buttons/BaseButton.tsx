@@ -18,19 +18,18 @@ const baseButtonStyles = css`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 48px;
-  border-radius: 8px;
-  font-weight: var(--font-weight-bold);
-  margin: 5px 0;
+  height: var(--size-height-lg);
+  border-radius: var(--size-border-radius-md);
+  font-weight: var(--font-weight-semi-bold);
+  margin: var(--size-gap-xxs) 0;
 `;
 
-const BaseBtn = styled.button<{ $disabled?: boolean }>`
+const BaseBtn = styled.button`
   ${baseButtonStyles}
 `;
 
-const BaseLink = styled(Link)<{ $disabled?: boolean }>`
+const BaseLink = styled(Link)`
   ${baseButtonStyles}
-  pointer-events: ${({ $disabled }) => ($disabled ? 'none' : 'auto')};
 `;
 
 const BaseButton = ({ to, children, ...props }: BaseButtonProps) => {
