@@ -1,23 +1,15 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { FixedCenter } from './FixedCenterContainer';
 
 /* 네비게이션 아이콘 */
 import IconBriefing from '../components/icons/layout/IconBriefing';
 import IconTodos from '../components/icons/layout/IconTodos';
 import IconInfos from '../components/icons/layout/IconInfos';
 
-const NavWrap = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  min-width: var(--view-min-width);
-  max-width: var(--view-max-width);
+const NavWrap = styled(FixedCenter).attrs({ position: 'bottom', zIndex: 10 })`
   height: var(--size-g-nav-height);
-  margin: 0 auto;
-  z-index: 10;
   border-top-left-radius: var(--size-border-radius-xl);
   border-top-right-radius: var(--size-border-radius-xl);
   background-color: var(--color-background-white);
