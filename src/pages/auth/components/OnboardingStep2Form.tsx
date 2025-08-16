@@ -1,17 +1,35 @@
 import React, { useState } from 'react';
-import OnboardingFieldset from './OnboardingFieldset';
+import OnboardingFieldset, { BaseProps } from './OnboardingFieldset';
 import InputField from '../../../components/inputs/InputField';
 import SelectableInput from '../../../components/inputs/SelectableInput';
+import { StyledLegend, NumCircle } from './OnboardingStep1Form';
 
-const OnboardingStep2Form = ({ className }: { className?: string }) => {
+const OnboardingStep2Form = ({ className, where }: BaseProps) => {
   const [duedate, setDuedate] = useState(''); // 출산예정일
   const [hasTwins, sethasTwins] = useState(''); // 쌍둥이
 
   return (
     <div className={className}>
-      <InputField label="출산예정일" type="date" iconType="date" value={duedate} onChange={(e) => setDuedate(e.target.value)} required />
-      <OnboardingFieldset columns={2}>
-        <legend>쌍둥이 여부</legend>
+      {where === 'onboarding' ? (
+        <OnboardingFieldset columns={2} where={where}>
+          <StyledLegend $where={where}>
+            <NumCircle>3</NumCircle>출산예정일을 선택해주세요
+          </StyledLegend>
+          <div>캘린더자리</div>
+        </OnboardingFieldset>
+      ) : (
+        <InputField label="출산예정일" type="date" iconType="date" value={duedate} onChange={(e) => setDuedate(e.target.value)} required />
+      )}
+      <OnboardingFieldset columns={2} where={where}>
+        <StyledLegend $where={where}>
+          {where === 'profile' ? (
+            '쌍둥이 여부'
+          ) : (
+            <>
+              <NumCircle>4</NumCircle>쌍둥이 여부를 알려주세요
+            </>
+          )}
+        </StyledLegend>
         <SelectableInput
           label="네"
           type="radio"
