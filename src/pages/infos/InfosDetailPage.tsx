@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import HeaderWithBack from '../../layouts/HeaderWithBack';
 import GlobalNavigation from '../../layouts/GlobalNavigation';
-import detailImage from '../../assets/features/infos/knowhows-detail.webp';
+import detailImage from '../../assets/features/infos/img-knowhows-detail.webp';
 import InnerLayout from '../../layouts/InnerLayout';
 import TodoSuggestions from './components/TodoSuggestions';
 

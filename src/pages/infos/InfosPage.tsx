@@ -8,7 +8,7 @@ import InfosList from './components/InfosList';
 import BoldLine from '../../components/common/BoldLine';
 import KnowhowsList from './components/KnowhowsList';
 import SectionHeader from '../../components/common/SectionHeader';
-import bannerImage from '../../assets/features/infos/guide-banner.webp';
+import bannerImage from '../../assets/features/infos/icon-guide-banner.webp';
 import ShadowBox from '../../components/common/ShadowBox';
 
 const InfoPageWrap = styled.div`
