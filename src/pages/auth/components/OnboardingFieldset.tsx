@@ -14,8 +14,8 @@ const BaseFieldset = styled.div<{ $columns: number; $where: 'onboarding' | 'prof
   fieldset {
     display: grid;
     grid-template-columns: repeat(${(props) => props.$columns}, 1fr);
-    gap: var(--size-gap-sm) var(--size-gap-xs);
-    margin-bottom: var(--size-gap-md);
+    gap: var(--size-gap-xs);
+    margin-bottom: var(--size-gap-xl);
   }
 
   ${(props) =>

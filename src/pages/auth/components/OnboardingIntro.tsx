@@ -65,9 +65,9 @@ const IntroWrap = styled.div`
 const IntroTitle = styled.h1`
   font-size: var(--font-size-xxl);
   font-weight: var(--font-weight-semi-bold);
-  line-height: var(--line-height-lg);
+  line-height: var(--line-height-xl);
   color: var(--color-gray-800);
-  margin: var(--size-gap-xl) 0 var(--size-gap-md);
+  margin: var(--size-gap-xl) 0 var(--size-gap-sm);
 `;
 
 const IntroSubText = styled.p`
