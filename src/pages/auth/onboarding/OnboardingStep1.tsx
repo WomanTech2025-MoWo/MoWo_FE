@@ -5,8 +5,6 @@ import OnboardingIntro from '../components/OnboardingIntro';
 import OnboardingStep1Form from '../components/OnboardingStep1Form';
 import { PrimaryButton } from '../../../components/buttons/PrimaryButton';
 
-export const OnboardingWrap = styled(InnerLayout)``;
-
 const StyledOnboardingStep1Form = styled(OnboardingStep1Form)`
   & > div:first-child {
     fieldset {
@@ -17,11 +15,11 @@ const StyledOnboardingStep1Form = styled(OnboardingStep1Form)`
 
 const OnboardingStep1 = () => {
   return (
-    <OnboardingWrap bgColor="gray-light" withHeader={true}>
+    <InnerLayout bgColor="gray-light" withHeader={true}>
       <OnboardingIntro step="step1" />
       <StyledOnboardingStep1Form where="onboarding" />
       <PrimaryButton to="/signup/onboarding/step2">다음</PrimaryButton>
-    </OnboardingWrap>
+    </InnerLayout>
   );
 };
 
