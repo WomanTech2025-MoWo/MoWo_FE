@@ -48,7 +48,7 @@ const ProfilePage = () => {
 
   return (
     <ProfileWrap bgColor="gray-light" innerPadding={true} withHeader={true}>
-      <HeaderWithBack>회원정보수정</HeaderWithBack>
+      <HeaderWithBack bgColor="gray-light">회원정보수정</HeaderWithBack>
       <SegmentedContainer>
         <SegmentedList>
           <li>

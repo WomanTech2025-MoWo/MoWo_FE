@@ -14,13 +14,14 @@ const SignupPage = () => {
 
   return (
     <InnerLayout bgColor="gray-light" innerPadding={false} withHeader={true}>
-      <HeaderWithBack>회원가입</HeaderWithBack>
+      <HeaderWithBack bgColor="gray-light">회원가입</HeaderWithBack>
       <Logo />
       <InnerLayout paddingTop={false}>
         <form onSubmit={handleSubmit}>
           <IdPwForm />
           <AccountForm />
-          <PrimaryButton type="submit">회원가입</PrimaryButton>
+          {/* <PrimaryButton type="submit">시작하기</PrimaryButton> */}
+          <PrimaryButton to="/signup/onboarding/step1">시작하기</PrimaryButton>
         </form>
       </InnerLayout>
     </InnerLayout>

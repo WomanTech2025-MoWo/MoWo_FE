@@ -9,10 +9,10 @@ import { PrimaryButton } from '../../../components/buttons/PrimaryButton';
 const OnboardingStep3 = () => {
   return (
     <InnerLayout bgColor="gray-light" withHeader={true}>
-      <HeaderWithBack />
+      <HeaderWithBack bgColor="gray-light" />
       <OnboardingIntro step="step3" />
       <OnboardingStep3Form where="onboarding" />
-      <PrimaryButton to="/">시작하기</PrimaryButton>
+      <PrimaryButton to="/">회원가입완료</PrimaryButton>
     </InnerLayout>
   );
 };

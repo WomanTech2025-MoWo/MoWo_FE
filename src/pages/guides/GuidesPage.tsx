@@ -7,8 +7,6 @@ import IconArrowRight from '../../components/icons/common/IconArrowRight';
 import { weekGuideData } from '../../data/weekGuideData';
 import bgGuidesDone from '../../assets/features/infos/bg-guides-done.png';
 
-export const GuideWrap = styled(InnerLayout)``;
-
 const GuideWrapper = styled.ul`
   display: flex;
   flex-direction: column;
@@ -117,7 +115,7 @@ const DoneBox = styled.li`
 const GuidesPage = () => {
   return (
     <InnerLayout bgColor="gray-light" withHeader={true}>
-      <HeaderWithBack>주차별 가이드</HeaderWithBack>
+      <HeaderWithBack bgColor="gray-light">주차별 가이드</HeaderWithBack>
       <GuideWrapper>
         {weekGuideData.map((week, index) => (
           <PeriodBox key={index}>
