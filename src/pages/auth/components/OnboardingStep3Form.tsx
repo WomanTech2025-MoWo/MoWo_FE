@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import OnboardingFieldset, { BaseProps } from './OnboardingFieldset';
 import SelectableInput from '../../../components/inputs/SelectableInput';
-import { StyledLegend, NumCircle } from './OnboardingStep1Form';
+import { StyledLegend } from './OnboardingStep1Form';
+import CircleBadge from '../../../components/common/CircleBadge';
 
 const OnboardingStep3Form = ({ className, where }: BaseProps) => {
   const [symptoms, setSymptoms] = useState<string[]>([]); // 증상
@@ -23,7 +24,7 @@ const OnboardingStep3Form = ({ className, where }: BaseProps) => {
             '증상'
           ) : (
             <>
-              <NumCircle>5</NumCircle>최근 느낀 몸의 변화를 선택해 주세요
+              <CircleBadge value={5} label="최근 느낀 몸의 변화를 선택해 주세요" />
             </>
           )}
         </StyledLegend>

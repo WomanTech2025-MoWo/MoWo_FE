@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import OnboardingFieldset, { BaseProps } from './OnboardingFieldset';
 import InputField from '../../../components/inputs/InputField';
 import SelectableInput from '../../../components/inputs/SelectableInput';
-import { StyledLegend, NumCircle } from './OnboardingStep1Form';
+import { StyledLegend } from './OnboardingStep1Form';
+import CircleBadge from '../../../components/common/CircleBadge';
 
 const OnboardingStep2Form = ({ className, where }: BaseProps) => {
   const [duedate, setDuedate] = useState(''); // 출산예정일
@@ -13,7 +14,7 @@ const OnboardingStep2Form = ({ className, where }: BaseProps) => {
       {where === 'onboarding' ? (
         <OnboardingFieldset columns={2} where={where}>
           <StyledLegend $where={where}>
-            <NumCircle>3</NumCircle>출산예정일을 선택해주세요
+            <CircleBadge value={3} label="출산예정일을 선택해주세요" />
           </StyledLegend>
           <div>캘린더자리</div>
         </OnboardingFieldset>
@@ -26,7 +27,7 @@ const OnboardingStep2Form = ({ className, where }: BaseProps) => {
             '쌍둥이 여부'
           ) : (
             <>
-              <NumCircle>4</NumCircle>쌍둥이 여부를 알려주세요
+              <CircleBadge value={4} label="쌍둥이 여부를 알려주세요" />
             </>
           )}
         </StyledLegend>

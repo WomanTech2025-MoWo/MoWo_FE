@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import OnboardingFieldset, { BaseProps } from './OnboardingFieldset';
 import SelectableInput from '../../../components/inputs/SelectableInput';
+import CircleBadge from '../../../components/common/CircleBadge';
 
 export const StyledLegend = styled.legend<{ $where: 'onboarding' | 'profile' }>`
   ${(props) =>
@@ -19,18 +20,6 @@ export const StyledLegend = styled.legend<{ $where: 'onboarding' | 'profile' }>`
       `}
 `;
 
-export const NumCircle = styled.span`
-  border-radius: 50%;
-  background-color: var(--color-main-primary);
-  color: var(--color-text-on-color);
-  font-size: var(--font-size-xs);
-  diaplay: block;
-  width: var(--size-gap-lg);
-  height: var(--size-gap-lg);
-  text-align: center;
-  line-height: var(--size-gap-lg);
-`;
-
 const OnboardingStep1Form = ({ className, where }: BaseProps) => {
   const [pregnantStatus, setPregnantStatus] = useState(''); // 임신 여부
   const [isMultiparous, setIsMultiparous] = useState(''); // 출산 경험
@@ -43,7 +32,7 @@ const OnboardingStep1Form = ({ className, where }: BaseProps) => {
             '현재 상태'
           ) : (
             <>
-              <NumCircle>1</NumCircle>현재 상태를 알려주세요
+              <CircleBadge value={1} label="현재 상태를 알려주세요" />
             </>
           )}
         </StyledLegend>
@@ -81,7 +70,7 @@ const OnboardingStep1Form = ({ className, where }: BaseProps) => {
               '출산 경험'
             ) : (
               <>
-                <NumCircle>2</NumCircle>출산 경험이 있으신가요?
+                <CircleBadge value={2} label="출산 경험이 있으신가요?" />
               </>
             )}
           </StyledLegend>
