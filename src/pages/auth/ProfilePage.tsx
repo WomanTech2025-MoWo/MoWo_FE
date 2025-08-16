@@ -19,14 +19,14 @@ const ProfilePage = () => {
 
   return (
     <ProfileWrap bgColor="gray-light" innerPadding={false} withHeader={true}>
-      <HeaderWithBack>회원정보</HeaderWithBack>
+      <HeaderWithBack>회원정보수정</HeaderWithBack>
       <InnerLayout>
         <form onSubmit={handleSubmit}>
           <IdPwForm />
           <AccountForm />
-          <OnboardingStep1Form />
-          <OnboardingStep2Form />
-          <OnboardingStep3Form />
+          <OnboardingStep1Form where="profile" />
+          <OnboardingStep2Form where="profile" />
+          <OnboardingStep3Form where="profile" />
           <PrimaryButton type="submit">수정하기</PrimaryButton>
         </form>
       </InnerLayout>
