@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { SegmentedContainer, SegmentedList, SegmentedButton } from '../../../components/buttons/ui/SegmentedControlStyle';
 
@@ -9,13 +9,13 @@ interface TodoCateButtonProps {
   onCategoryClick: (name: CategoryList) => void;
 }
 
-const TodoCateButton = ({ activeCategory, onCategoryClick }: TodoCateButtonProps) => {
-  const cateItems: { name: CategoryList; label: string }[] = [
-    { name: 'health', label: '건강' },
-    { name: 'work', label: '업무' },
-    { name: 'personal', label: '개인' },
-  ];
+const cateItems: { name: CategoryList; label: string }[] = [
+  { name: 'health', label: '건강' },
+  { name: 'work', label: '업무' },
+  { name: 'personal', label: '개인' },
+];
 
+const TodoCateButton = ({ activeCategory, onCategoryClick }: TodoCateButtonProps) => {
   return (
     <SegmentedContainer>
       <SegmentedList>
