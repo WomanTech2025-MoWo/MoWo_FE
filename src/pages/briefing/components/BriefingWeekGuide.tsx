@@ -15,14 +15,14 @@ const WeekGuideItem = styled(ShadowBox)`
   white-space: normal;
 `;
 
-const WeekGuideTestList = styled(TestList)<{ single?: boolean }>`
+const WeekGuideTestList = styled(TestList)<{ $single?: boolean }>`
   gap: 20px;
   flex-direction: column;
   justify-content: space-between;
 
   &::before {
     top: 5px;
-    background-color: ${({ single }) => (single ? 'transparent' : 'var(--color-gray-200)')};
+    background-color: ${({ $single }) => ($single ? 'transparent' : 'var(--color-gray-200)')};
     height: calc(100% - 10px);
   }
 `;
@@ -58,7 +58,7 @@ const BriefingWeekGuide = () => {
               <h3>{currentWeekGuide.period}</h3>
               <p>{currentWeekGuide.category}</p>
             </TitleWrapper>
-            <WeekGuideTestList single={currentWeekGuide.tests.length === 1}>
+            <WeekGuideTestList $single={currentWeekGuide.tests.length === 1}>
               {currentWeekGuide.tests.map((test, i) => (
                 <WeekGuideTestItem key={i}>{test.testName}</WeekGuideTestItem>
               ))}
