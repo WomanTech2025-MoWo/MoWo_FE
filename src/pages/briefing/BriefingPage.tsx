@@ -6,72 +6,109 @@ import InnerLayout from '../../layouts/InnerLayout';
 import BriefingHeader from './components/BriefingHeader';
 import BriefingTodo from './components/BriefingTodo';
 import BriefingWeekGuide from './components/BriefingWeekGuide';
+import BoldLine from '../../components/common/BoldLine';
+import InfosList from '../infos/components/InfosList';
+import { aiAnalysisData, AnalysisLevel } from '../aianalysis/data/aiAnalysisResult';
+import ShadowBox from '../../components/common/ShadowBox';
+import aiBanner from '../../assets/features/ai/ai-banner.webp';
+import { FixedCenter } from '../../layouts/FixedCenterContainer';
+import AiCharacter from '../../components/icons/ai/AiCharacter';
 
-const BriefingWrap = styled.div`
-  background-color: var(--color-basic-bg);
-  min-height: var(--view-min-height);
+const BriefingLayout = styled(InnerLayout)`
+  padding-bottom: var(--size-inner-padding-4x);
 `;
 
-const AiBanner = styled.div`
-  height: 114px;
-  background-color: var(--color-secondary-200);
-  border-radius: var(--size-border-radius-md);
-  box-shadow: var(--box-shadow-default);
-  overflow: hidden;
-  margin-top: 16px;
+const AiBanner = styled(ShadowBox)`
+  height: var(--size-height-banner);
+  background-color: var(--color-secondary-400);
+  background-image: url(${aiBanner});
+  background-size: 28%;
+  background-repeat: no-repeat;
+  background-position: 80% 30px;
+  margin-top: var(--size-gap-lg);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semi-bold);
+  color: var(--color-text-gray-300);
+  display: flex;
+  align-items: center;
+  padding-right: 40%;
 `;
 
-const BoldHr = styled.div`
-  height: 11px;
-  background-color: var(--color-gray-200);
+const AiSummary = styled.p`
+  font-size: var(--font-size-lg);
+  line-height: var(--font-size-xxl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-default);
+  margin-bottom: var(--size-gap-xs);
 `;
 
-const WeekGuideWrap = styled(InnerLayout)``;
-
-const AiIconWrapper = styled.aside`
-  width: 100%;
-  min-width: var(--view-min-width);
-  max-width: var(--view-max-width);
-  position: fixed;
-  bottom: 100px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
+const AiIconWrapper = styled(FixedCenter)`
+  bottom: var(--size-g-nav-height);
   z-index: 9;
 `;
 
 const AiIcon = styled.div`
-  width: 65px;
-  height: 65px;
-  border-radius: 50%;
-  background-color: var(--color-secondary-primary);
+  width: 150px;
+  height: var(--size-height-xl);
+  border-radius: var(--size-height-xl);
+  background: var(--color-gradient-ai);
   position: absolute;
-  right: var(--size-layout-padding);
-  bottom: var(--size-layout-padding);
-  text-align: center;
+  right: var(--size-inner-padding);
+  bottom: var(--size-inner-padding);
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--size-gap-md) 0 var(--size-gap-xl);
+  color: var(--color-text-on-color);
+  font-size: var(--font-size-sm);
+  box-shadow: var(--box-shadow-default);
+
+  b {
+    font-size: var(--font-size-md);
+    padding-top: var(--size-gap-xxs);
+    display: block;
+    font-weight: var(--font-weight-bold);
+  }
 `;
 
 const BriefingPage = () => {
+  const dataLevel: AnalysisLevel = 'normal'; // <- 나중에 API 값으로 대체
+  const { briefing } = aiAnalysisData[dataLevel];
+
   return (
-    <BriefingWrap>
+    <BriefingLayout innerPadding={false} bgColor="gray-light">
       <InnerLayout>
-        <BriefingHeader />
+        <BriefingHeader dueDate={'2025-12-01'} />
         <BriefingTodo />
         <AiBanner>
-          <Link to="/aianalysis">AI 배너</Link>
+          <Link to="/aianalysis">
+            <AiSummary>{briefing}</AiSummary>
+            <p>모우의 주간 편지가 도착했어요</p>
+          </Link>
         </AiBanner>
       </InnerLayout>
-      <BoldHr />
-      <WeekGuideWrap>
+      <BoldLine />
+      <InnerLayout>
         <BriefingWeekGuide />
-      </WeekGuideWrap>
+      </InnerLayout>
+      <InnerLayout>
+        <InfosList />
+      </InnerLayout>
       <AiIconWrapper>
         <Link to="aianalysis">
-          <AiIcon>AI</AiIcon>
+          <AiIcon>
+            <span>
+              모우의
+              <br />
+              <b>주간 편지</b>
+            </span>
+            <AiCharacter width="40" />
+          </AiIcon>
         </Link>
       </AiIconWrapper>
       <GlobalNavigation />
-    </BriefingWrap>
+    </BriefingLayout>
   );
 };
 
