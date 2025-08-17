@@ -22,7 +22,7 @@ const dummyPosts: KnowhowsPost[] = [
 const KnowhowsListItemWrap = styled.ul`
   display: flex;
   flex-wrap: nowrap;
-  gap: 16px;
+  gap: var(--size-gap-md);
   overflow-x: auto;
   overflow-y: hidden;
   width: 100%;
@@ -51,7 +51,7 @@ const BoxLink = styled(Link)`
 const KnowhowsListItemBox = styled(ShadowBox)`
   background-color: var(--color-secondary-400);
   width: 240px;
-  padding-top: 60px;
+  padding-top: var(--size-inner-padding-3x);
   word-wrap: break-word;
   overflow-wrap: break-word;
   white-space: normal;
@@ -61,19 +61,19 @@ const ItemSummary = styled.p`
   color: var(--color-gray-500);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
-  margin-bottom: 14px;
+  margin-bottom: var(--size-gap-xs);
 `;
 
 const ItemTitle = styled.p`
   font-weight: var(--font-weight-bold);
-  font-size: var(--font-size-sl);
+  font-size: var(--font-size-lg);
   line-height: var(--line-height-md);
 `;
 
 const StyledIconArrowRightCircle = styled(IconArrowRightCircle)`
   position: absolute;
-  right: var(--size-layout-padding);
-  top: var(--size-layout-padding);
+  right: var(--size-gap-md);
+  top: var(--size-gap-md);
 `;
 
 const KnowhowsListItem = () => {
