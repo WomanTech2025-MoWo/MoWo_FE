@@ -6,6 +6,7 @@ import InnerLayout from '../../layouts/InnerLayout';
 import AiCharacter from '../../components/icons/ai/AiCharacter';
 import IconLetter from '../../components/icons/features/ai/IconLetter';
 import { aiAnalysisData, AnalysisLevel } from './data/aiAnalysisResult';
+import ShadowBox from '../../components/common/ShadowBox';
 
 const AiResultWrap = styled(InnerLayout)``;
 
@@ -56,10 +57,8 @@ const ResultSummary = styled.p`
   line-height: var(--line-height-lg);
 `;
 
-const ResultBox = styled.div`
-  box-shadow: var(--box-shadow-default);
+const ResultBox = styled(ShadowBox)`
   background-color: var(--color-secondary-500);
-  border-radius: var(--size-border-radius-md);
   margin: var(--size-gap-xxl) 0;
   padding: var(--size-gap-xxl) var(--size-gap-xl);
 `;
