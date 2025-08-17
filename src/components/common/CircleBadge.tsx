@@ -19,7 +19,7 @@ const Circle = styled.div<{ $circleColor?: string }>`
   background-color: ${({ $circleColor }) => $circleColor};
   color: var(--color-text-on-color);
   font-size: var(--font-size-xs);
-  diaplay: block;
+  display: block;
   width: var(--size-gap-lg);
   height: var(--size-gap-lg);
   text-align: center;
@@ -30,9 +30,9 @@ const Label = styled.span<{ $labelWeight?: string }>`
   font-weight: ${({ $labelWeight }) => $labelWeight || 'inherit'};
 `;
 
-const CircleBadge = ({ value, label, circleColor = 'var(--color-main-primary)', labelWeight = 'inherit' }: CircleBadgeProps) => {
+const CircleBadge = ({ value, label, circleColor = 'var(--color-main-primary)', labelWeight = 'inherit', className }: CircleBadgeProps) => {
   return (
-    <BadgeWrapper>
+    <BadgeWrapper className={className}>
       <Circle $circleColor={circleColor}>{value}</Circle>
       {label && <Label $labelWeight={labelWeight}>{label}</Label>}
     </BadgeWrapper>
