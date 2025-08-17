@@ -6,6 +6,7 @@ import InnerLayout from '../../layouts/InnerLayout';
 import IconArrowRight from '../../components/icons/common/IconArrowRight';
 import { weekGuideData } from '../../data/weekGuideData';
 import bgGuidesDone from '../../assets/features/infos/bg-guides-done.png';
+import ShadowBox from '../../components/common/ShadowBox';
 
 const GuideWrapper = styled.ul`
   display: flex;
@@ -13,22 +14,15 @@ const GuideWrapper = styled.ul`
   gap: var(--size-gap-md);
 `;
 
-const baseBoxStyle = css`
-  border-radius: var(--size-border-radius-md);
-  box-shadow: var(--box-shadow-default);
-  padding: var(--size-gap-lg);
+const PeriodBox = styled(ShadowBox)`
   display: flex;
-`;
-
-const PeriodBox = styled.li`
-  ${baseBoxStyle}
-
   gap: 0 var(--size-gap-md);
   background-color: var(--color-background-white);
   word-break: keep-all;
   overflow-wrap: break-word;
   white-space: normal;
   transition: var(--transition);
+  padding: var(--size-gap-lg);
 
   &:hover {
     background-color: var(--color-secondary-300);
@@ -95,9 +89,8 @@ export const TestItem = styled.li`
   }
 `;
 
-const DoneBox = styled.li`
-  ${baseBoxStyle}
-
+const DoneBox = styled(ShadowBox)`
+  display: flex;
   background-color: var(--color-secondary-300);
   background-image: url(${bgGuidesDone});
   background-position: center center;
@@ -110,6 +103,7 @@ const DoneBox = styled.li`
   font-size: var(--font-size-xl);
   line-height: var(--line-height-lg);
   font-weight: var(--font-weight-semi-bold);
+  padding: var(--size-gap-xl);
 `;
 
 const GuidesPage = () => {
