@@ -33,6 +33,7 @@
   --color-basic-red: #ff3333;
   --color-gradient-sub: linear-gradient(to bottom right, var(--color-secondary-200), #9494f8);
   --color-gradient-bg: linear-gradient(#f5f3ff, #f5f3ff);
+  --color-gradient-ai: linear-gradient(180deg, #c3c3f4 5%, #adadef 29%, #7979ff 62%, #6363f3 96%);
 
   /* 색상: 배경 */
   --color-background-white: var(--color-basic-white);
