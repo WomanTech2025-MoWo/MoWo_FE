@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import OnboardingFieldset, { BaseProps } from './OnboardingFieldset';
 import InputField from '../../../components/inputs/InputField';
 import SelectableInput from '../../../components/inputs/SelectableInput';
 import { StyledLegend } from './OnboardingStep1Form';
 import CircleBadge from '../../../components/common/CircleBadge';
+import Calendar from '../../../components/common/Calendar';
+
+const CalendarWrapper = styled.div`
+  grid-column: span 2;
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+`;
 
 const OnboardingStep2Form = ({ className, where }: BaseProps) => {
   const [duedate, setDuedate] = useState(''); // 출산예정일
@@ -16,7 +26,9 @@ const OnboardingStep2Form = ({ className, where }: BaseProps) => {
           <StyledLegend $where={where}>
             <CircleBadge value={3} label="출산예정일을 선택해주세요" />
           </StyledLegend>
-          <div>캘린더자리</div>
+          <CalendarWrapper>
+            <Calendar />
+          </CalendarWrapper>
         </OnboardingFieldset>
       ) : (
         <InputField label="출산예정일" type="date" iconType="date" value={duedate} onChange={(e) => setDuedate(e.target.value)} required />
