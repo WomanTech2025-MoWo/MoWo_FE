@@ -16,7 +16,7 @@ const ContentsWrapper = styled(InnerLayout)`
   display: flex;
   flex-direction: column;
   gap: var(--size-gap-xl);
-  padding-bottom: calc(var(--size-add-todo) + var(--size-inner-padding));
+  padding-bottom: calc(var(--size-add-todo) - var(--size-g-nav-height) + var(--size-inner-padding));
 `;
 
 const QaWrapper = styled.div`
