@@ -61,7 +61,7 @@ const dummyData: TodoSection[] = [
 const TodoListWrap = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--size-gap-lg);
 `;
 
 const TodoListWrapper = styled(ShadowBox)``;
@@ -85,23 +85,41 @@ const CategoryTotal = styled.span`
   color: var(--color-gray-700);
 `;
 
+const TodoItemWrapper = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-gap-sm);
+`;
+
 const TodoList = () => {
   const [activeCategory, setActiveCategory] = useState<CategoryList>('health');
+
   const [sections] = useState<TodoSection[]>(dummyData);
   const sectionRefs = useRef<Partial<Record<CategoryList, HTMLDivElement | null>>>({}); // 카테고리별 ref 저장
 
+  const isManualScroll = useRef(false);
+
   const scrollToSection = (name: CategoryList) => {
+    isManualScroll.current = true;
+    setActiveCategory(name);
+
     const ref = sectionRefs.current[name];
     if (ref) {
       const topOffset = 60; // sticky 카테고리 높이 + 갭
       const top = ref.getBoundingClientRect().top + window.pageYOffset - topOffset;
       window.scrollTo({ top, behavior: 'smooth' });
     }
+    // 일정 시간 뒤에 observer 다시 허용
+    setTimeout(() => {
+      isManualScroll.current = false;
+    }, 800); // smooth scroll duration 정도로
   };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
+        if (isManualScroll.current) return; // 수동 스크롤 중일 땐 무시
+
         // 화면에 보이는 항목들만 필터
         const visibleEntries = entries.filter((entry) => entry.isIntersecting);
 
@@ -119,11 +137,13 @@ const TodoList = () => {
         }
 
         // 가장 위에 있는 항목 기준으로 active 설정
-        const topEntry = visibleEntries.reduce((prev, curr) => (prev.boundingClientRect.top < curr.boundingClientRect.top ? prev : curr));
+        const topEntry = visibleEntries.reduce((prev, curr) =>
+          Math.abs(prev.boundingClientRect.top) < Math.abs(curr.boundingClientRect.top) ? prev : curr
+        );
 
         setActiveCategory(topEntry.target.getAttribute('data-category') as CategoryList);
       },
-      { threshold: 0.5 }
+      { threshold: 0 }
     );
 
     Object.values(sectionRefs.current).forEach((ref) => {
@@ -153,11 +173,11 @@ const TodoList = () => {
                 {section.done}/{section.total}
               </CategoryTotal>
             </SectionTitle>
-            <ul>
+            <TodoItemWrapper>
               {section.items.map((item) => (
                 <TodoListItem key={item.id} {...item} />
               ))}
-            </ul>
+            </TodoItemWrapper>
           </TodoListWrapper>
         ))}
       </TodoListWrap>
