@@ -15,7 +15,7 @@ const StyledOnboardingStep1Form = styled(OnboardingStep1Form)`
 
 const OnboardingStep1 = () => {
   return (
-    <InnerLayout bgColor="gray-light" withHeader={true}>
+    <InnerLayout bgColor="gray-light" withHeader={true} withNav={false}>
       <OnboardingIntro step="step1" />
       <StyledOnboardingStep1Form where="onboarding" />
       <PrimaryButton to="/signup/onboarding/step2">다음</PrimaryButton>

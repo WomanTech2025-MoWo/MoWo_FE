@@ -11,6 +11,7 @@ interface InnerLayoutProps extends WithChildren {
   paddingBottom?: boolean;
   innerPadding?: boolean;
   withHeader?: boolean;
+  withNav?: boolean;
 }
 
 const PageInner = styled.div<{
@@ -46,6 +47,7 @@ const InnerLayout = ({
   paddingBottom = true,
   innerPadding = true,
   withHeader = false,
+  withNav = true,
 }: InnerLayoutProps) => {
   const context = useContext(LayoutContext);
 
@@ -62,6 +64,14 @@ const InnerLayout = ({
       context?.setHeaderPadding(false);
     }
   }, [withHeader, context]);
+
+  useEffect(() => {
+    if (withNav && context?.setNavPadding) {
+      context.setNavPadding(true);
+    } else {
+      context?.setNavPadding(false);
+    }
+  }, [withNav, context]);
 
   return (
     <PageInner

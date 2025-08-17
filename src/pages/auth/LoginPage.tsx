@@ -12,7 +12,7 @@ const LoginPage = () => {
   };
 
   return (
-    <InnerLayout bgColor="gray-light" withHeader={true} paddingTop={false}>
+    <InnerLayout bgColor="gray-light" withHeader={true} paddingTop={false} withNav={false}>
       <Logo />
       <form onSubmit={handleSubmit}>
         <IdPwForm />

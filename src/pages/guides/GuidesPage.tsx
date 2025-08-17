@@ -114,7 +114,7 @@ const DoneBox = styled.li`
 
 const GuidesPage = () => {
   return (
-    <InnerLayout bgColor="gray-light" withHeader={true}>
+    <InnerLayout bgColor="gray-light" withHeader={true} withNav={false}>
       <HeaderWithBack bgColor="gray-light">주차별 가이드</HeaderWithBack>
       <GuideWrapper>
         {weekGuideData.map((week, index) => (

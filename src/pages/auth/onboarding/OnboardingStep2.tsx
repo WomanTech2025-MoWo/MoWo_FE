@@ -8,7 +8,7 @@ import { PrimaryButton } from '../../../components/buttons/PrimaryButton';
 
 const OnboardingStep2 = () => {
   return (
-    <InnerLayout bgColor="gray-light" withHeader={true}>
+    <InnerLayout bgColor="gray-light" withHeader={true} withNav={false}>
       <HeaderWithBack bgColor="gray-light" />
       <OnboardingIntro step="step2" />
       <OnboardingStep2Form where="onboarding" />

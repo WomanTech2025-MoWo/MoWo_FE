@@ -13,7 +13,7 @@ const SignupPage = () => {
   };
 
   return (
-    <InnerLayout bgColor="gray-light" innerPadding={false} withHeader={true}>
+    <InnerLayout bgColor="gray-light" innerPadding={false} withHeader={true} withNav={false}>
       <HeaderWithBack bgColor="gray-light">회원가입</HeaderWithBack>
       <Logo />
       <InnerLayout paddingTop={false}>
