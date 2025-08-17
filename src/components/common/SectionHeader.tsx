@@ -22,7 +22,7 @@ const MoreButton = styled(Link)`
   align-items: center;
   font-size: var(--font-size-sm);
   color: var(--color-gray-500);
-  gap: 8px;
+  gap: var(--size-gap-xs);
 
   path {
     fill: var(--color-gray-500);
