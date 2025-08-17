@@ -16,7 +16,8 @@ const LoginPage = () => {
       <Logo />
       <form onSubmit={handleSubmit}>
         <IdPwForm />
-        <PrimaryButton type="submit">로그인</PrimaryButton>
+        {/* <PrimaryButton type="submit">로그인</PrimaryButton> */}
+        <PrimaryButton to="/">로그인</PrimaryButton>
       </form>
       <NormalButton to="/signup">회원가입</NormalButton>
     </InnerLayout>
