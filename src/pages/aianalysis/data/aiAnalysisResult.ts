@@ -4,11 +4,13 @@ interface AnalysisData {
   label: string;
   summary: string;
   detail: string;
+  briefing: string;
 }
 
 export const aiAnalysisData: Record<AnalysisLevel, AnalysisData> = {
   good: {
     label: '좋음',
+    briefing: '이번 주는 평소보다 기운이 날 거예요!',
     summary: '이번 주는 평소보다 기운이 날 거예요! 평소보다 조금 더 발걸음을 옮겨보아요.',
     detail: `이번 주는 평소보다 피로가 덜하고, 숨도 조금 여유롭게 쉴 수 있는 날이에요.
 이럴 때는 작은 외출이나 즐거운 만남처럼, 평소 병원과 직장 생활로 미뤄뒀던 '마음이 환해지는 일'을 해보세요.
@@ -21,6 +23,7 @@ export const aiAnalysisData: Record<AnalysisLevel, AnalysisData> = {
   },
   normal: {
     label: '보통',
+    briefing: '이번 주는 딱 반반이에요.',
     summary: '이번 주는 딱 반반이에요. 무리하지 않고, 마음과 몸의 속도를 맞춰주세요.',
     detail: `몸 상태가 나쁘진 않지만, 그렇다고 완전히 가벼운 날은 아니죠. 
 이런 주는 ‘해야 할 일’을 전부 다 끝내기보다, 중요도 순으로 우선순위를 정하고 하나씩만 해도 충분합니다.
@@ -32,6 +35,7 @@ export const aiAnalysisData: Record<AnalysisLevel, AnalysisData> = {
   },
   bad: {
     label: '나쁨',
+    briefing: '이번 주는 잠시 멈추고, 숨 고르기를 해도 괜찮아요.',
     summary: '이번 주는 잠시 멈추고, 숨 고르기를 해도 괜찮아요. 아기와 나를 위한 ‘느린 하루’를 보내주세요.',
     detail: `몸이 무겁거나, 집중이 잘 안 되고, 업무 속도가 평소보다 느린 주가 있죠.
 임신 중에는 호르몬 변화와 피로가 겹쳐, 특히 직장에서 이런 날이 더 자주 찾아옵니다.
