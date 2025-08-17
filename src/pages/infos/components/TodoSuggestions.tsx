@@ -6,17 +6,19 @@ import ShadowBox from '../../../components/common/ShadowBox';
 import IconPlusCircle from '../../../components/icons/features/infos/IconPlusCircle';
 
 const dummyTodos = [
-  { id: 1, text: '청년 지원금 신청하기' },
-  { id: 2, text: '정책 관련 자료 읽기' },
-  { id: 3, text: '필요 서류 준비하기' },
+  { id: 1, text: '사업 참여 의료기관 확인' },
+  { id: 2, text: 'e보건소 사전신청 및 검사의뢰서 발급' },
+  { id: 3, text: '의료기관에서 검사' },
+  { id: 4, text: 'e보건소로 검사비 청구' },
+  { id: 5, text: '임부복 구매' },
 ];
 
-const TodoSuggestionsWrap = styled.div``;
+const SuggestionsWrap = styled(InnerLayout)``;
 
 const ItemWrapper = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: var(--size-gap-md);
 `;
 
 const Item = styled.li``;
@@ -25,6 +27,8 @@ const ItemBox = styled(ShadowBox)`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: var(--size-gap-md) var(--size-gap-lg);
+  font-weight: var(--font-weight-medium);
 `;
 
 const AddButton = styled.button``;
@@ -38,22 +42,20 @@ const TodoSuggestions = () => {
   };
 
   return (
-    <TodoSuggestionsWrap>
-      <InnerLayout>
-        <ItemWrapper>
-          {dummyTodos.map((todo) => (
-            <Item key={todo.id}>
-              <ItemBox>
-                {todo.text}
-                <AddButton onClick={() => handleAddClick(todo.text)}>
-                  <IconPlusCircle />
-                </AddButton>
-              </ItemBox>
-            </Item>
-          ))}
-        </ItemWrapper>
-      </InnerLayout>
-    </TodoSuggestionsWrap>
+    <SuggestionsWrap>
+      <ItemWrapper>
+        {dummyTodos.map((todo) => (
+          <Item key={todo.id}>
+            <ItemBox>
+              {todo.text}
+              <AddButton onClick={() => handleAddClick(todo.text)}>
+                <IconPlusCircle />
+              </AddButton>
+            </ItemBox>
+          </Item>
+        ))}
+      </ItemWrapper>
+    </SuggestionsWrap>
   );
 };
 
