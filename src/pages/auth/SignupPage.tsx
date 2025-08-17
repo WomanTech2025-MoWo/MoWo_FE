@@ -21,7 +21,7 @@ const SignupPage = () => {
           <IdPwForm />
           <AccountForm />
           {/* <PrimaryButton type="submit">시작하기</PrimaryButton> */}
-          <PrimaryButton to="/signup/onboarding/step1">시작하기</PrimaryButton>
+          <PrimaryButton to="/signup/onboarding/step1">회원가입시작</PrimaryButton>
         </form>
       </InnerLayout>
     </InnerLayout>
