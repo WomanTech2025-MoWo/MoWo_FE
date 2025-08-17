@@ -3,42 +3,38 @@ import styled from 'styled-components';
 import { TitleWrapper, TestList, TestItem } from '../../guides/GuidesPage';
 import { weekGuideData } from '../../../data/weekGuideData';
 import SectionHeader from '../../../components/common/SectionHeader';
+import ShadowBox from '../../../components/common/ShadowBox';
 
 const WeekGuideWrap = styled.div``;
 
-const WeekGuideItem = styled.div`
+const WeekGuideItem = styled(ShadowBox)`
   display: flex;
-  gap: 0 14px;
-  margin-top: 8px;
-  padding: var(--size-layout-padding);
-  background-color: var(--color-basic-white);
-  border-radius: var(--size-border-radius-md);
-  box-shadow: var(--box-shadow-default);
+  gap: 0 var(--size-gap-sm);
   word-break: keep-all;
   overflow-wrap: break-word;
   white-space: normal;
 `;
 
-const WeekGuideTestList = styled(TestList)`
+const WeekGuideTestList = styled(TestList)<{ single?: boolean }>`
   gap: 20px;
+  flex-direction: column;
+  justify-content: space-between;
 
   &::before {
     top: 5px;
-    background-color: var(--color-gray-200);
+    background-color: ${({ single }) => (single ? 'transparent' : 'var(--color-gray-200)')};
     height: calc(100% - 10px);
   }
 `;
 
 const WeekGuideTestItem = styled(TestItem)`
-  font-size: var(--font-size-sm);
-
   &::before {
     background-color: var(--color-main-primary);
   }
 `;
 
 const BriefingWeekGuide = () => {
-  const currentWeek = 37; // 현재 주차
+  const currentWeek = 24; // 현재 주차
 
   // 현재 주차에 맞는 주차별 가이드 정보 가져오기
   const currentWeekGuide = weekGuideData.find((item) => {
@@ -51,7 +47,7 @@ const BriefingWeekGuide = () => {
 
   return (
     <WeekGuideWrap>
-      <SectionHeader morebutton={true} path="/guides">
+      <SectionHeader moreButton={true} path="/guides">
         {currentWeek}주차 가이드
       </SectionHeader>
       <WeekGuideItem>
@@ -62,7 +58,7 @@ const BriefingWeekGuide = () => {
               <h3>{currentWeekGuide.period}</h3>
               <p>{currentWeekGuide.category}</p>
             </TitleWrapper>
-            <WeekGuideTestList>
+            <WeekGuideTestList single={currentWeekGuide.tests.length === 1}>
               {currentWeekGuide.tests.map((test, i) => (
                 <WeekGuideTestItem key={i}>{test.testName}</WeekGuideTestItem>
               ))}
