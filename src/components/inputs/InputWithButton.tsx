@@ -13,12 +13,13 @@ type InputWithButtonProps = React.ComponentProps<typeof InputField> & {
 const InputRow = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--size-gap-xs);
 `;
 
 const CheckBtn = styled(PrimaryButton)`
-  width: 86px;
-  height: 45px;
+  width: 95px;
+  height: var(--size-height-md);
+  margin: 0;
 `;
 
 const StyledInputFlex = styled(StyledInput)``;

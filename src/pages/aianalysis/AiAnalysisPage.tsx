@@ -5,29 +5,29 @@ import GlobalNavigation from '../../layouts/GlobalNavigation';
 import InnerLayout from '../../layouts/InnerLayout';
 import AiCharacter from '../../components/icons/ai/AiCharacter';
 import IconLetter from '../../components/icons/features/ai/IconLetter';
+import { aiAnalysisData, AnalysisLevel } from './data/aiAnalysisResult';
+import ShadowBox from '../../components/common/ShadowBox';
 
-const AiResultWrap = styled.div``;
-
-const AiResultWrapper = styled(InnerLayout)``;
+const AiResultWrap = styled(InnerLayout)``;
 
 const AiProfileWrapper = styled.div`
   display: flex;
-  gap: 20px;
+  gap: var(--size-gap-lg);
   align-items: center;
-  border-bottom: 1px solid var(--color-gray-200);
-  padding-bottom: var(--size-layout-padding);
-  margin-bottom: var(--size-layout-padding);
+  border-bottom: 1px solid var(--color-border-color);
+  padding-bottom: var(--size-gap-lg);
+  margin-bottom: var(--size-gap-lg);
 `;
 
 const AiCharacterCircle = styled.div`
-  width: 60px;
-  height: 60px;
+  width: var(--size-height-xl);
+  height: var(--size-height-xl);
   display: flex;
   align-items: center;
   justify-content: center;
   border: 2px solid transparent;
   border-radius: 50%;
-  background-image: linear-gradient(#f5f3ff, #f5f3ff), linear-gradient(to bottom right, var(--color-secondary-200), #9494f8);
+  background-image: var(--color-gradient-bg), var(--color-gradient-sub);
   border-image-slice: 1;
   background-origin: border-box;
   background-clip: content-box, border-box;
@@ -37,71 +37,78 @@ const AiCharacterCircle = styled.div`
 const DateTextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--size-gap-xs);
 `;
 
 const TextToday = styled.p`
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
 `;
 
 const TextStep = styled.p`
-  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semi-bold);
   color: var(--color-gray-500);
 `;
 
 const ResultSummary = styled.p`
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-lg);
 `;
 
-const ResultBox = styled.div`
-  box-shadow: var(--box-shadow-default);
-  background-color: #f5f3ff;
-  border-radius: var(--size-border-radius-md);
-  margin: 40px 0;
-  padding: 28px var(--size-layout-padding);
+const ResultBox = styled(ShadowBox)`
+  background-color: var(--color-secondary-500);
+  margin: var(--size-gap-xxl) 0;
+  padding: var(--size-gap-xxl) var(--size-gap-xl);
 `;
 
 const ResultBoxTitle = styled.h3`
   display: flex;
   align-items: cneter;
   justify-content: center;
-  gap: 10px;
+  gap: var(--size-gap-xs);
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
-  margin-bottom: 28px;
+  margin-bottom: var(--size-gap-xl);
 `;
 
 const ResultText = styled.p`
   font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-md);
+  line-height: var(--line-height-lg);
 `;
 
 const AiAnalysisPage = () => {
+  const today = new Date();
+  const formattedDate = today.toLocaleDateString('ko-KR', {
+    month: 'long',
+    day: 'numeric',
+    weekday: 'long',
+  });
+
+  const dataLevel: AnalysisLevel = 'normal'; // <- 나중에 API 값으로 대체
+  const { label, summary, detail } = aiAnalysisData[dataLevel];
+
   return (
-    <AiResultWrap>
-      <HeaderWithBack>AI 답장</HeaderWithBack>
-      <AiResultWrapper>
-        <AiProfileWrapper>
-          <AiCharacterCircle>
-            <AiCharacter width="40" />
-          </AiCharacterCircle>
-          <DateTextWrapper>
-            <TextToday>0월 0일 ㅇ요일</TextToday>
-            <TextStep>n단계</TextStep>
-          </DateTextWrapper>
-        </AiProfileWrapper>
-        <ResultSummary>짧은 결과 내용</ResultSummary>
-        <ResultBox>
-          <ResultBoxTitle>
-            <IconLetter />
-            오늘의 답장
-          </ResultBoxTitle>
-          <ResultText>
-            긴 결과 내용긴 결과 내용긴 결과 내용긴 결과 내용긴 결과 내용긴 결과 내용긴 결과 내용긴 결과 내용긴 결과 내용긴 결과 내용긴 결과 내용긴
-            결과 내용긴 결과 내용긴 결과 내용긴 결과 내용긴 결과 내용긴 결과 내용긴 결과 내용긴 결과 내용긴 결과 내용긴 결과 내용긴 결과 내용긴 결과
-            내용긴 결과 내용긴 결과 내용긴 결과 내용
-          </ResultText>
-        </ResultBox>
-      </AiResultWrapper>
+    <AiResultWrap withHeader={true}>
+      <HeaderWithBack>모우의 주간 편지</HeaderWithBack>
+      <AiProfileWrapper>
+        <AiCharacterCircle>
+          <AiCharacter width="40" />
+        </AiCharacterCircle>
+        <DateTextWrapper>
+          <TextToday>{formattedDate}</TextToday>
+          <TextStep>{label}</TextStep>
+        </DateTextWrapper>
+      </AiProfileWrapper>
+      <ResultSummary>{summary}</ResultSummary>
+      <ResultBox>
+        <ResultBoxTitle>
+          <IconLetter />
+          이번주 편지
+        </ResultBoxTitle>
+        <ResultText>{detail}</ResultText>
+      </ResultBox>
       <GlobalNavigation />
     </AiResultWrap>
   );

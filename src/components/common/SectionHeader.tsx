@@ -5,16 +5,16 @@ import IconArrowRight from '../icons/common/IconArrowRight';
 import { WithChildren } from '../../types/common';
 
 type SectionHeaderProps = WithChildren & {
-  morebutton?: boolean;
+  moreButton?: boolean;
   path?: string;
 };
 
 const SectionHeaderWrap = styled.h2`
   display: flex;
   justify-content: space-between;
-  font-size: var(--font-size-sl);
-  font-weight: var(--font-weight-semi-bold);
-  margin: 12px 0 16px;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--size-gap-md);
 `;
 
 const MoreButton = styled(Link)`
@@ -22,18 +22,18 @@ const MoreButton = styled(Link)`
   align-items: center;
   font-size: var(--font-size-sm);
   color: var(--color-gray-500);
-  gap: 8px;
+  gap: var(--size-gap-xs);
 
   path {
     fill: var(--color-gray-500);
   }
 `;
 
-const SectionHeader = ({ children, morebutton = false, path }: SectionHeaderProps) => {
+const SectionHeader = ({ children, moreButton = false, path }: SectionHeaderProps) => {
   return (
     <SectionHeaderWrap>
       {children}
-      {morebutton && (
+      {moreButton && (
         <MoreButton to={path || '#'}>
           더보기
           <IconArrowRight width="6" />

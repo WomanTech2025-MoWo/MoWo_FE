@@ -182,4 +182,5 @@ body:not(:-moz-handler-blocked) fieldset {
 
 img {
   max-width: 100%;
+  vertical-align: top;
 }

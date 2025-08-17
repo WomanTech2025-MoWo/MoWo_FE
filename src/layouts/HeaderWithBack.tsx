@@ -1,42 +1,47 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { WithChildren } from '../types/common';
 import IconPrevious from '../components/icons/layout/IconPrevious';
+import { FixedCenter } from './FixedCenterContainer';
 
-const baseStyles = css`
-  height: 68px;
-  line-height: 68px;
-  padding: 0 var(--size-layout-padding);
-`;
+export interface HeaderWithBackProps extends WithChildren {
+  bgColor?: string;
+}
 
-const Header = styled.header`
-  ${baseStyles}
-  position: relative;
-  text-align: center;
-  width: 100%;
+const Header = styled(FixedCenter).withConfig({
+  shouldForwardProp: (prop) => prop !== '$bgColor',
+})<{ $bgColor?: string }>`
+  border-left: 1px solid var(--color-border-color);
+  border-right: 1px solid var(--color-border-color);
+  height: var(--size-header-with-back);
+  line-height: var(--size-header-with-back);
+  top: 0;
+  background-color: ${({ $bgColor }) => ($bgColor ? `var(--color-background-${$bgColor})` : 'var(--color-background-white)')};
 `;
 
 const BackButton = styled.button`
-  ${baseStyles}
   position: absolute;
   top: 0;
   left: 0;
   display: flex;
-  justify-content: center;
   align-items: center;
+  padding-left: var(--size-inner-padding);
   background-color: transparent;
+  width: var(--size-header-with-back);
+  height: var(--size-header-with-back);
 `;
 
 const Title = styled.h1`
-  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semi-bold);
 `;
 
-const HeaderWithBack = ({ children }: WithChildren) => {
+const HeaderWithBack = ({ children, bgColor }: HeaderWithBackProps) => {
   const navigate = useNavigate();
 
   return (
-    <Header>
+    <Header $bgColor={bgColor}>
       <BackButton type="button" onClick={() => navigate(-1)} aria-label="뒤로가기">
         <IconPrevious />
       </BackButton>

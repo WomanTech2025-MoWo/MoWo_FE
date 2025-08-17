@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import InnerLayout from '../../layouts/InnerLayout';
 import IdPwForm from './components/IdPwForm';
 import { PrimaryButton } from '../../components/buttons/PrimaryButton';
-import { SecondaryButton } from '../../components/buttons/SecondaryButton';
+import Logo from '../../components/common/Logo';
+import { NormalButton } from '../../components/buttons/NormalButton';
 
 const LoginPage = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -11,12 +12,14 @@ const LoginPage = () => {
   };
 
   return (
-    <InnerLayout>
+    <InnerLayout bgColor="gray-light" withHeader={true} paddingTop={false} withNav={false}>
+      <Logo />
       <form onSubmit={handleSubmit}>
         <IdPwForm />
-        <PrimaryButton type="submit">로그인</PrimaryButton>
+        {/* <PrimaryButton type="submit">로그인</PrimaryButton> */}
+        <PrimaryButton to="/">로그인</PrimaryButton>
       </form>
-      <SecondaryButton to="/signup">회원가입</SecondaryButton>
+      <NormalButton to="/signup">회원가입</NormalButton>
     </InnerLayout>
   );
 };

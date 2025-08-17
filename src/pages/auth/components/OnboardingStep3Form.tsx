@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import OnboardingFieldset from './OnboardingFieldset';
+import OnboardingFieldset, { BaseProps } from './OnboardingFieldset';
 import SelectableInput from '../../../components/inputs/SelectableInput';
+import { StyledLegend } from './OnboardingStep1Form';
+import CircleBadge from '../../../components/common/CircleBadge';
 
-const OnboardingStep3Form = ({ className }: { className?: string }) => {
+const OnboardingStep3Form = ({ className, where }: BaseProps) => {
   const [symptoms, setSymptoms] = useState<string[]>([]); // 증상
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,8 +18,16 @@ const OnboardingStep3Form = ({ className }: { className?: string }) => {
 
   return (
     <div className={className}>
-      <OnboardingFieldset columns={2}>
-        <legend>증상</legend>
+      <OnboardingFieldset columns={2} where={where}>
+        <StyledLegend $where={where}>
+          {where === 'profile' ? (
+            '증상'
+          ) : (
+            <>
+              <CircleBadge value={5} label="최근 느낀 몸의 변화를 선택해 주세요" />
+            </>
+          )}
+        </StyledLegend>
         <SelectableInput
           label="이뇨감"
           type="checkbox"

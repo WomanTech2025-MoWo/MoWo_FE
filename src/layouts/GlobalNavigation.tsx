@@ -1,29 +1,21 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { FixedCenter } from './FixedCenterContainer';
 
 /* 네비게이션 아이콘 */
 import IconBriefing from '../components/icons/layout/IconBriefing';
 import IconTodos from '../components/icons/layout/IconTodos';
 import IconInfos from '../components/icons/layout/IconInfos';
 
-const NavWrap = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  min-width: 350px;
-  max-width: 450px;
-  height: 90px;
-  margin: 0 auto;
-  z-index: 10;
+const NavWrap = styled(FixedCenter).attrs({ position: 'bottom', zIndex: 10 })`
+  height: var(--size-g-nav-height);
   border-top-left-radius: var(--size-border-radius-xl);
   border-top-right-radius: var(--size-border-radius-xl);
-  background-color: var(--color-basic-white);
+  background-color: var(--color-background-white);
   box-shadow: var(--box-shadow-default);
-  border: 1px solid var(--color-gray-100);
-  padding: 0 var(--size-layout-padding);
+  border: 1px solid var(--color-border-color);
+  padding: 0 var(--size-inner-padding);
 `;
 
 const NavWrapper = styled.ul`
@@ -31,7 +23,6 @@ const NavWrapper = styled.ul`
   height: inherit;
   display: flex;
   flex-direction: row;
-  gap: 12px;
   overflow: hidden;
 `;
 
@@ -47,9 +38,9 @@ const NavItemLink = styled(Link)<{ $active: boolean }>`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: var(--size-gap-sm);
   color: ${(props) => (props.$active ? 'var(--color-main-primary)' : 'var(--color-gray-500)')};
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semi-bold);
 
   &.path path {
@@ -82,7 +73,8 @@ const GlobalNavigation = () => {
   const isActive = (itemPath: string) => {
     if (itemPath === '/') return location.pathname === '/';
     if (itemPath === '/todos') return location.pathname.startsWith('/todos');
-    if (itemPath === '/infos') return location.pathname.startsWith('/infos') || location.pathname.startsWith('/guides');
+    if (itemPath === '/infos')
+      return location.pathname.startsWith('/infos') || location.pathname.startsWith('/guides') || location.pathname.startsWith('/aianalysis');
     return false;
   };
 

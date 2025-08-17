@@ -14,15 +14,16 @@ type SelectableInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const StyledSelectLabel = styled(Label)<{ selected: boolean }>`
-  height: 48px;
-  line-height: 46px;
+  height: var(--size-height-lg);
+  line-height: calc(var(--size-height-lg) - 2px);
   cursor: pointer;
-  border: 1px solid ${(props) => (props.selected ? 'var(--color-gray-400)' : 'var(--color-gray-200)')};
-  border-radius: 8px;
+  border: 1px solid ${(props) => (props.selected ? 'var(--color-main-primary)' : 'var(--color-border-color)')};
+  border-radius: var(--size-border-radius-md);
+  font-weight: var(--font-weight-semi-bold);
   text-align: center;
-  color: ${(props) => (props.selected ? 'var(--color-gray-900)' : 'var(--color-gray-400)')};
-  background-color: ${(props) => (props.selected ? 'var(--color-gray-200)' : 'var(--color-basic-white)')};
-  transition: all 0.2s ease;
+  color: ${(props) => (props.selected ? 'var(--color-main-dark)' : 'var(--color-gray-600)')};
+  background-color: ${(props) => (props.selected ? 'var(--color-main-light-400)' : 'var(--color-gray-100)')};
+  transition: var(--transition);
   margin: 0;
 `;
 

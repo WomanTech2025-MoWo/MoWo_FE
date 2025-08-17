@@ -12,9 +12,9 @@ const statusOptions: { value: StatusFilter; label: string }[] = [
 ];
 
 const InfosFilterWrap = styled.div`
-  margin: 20px 0;
+  margin: var(--size-gap-xl) 0 var(--size-gap-lg);
   display: flex;
-  gap: 8px;
+  gap: var(--size-gap-xs);
 `;
 
 const FilterRegionsWrap = styled.div`
@@ -27,15 +27,17 @@ const FilterRegionsWrap = styled.div`
 
 const FilterStatusWrap = styled.div`
   display: flex;
-  gap: 8px;
+  gap: var(--size-gap-xs);
 `;
 
 const StyledSelect = styled.select`
-  width: 90px;
-  height: 30px;
-  border-radius: 30px;
-  border-color: var(--color-gray-300);
-  padding: 0 var(--size-layout-padding) 0 10px;
+  width: var(--size-height-xxl);
+  height: var(--size-height-xxs);
+  border-radius: var(--size-height-xxs);
+  border-color: var(--color-border-color-dark);
+  padding: 0 var(--size-gap-xl) 0 var(--size-gap-sm);
+  font-size: var(--font-size-sm);
+  background-color: var(--color-background-white);
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -50,13 +52,13 @@ const StyledIconArrowUpDown = styled(IconArrowUpDown)`
 `;
 
 const StatusButton = styled.button<{ $active: boolean }>`
-  width: 53px;
-  height: 30px;
-  border-radius: 30px;
-  border: 1px solid ${(props) => (props.$active ? 'var(--color-secondary-primary)' : 'var(--color-gray-300)')};
+  width: var(--size-height-lg);
+  height: var(--size-height-xxs);
+  border-radius: var(--size-height-xxs);
+  border: 1px solid ${(props) => (props.$active ? 'var(--color-secondary-primary)' : 'var(--color-border-color-dark)')};
   color: ${(props) => (props.$active ? 'var(--color-secondary-dark)' : 'var(--color-gray-600)')};
-  background-color: ${(props) => (props.$active ? 'var(--color-secondary-300)' : 'var(--color-basic-white)')};
-  font-size: var(--font-size-xs);
+  background-color: ${(props) => (props.$active ? 'var(--color-secondary-300)' : 'var(--color-background-white)')};
+  font-size: var(--font-size-sm);
 `;
 
 const InfosListFilter = () => {

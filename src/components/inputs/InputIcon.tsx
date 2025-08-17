@@ -1,6 +1,6 @@
 import React from 'react';
 
-// Icon SVG
+// Icon SVG 컴포넌트
 import IconEmail from '../icons/inputs/IconEmail';
 import IconLock from '../icons/inputs/IconLock';
 import IconMy from '../icons/common/IconMy';

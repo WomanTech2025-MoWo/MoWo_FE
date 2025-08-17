@@ -8,13 +8,11 @@ import InfosList from './components/InfosList';
 import BoldLine from '../../components/common/BoldLine';
 import KnowhowsList from './components/KnowhowsList';
 import SectionHeader from '../../components/common/SectionHeader';
-import bannerImage from '../../assets/features/infos/guide-banner.webp';
+import bannerImage from '../../assets/features/infos/icon-guide-banner.webp';
 import ShadowBox from '../../components/common/ShadowBox';
+import PageTitle from '../../components/common/PageTitle';
 
-const InfoPageWrap = styled.div`
-  background-color: var(--color-basic-bg);
-  min-height: var(--view-min-height);
-`;
+const InfoPageWrap = styled(InnerLayout)``;
 
 const InfoHeader = styled.div`
   display: flex;
@@ -22,17 +20,12 @@ const InfoHeader = styled.div`
   align-items: center;
 `;
 
-const InfoPageTitle = styled.h1`
-  font-weight: var(--font-weight-semi-bold);
-  font-size: var(--font-size-lg);
-`;
-
 const GuideBanner = styled(ShadowBox)`
-  height: 86px;
+  height: var(--size-height-xxl);
   background-image: url(${bannerImage});
   background-repeat: no-repeat;
-  background-size: 24%;
-  background-position: 80% 10px;
+  background-size: 28%;
+  background-position: 83% var(--size-gap-sm);
   display: flex;
   align-items: center;
 `;
@@ -43,28 +36,28 @@ const BlockLink = styled(Link)`
 `;
 
 const GuideTitle = styled.p`
-  font-size: var(--font-size-sl);
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
 `;
 const GuideSub = styled.p`
   font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semi-bold);
+  font-weight: var(--font-weight-regular);
   color: var(--color-gray-500);
-  margin-top: 10px;
+  margin-top: var(--size-gap-sm);
 `;
 
 const InfosPage = () => {
   return (
-    <InfoPageWrap>
+    <InnerLayout innerPadding={false} bgColor="gray-light">
       <InnerLayout>
         <InfoHeader>
-          <InfoPageTitle>정보</InfoPageTitle>
+          <PageTitle>정보</PageTitle>
           <Link to="/infos/bookmark">
             <IconBookmark status="fill" />
           </Link>
         </InfoHeader>
       </InnerLayout>
-      <InnerLayout>
+      <InnerLayout paddingTop={false}>
         <InfosList />
       </InnerLayout>
       <BoldLine />
@@ -81,7 +74,7 @@ const InfosPage = () => {
         </GuideBanner>
       </InnerLayout>
       <GlobalNavigation />
-    </InfoPageWrap>
+    </InnerLayout>
   );
 };
 
