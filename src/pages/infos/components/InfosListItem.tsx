@@ -22,7 +22,7 @@ const dummyPosts: PolicyPost[] = [
 const InfosListItemWrap = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--size-gap-md);
 `;
 
 const InfosListItemBox = styled(ShadowBox)`
@@ -32,8 +32,9 @@ const InfosListItemBox = styled(ShadowBox)`
 `;
 
 const ItemTitle = styled.p`
-  font-size: var(--font-size-sl);
-  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semi-bold);
+  line-height: var(--line-height-sm);
 `;
 
 const BookmarkButton = styled.button<{ $bookmarked: boolean }>`
@@ -78,15 +79,15 @@ const InfosListItem = () => {
       {recentPosts.length > 0 ? (
         recentPosts.map((post) => (
           <li key={post.id}>
-            <Link to={`/infos/policies/${post.id}`}>
-              <InfosListItemBox>
-                <ItemTitle>{post.title}</ItemTitle>
-                <BookmarkButton onClick={() => handleBookmarkToggle(post.id)} $bookmarked={post.bookmarked}>
-                  {/* 북마크 상태에 따라 다른 이모지 또는 아이콘을 표시합니다 */}
-                  {post.bookmarked ? <IconBookmark status="fill" /> : <IconBookmark status="empty" />}
-                </BookmarkButton>
-              </InfosListItemBox>
-            </Link>
+            <InfosListItemBox>
+              <ItemTitle>
+                <Link to={`/infos/policies/${post.id}`}>{post.title} </Link>
+              </ItemTitle>
+              <BookmarkButton onClick={() => handleBookmarkToggle(post.id)} $bookmarked={post.bookmarked}>
+                {/* 북마크 상태에 따라 다른 이모지 또는 아이콘을 표시합니다 */}
+                {post.bookmarked ? <IconBookmark status="fill" fillColor="secondary-primary" /> : <IconBookmark status="empty" />}
+              </BookmarkButton>
+            </InfosListItemBox>
           </li>
         ))
       ) : (
