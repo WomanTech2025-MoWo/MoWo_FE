@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ScrollToTop from './ScrollToTop';
 
 // 핵심 콘텐츠 페이지
 import BriefingPage from '../pages/briefing/BriefingPage';
@@ -29,6 +30,7 @@ import CommonLayout from '../layouts/CommonLayout';
 const AppRouter = () => {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route element={<CommonLayout />}>
           <Route path="/" element={<BriefingPage />} />

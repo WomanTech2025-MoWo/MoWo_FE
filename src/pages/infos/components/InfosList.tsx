@@ -13,7 +13,13 @@ const InfosList = () => {
 
   return (
     <InfosListWrap>
-      {isInfosPage ? <SectionHeader>정책 지원</SectionHeader> : <SectionHeader moreButton={true}>정책 지원</SectionHeader>}
+      {isInfosPage ? (
+        <SectionHeader>정책 지원</SectionHeader>
+      ) : (
+        <SectionHeader moreButton={true} path="/infos">
+          정책 지원
+        </SectionHeader>
+      )}
       {isInfosPage && <InfosListFilter />}
       <InfosListItem />
     </InfosListWrap>
