@@ -10,9 +10,7 @@ type TodoListItemProps = {
   checked?: boolean;
 };
 
-const CustomCheckbox = styled.div``;
-
-const TodoRow = styled.div`
+const TodoRow = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -28,19 +26,15 @@ const TodoListItem = ({ id, text, category, checked = false }: TodoListItemProps
   const [isChecked, setIsChecked] = useState(checked);
 
   return (
-    <li key={id}>
-      <TodoRow onClick={() => setIsChecked((prev) => !prev)}>
-        <TodoContent>
-          <CustomCheckbox>
-            <IconCheckbox category={category} status={isChecked} />
-          </CustomCheckbox>
-          <span>{text}</span>
-        </TodoContent>
-        <button type="button">
-          <IconMeatball width="14" />
-        </button>
-      </TodoRow>
-    </li>
+    <TodoRow key={id}>
+      <TodoContent onClick={() => setIsChecked((prev) => !prev)}>
+        <IconCheckbox category={category} status={isChecked} />
+        <span>{text}</span>
+      </TodoContent>
+      <button type="button">
+        <IconMeatball width="14" />
+      </button>
+    </TodoRow>
   );
 };
 
