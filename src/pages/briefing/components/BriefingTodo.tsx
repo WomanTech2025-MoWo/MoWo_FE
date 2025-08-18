@@ -79,16 +79,14 @@ const BriefingTodo = () => {
 
           return (
             <li key={id}>
-              <div>
-                <CategoryBtn type="button" onClick={() => toggleCategory(item.name)}>
-                  <CategoryTitle>
-                    {item.icon}
-                    {item.label}
-                    <StyledCircleBadge value={0} circleColor="var(--color-basic-red)" />
-                  </CategoryTitle>
-                  <IconArrowUpDown status={isOpen ? 'up' : 'down'} width="14" />
-                </CategoryBtn>
-              </div>
+              <CategoryBtn type="button" onClick={() => toggleCategory(item.name)}>
+                <CategoryTitle>
+                  {item.icon}
+                  {item.label}
+                  <StyledCircleBadge value={0} circleColor="var(--color-basic-red)" />
+                </CategoryTitle>
+                <IconArrowUpDown status={isOpen ? 'up' : 'down'} width="14" />
+              </CategoryBtn>
               <TodoListWrapper $isOpen={isOpen}>
                 <TodoListItemWrap>
                   {[
