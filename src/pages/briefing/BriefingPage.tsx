@@ -31,7 +31,6 @@ const AiBanner = styled(ShadowBox)`
   color: var(--color-text-gray-300);
   display: flex;
   align-items: center;
-  padding-right: 40%;
 `;
 
 const AiSummary = styled.p`
