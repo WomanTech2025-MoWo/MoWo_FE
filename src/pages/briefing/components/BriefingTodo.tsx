@@ -58,10 +58,15 @@ const TodoListItemWrap = styled.ul`
 `;
 
 const BriefingTodo = () => {
-  const cateItems: { name: 'health' | 'work' | 'personal'; label: string; icon: JSX.Element }[] = [
-    { name: 'health', label: '건강', icon: <IconCategory status="health" width="24" height="24" /> },
-    { name: 'work', label: '업무', icon: <IconCategory status="work" width="24" height="24" /> },
-    { name: 'personal', label: '개인', icon: <IconCategory status="personal" width="24" height="24" /> },
+  const cateItems: {
+    length: string | number;
+    name: 'health' | 'work' | 'personal';
+    label: string;
+    icon: JSX.Element;
+  }[] = [
+    { name: 'health', label: '건강', icon: <IconCategory status="health" width="24" height="24" />, length: 2 },
+    { name: 'work', label: '업무', icon: <IconCategory status="work" width="24" height="24" />, length: 2 },
+    { name: 'personal', label: '개인', icon: <IconCategory status="personal" width="24" height="24" />, length: 2 },
   ];
 
   // 카테고리별 열림/닫힘 상태 저장
@@ -83,7 +88,7 @@ const BriefingTodo = () => {
                 <CategoryTitle>
                   {item.icon}
                   {item.label}
-                  <StyledCircleBadge value={0} circleColor="var(--color-basic-red)" />
+                  <StyledCircleBadge value={item.length} circleColor="var(--color-basic-red)" />
                 </CategoryTitle>
                 <IconArrowUpDown status={isOpen ? 'up' : 'down'} width="14" />
               </CategoryBtn>
