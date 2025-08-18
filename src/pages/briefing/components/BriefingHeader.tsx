@@ -5,7 +5,9 @@ import IconMy from '../../../components/icons/common/IconMy';
 import IconAlarm from '../../../components/icons/common/IconAlarm';
 
 interface BriefingHeaderProps {
-  dueDate: string; // 백엔드에서 받은 출산 예정일 (예: "2025-12-01")
+  dday: number;
+  week: number;
+  today: Date;
 }
 
 const DdayWrapper = styled.div`
@@ -48,29 +50,12 @@ const formatDate = (date: Date) =>
     weekday: 'long',
   });
 
-const BriefingHeader = ({ dueDate }: BriefingHeaderProps) => {
-  const { dday, week, todayText } = useMemo(() => {
-    const today = new Date();
-    const due = new Date(dueDate);
-
-    // D-day 계산 (일 단위)
-    const diffTime = due.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // D-239
-
-    // 임신 시작일 = 예정일 - 280일
-    const conceptionDate = new Date(due);
-    conceptionDate.setDate(conceptionDate.getDate() - 280);
-
-    // 임신 몇 주차인지 계산
-    const passedDays = Math.floor((today.getTime() - conceptionDate.getTime()) / (1000 * 60 * 60 * 24));
-    const week = Math.floor(passedDays / 7);
-
-    return {
-      dday: diffDays,
-      week,
-      todayText: formatDate(today),
-    };
-  }, [dueDate]);
+const BriefingHeader = ({ dday, week, today }: BriefingHeaderProps) => {
+  const todayText = today.toLocaleDateString('ko-KR', {
+    month: 'long',
+    day: 'numeric',
+    weekday: 'long',
+  });
 
   return (
     <>
