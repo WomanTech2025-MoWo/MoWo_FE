@@ -58,6 +58,8 @@ const TodoListItemWrap = styled.ul`
 `;
 
 const BriefingTodo = () => {
+  const [openItemId, setOpenItemId] = useState<number | null>(null);
+
   const cateItems: {
     length: string | number;
     name: 'health' | 'work' | 'personal';
@@ -98,7 +100,13 @@ const BriefingTodo = () => {
                     { id: 1, text: '산책하기', category: item.name, checked: false },
                     { id: 2, text: '건강검진 예약', category: item.name, checked: true },
                   ].map((todo) => (
-                    <TodoListItem key={todo.id} {...todo} />
+                    <TodoListItem
+                      key={todo.id}
+                      {...todo}
+                      isOpen={openItemId === todo.id}
+                      onOpen={() => setOpenItemId(todo.id)}
+                      onClose={() => setOpenItemId(null)}
+                    />
                   ))}
                 </TodoListItemWrap>
               </TodoListWrapper>

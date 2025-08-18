@@ -93,6 +93,7 @@ const TodoItemWrapper = styled.ul`
 
 const TodoList = () => {
   const [activeCategory, setActiveCategory] = useState<CategoryList>('health');
+  const [openItemId, setOpenItemId] = useState<number | null>(null);
 
   const [sections] = useState<TodoSection[]>(dummyData);
   const sectionRefs = useRef<Partial<Record<CategoryList, HTMLDivElement | null>>>({}); // 카테고리별 ref 저장
@@ -175,7 +176,13 @@ const TodoList = () => {
             </SectionTitle>
             <TodoItemWrapper>
               {section.items.map((item) => (
-                <TodoListItem key={item.id} {...item} />
+                <TodoListItem
+                  key={item.id}
+                  {...item}
+                  isOpen={openItemId === item.id}
+                  onOpen={() => setOpenItemId(item.id)}
+                  onClose={() => setOpenItemId(null)}
+                />
               ))}
             </TodoItemWrapper>
           </TodoListWrapper>
