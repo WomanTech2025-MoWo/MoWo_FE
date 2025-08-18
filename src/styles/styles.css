@@ -40,6 +40,7 @@
   --color-background-gray-light: #f9f9f9;
   --color-background-gray-default: var(--color-gray-200);
   --color-background-gray-dark: var(--color-gray-300);
+  --color-background-back-drop: rgba(0, 0, 0, 0.1);
 
   /* 색상: 선 */
   --color-border-color: var(--color-gray-200);
