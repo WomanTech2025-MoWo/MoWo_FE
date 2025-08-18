@@ -23,8 +23,8 @@ export const aiAnalysisData: Record<AnalysisLevel, AnalysisData> = {
   },
   normal: {
     label: '보통',
-    briefing: '이번 주는 딱 반반이에요.',
-    summary: '이번 주는 딱 반반이에요. 무리하지 않고, 마음과 몸의 속도를 맞춰주세요.',
+    briefing: '평온함 속에서 안정을 찾길 바라요.',
+    summary: '평온함 속에서 안정을 찾길 바라요. 무리하지 않고, 마음과 몸의 속도를 맞춰주세요.',
     detail: `몸 상태가 나쁘진 않지만, 그렇다고 완전히 가벼운 날은 아니죠. 
 이런 주는 ‘해야 할 일’을 전부 다 끝내기보다, 중요도 순으로 우선순위를 정하고 하나씩만 해도 충분합니다.
 점심 이후 졸음이 몰려오면, 잠시 눈을 감고 호흡을 고르며 3~5분만 쉬어도 머리가 맑아질 거예요.
@@ -35,7 +35,7 @@ export const aiAnalysisData: Record<AnalysisLevel, AnalysisData> = {
   },
   bad: {
     label: '나쁨',
-    briefing: '이번 주는 잠시 멈추고, 숨 고르기를 해도 괜찮아요.',
+    briefing: '이번 주는 잠시 숨 고르기를 해도 괜찮아요.',
     summary: '이번 주는 잠시 멈추고, 숨 고르기를 해도 괜찮아요. 아기와 나를 위한 ‘느린 하루’를 보내주세요.',
     detail: `몸이 무겁거나, 집중이 잘 안 되고, 업무 속도가 평소보다 느린 주가 있죠.
 임신 중에는 호르몬 변화와 피로가 겹쳐, 특히 직장에서 이런 날이 더 자주 찾아옵니다.
