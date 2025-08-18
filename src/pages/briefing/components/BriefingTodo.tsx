@@ -10,7 +10,8 @@ const TodoWrap = styled(ShadowBox)`
   padding: 0;
 `;
 
-const TodoCategory = styled.div`
+const CategoryBtn = styled.button`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -34,7 +35,7 @@ const TodoListWrapper = styled.div<{ $isOpen: boolean }>`
   /* slide down 애니메이션 */
   max-height: ${({ $isOpen }) => ($isOpen ? '500px' : '0')};
   overflow: hidden;
-  transition: max-height 0.3s ease, padding 0.3s ease;
+  transition: var(--transition);
 
   /* 열려있을 때만 padding 보이게 */
   padding-top: ${({ $isOpen }) => ($isOpen ? 'var(--size-gap-sm)' : '0')};
@@ -78,16 +79,16 @@ const BriefingTodo = () => {
 
           return (
             <li key={id}>
-              <TodoCategory>
-                <CategoryTitle>
-                  {item.icon}
-                  {item.label}
-                  <StyledCircleBadge value={0} circleColor="var(--color-basic-red)" />
-                </CategoryTitle>
-                <button type="button" onClick={() => toggleCategory(item.name)}>
+              <div>
+                <CategoryBtn type="button" onClick={() => toggleCategory(item.name)}>
+                  <CategoryTitle>
+                    {item.icon}
+                    {item.label}
+                    <StyledCircleBadge value={0} circleColor="var(--color-basic-red)" />
+                  </CategoryTitle>
                   <IconArrowUpDown status={isOpen ? 'up' : 'down'} width="14" />
-                </button>
-              </TodoCategory>
+                </CategoryBtn>
+              </div>
               <TodoListWrapper $isOpen={isOpen}>
                 <TodoListItemWrap>
                   {[
