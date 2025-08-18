@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import IconMy from '../../../components/icons/common/IconMy';
 import IconAlarm from '../../../components/icons/common/IconAlarm';
+import AlertPopup from './AlertPopup';
 
 interface BriefingHeaderProps {
   dday: number;
@@ -51,11 +52,21 @@ const formatDate = (date: Date) =>
   });
 
 const BriefingHeader = ({ dday, week, today }: BriefingHeaderProps) => {
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
   const todayText = today.toLocaleDateString('ko-KR', {
     month: 'long',
     day: 'numeric',
     weekday: 'long',
   });
+
+  const handleAlarmClick = () => {
+    setIsAlertOpen(true);
+  };
+
+  const handleAlertClose = () => {
+    setIsAlertOpen(false);
+  };
 
   return (
     <>
@@ -72,12 +83,22 @@ const BriefingHeader = ({ dday, week, today }: BriefingHeaderProps) => {
             </Link>
           </li>
           <li>
-            <button type="button">
+            <button type="button" onClick={handleAlarmClick}>
               <IconAlarm />
             </button>
           </li>
         </IconWrapper>
       </DateWrapper>
+      {isAlertOpen && (
+        <AlertPopup
+          onClose={handleAlertClose}
+          alerts={[
+            { id: 1, status: 'health', content: '점심식사 후 엽산 복용' },
+            { id: 2, status: 'work', content: '출산 휴가 신청서 제출' },
+            { id: 3, status: 'personal', content: '7시 저녁 약속' },
+          ]}
+        />
+      )}
     </>
   );
 };
