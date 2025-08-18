@@ -23,12 +23,12 @@ const TodoHeader = () => {
           <IconMy />
         </Link>
         <TodoNavBox>
-          <button type="button">
+          <Link to="/todos/drafts">
             <IconBox />
-          </button>
-          <button type="button">
+          </Link>
+          <Link to="/todos/search">
             <IconSearch />
-          </button>
+          </Link>
         </TodoNavBox>
       </TodoHeaderWrap>
     </>
