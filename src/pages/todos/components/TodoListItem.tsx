@@ -7,11 +7,14 @@ import TodoEditDeleteButtons from '../../../components/common/TodoEditDeleteButt
 type TodoListItemProps = {
   id: number;
   text: string;
-  category?: 'health' | 'work' | 'personal';
+  category?: 'health' | 'work' | 'personal' | undefined;
   checked?: boolean;
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
+  showCheckbox?: boolean; // 기본 true
+  disableCheck?: boolean; // 기본 false
+  className?: string;
 };
 
 const TodoRow = styled.li`
@@ -26,13 +29,30 @@ const TodoContent = styled.div`
   gap: var(--size-gap-sm);
 `;
 
-const TodoListItem = ({ id, text, category, checked = false, isOpen, onOpen, onClose }: TodoListItemProps) => {
+const TodoListItem = ({
+  id,
+  text,
+  category,
+  checked = false,
+  isOpen,
+  onOpen,
+  onClose,
+  showCheckbox = true,
+  disableCheck = false,
+  className,
+}: TodoListItemProps) => {
   const [isChecked, setIsChecked] = useState(checked);
 
+  const handleCheck = () => {
+    if (!disableCheck) {
+      setIsChecked((prev) => !prev);
+    }
+  };
+
   return (
-    <TodoRow key={id}>
-      <TodoContent onClick={() => setIsChecked((prev) => !prev)}>
-        <IconCheckbox category={category} status={isChecked} />
+    <TodoRow key={id} className={className}>
+      <TodoContent onClick={handleCheck}>
+        {showCheckbox && <IconCheckbox category={category} status={isChecked} />}
         <span>{text}</span>
       </TodoContent>
       <button type="button" onClick={onOpen}>
