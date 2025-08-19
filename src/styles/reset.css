@@ -161,6 +161,7 @@ button:disabled {
 
 input {
   height: inherit;
+  color: inherit;
 }
 
 input:focus {
