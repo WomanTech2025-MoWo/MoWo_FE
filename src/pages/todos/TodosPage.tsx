@@ -7,6 +7,7 @@ import TodoList from './components/TodoList';
 import { FixedCenter } from '../../layouts/FixedCenterContainer';
 import IconAdd from '../../components/icons/common/IconAdd';
 import Calendar from '../../components/common/Calendar';
+import AddTodoSheet from './components/AddTodoSheet';
 
 const TodoWrap = styled(InnerLayout)`
   padding-bottom: calc(var(--size-inner-padding-4x) + var(--size-inner-padding));
@@ -36,6 +37,8 @@ const CalendarWrapper = styled.div`
 `;
 
 const TodosPage = () => {
+  const [isAddSheetOpen, setIsAddSheetOpen] = useState(false);
+
   return (
     <TodoWrap bgColor="gray-light">
       <TodoHeader />
@@ -46,10 +49,11 @@ const TodosPage = () => {
         <TodoList />
       </div>
       <AddTodoBtnWrapper>
-        <AddTodoBtn>
+        <AddTodoBtn type="button" onClick={() => setIsAddSheetOpen(true)}>
           <IconAdd />
         </AddTodoBtn>
       </AddTodoBtnWrapper>
+      {isAddSheetOpen && <AddTodoSheet onClick={() => setIsAddSheetOpen(false)} />}
       <GlobalNavigation />
     </TodoWrap>
   );
