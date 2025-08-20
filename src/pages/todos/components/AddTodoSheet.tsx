@@ -7,6 +7,7 @@ import IconPin from '../../../components/icons/features/todos/IconPin';
 import IconAlarm from '../../../components/icons/common/IconAlarm';
 import IconX from '../../../components/icons/common/IconX';
 import IconArrowTop from '../../../components/icons/common/IconArrowTop';
+import TodoDatePicker from './TodoDatePicker';
 
 const AddTodoWrap = styled(BottomSheet)`
   height: 250px;
@@ -105,6 +106,7 @@ const AddTodoSheet = ({ onClick }: BackdropProps) => {
   const [dueDate, setDueDate] = useState<string>('');
   const [isPinned, setIsPinned] = useState(false);
   const [alarmTime, setAlarmTime] = useState<string>('');
+  const [isDateSheetOpen, setIsDateSheetOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -137,11 +139,7 @@ const AddTodoSheet = ({ onClick }: BackdropProps) => {
           </CategoryBtnWrapper>
           <BtnWrapper>
             <TodoInfoBtnWrapper>
-              <TodoInfoBtn
-                type="button"
-                onClick={() => {
-                  /* 달력 시트 열기 */
-                }}>
+              <TodoInfoBtn type="button" onClick={() => setIsDateSheetOpen(true)}>
                 <IconCalToday />
               </TodoInfoBtn>
               <TodoInfoBtn type="button" onClick={() => setIsPinned((prev) => !prev)}>
@@ -169,6 +167,16 @@ const AddTodoSheet = ({ onClick }: BackdropProps) => {
           <IconX />
         </CloseBtn>
       </AddTodoWrap>
+      {isDateSheetOpen && (
+        <TodoDatePicker
+          onClick={() => setIsDateSheetOpen(false)}
+          onConfirm={(date) => {
+            if (date) {
+              setDueDate(date.toISOString());
+            }
+          }}
+        />
+      )}
     </>
   );
 };

@@ -4,6 +4,11 @@ import { DayPicker } from 'react-day-picker';
 import { ko } from 'react-day-picker/locale';
 import 'react-day-picker/dist/style.css';
 
+type CalendarProps = {
+  selected?: Date;
+  onSelect?: (date?: Date) => void;
+};
+
 const CalendarWrap = styled.div`
   width: 100%;
 
@@ -43,9 +48,7 @@ const CalendarWrap = styled.div`
   }
 `;
 
-const Calendar = () => {
-  const [selected, setSelected] = useState<Date>();
-
+const Calendar = ({ selected, onSelect }: CalendarProps) => {
   return (
     <CalendarWrap>
       <DayPicker
@@ -53,7 +56,7 @@ const Calendar = () => {
         animate
         mode="single"
         selected={selected}
-        onSelect={setSelected}
+        onSelect={onSelect}
         showOutsideDays
         captionLayout="dropdown"
         hideNavigation={true}
