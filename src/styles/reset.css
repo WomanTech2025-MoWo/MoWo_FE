@@ -185,3 +185,13 @@ img {
   max-width: 100%;
   vertical-align: top;
 }
+
+textarea {
+  font: inherit;
+  color: inherit;
+  resize: none;
+}
+
+form {
+  width: 100%;
+}
