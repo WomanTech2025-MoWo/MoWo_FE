@@ -8,6 +8,7 @@ import IconAlarm from '../../../components/icons/common/IconAlarm';
 import IconX from '../../../components/icons/common/IconX';
 import IconArrowTop from '../../../components/icons/common/IconArrowTop';
 import TodoDatePicker from './TodoDatePicker';
+import AddAlramTime from './AddAlarmTime';
 
 const AddTodoWrap = styled(BottomSheet)`
   height: 250px;
@@ -16,7 +17,7 @@ const AddTodoWrap = styled(BottomSheet)`
 
 const CategoryBtnWrapper = styled.div`
   display: flex;
-  gap: var(--size-gap-xxs);
+  gap: var(--size-gap-xs);
 `;
 
 const CategoryButton = styled.button<{ selected?: boolean; $category: '건강' | '업무' | '개인' }>`
@@ -39,6 +40,12 @@ const CategoryButton = styled.button<{ selected?: boolean; $category: '건강' |
 const StyledIconPin = styled(IconPin)<{ $pinned: boolean }>`
   path {
     fill: ${({ $pinned }) => ($pinned ? 'var(--color-main-primary)' : 'var(--color-gray-500)')};
+  }
+`;
+
+const StyledIconAlram = styled(IconAlarm)<{ $alarmTime: boolean }>`
+  path {
+    fill: ${({ $alarmTime }) => ($alarmTime ? 'var(--color-main-primary)' : 'var(--color-gray-500)')};
   }
 `;
 
@@ -107,6 +114,7 @@ const AddTodoSheet = ({ onClick }: BackdropProps) => {
   const [isPinned, setIsPinned] = useState(false);
   const [alarmTime, setAlarmTime] = useState<string>('');
   const [isDateSheetOpen, setIsDateSheetOpen] = useState(false);
+  const [isAlramSheetOpen, setIsAlramSheetOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -145,12 +153,8 @@ const AddTodoSheet = ({ onClick }: BackdropProps) => {
               <TodoInfoBtn type="button" onClick={() => setIsPinned((prev) => !prev)}>
                 <StyledIconPin $pinned={isPinned} />
               </TodoInfoBtn>
-              <TodoInfoBtn
-                type="button"
-                onClick={() => {
-                  /* 알람 시트 열기 */
-                }}>
-                <IconAlarm />
+              <TodoInfoBtn type="button" onClick={() => setIsAlramSheetOpen((prev) => !prev)}>
+                <StyledIconAlram $alarmTime={!!alarmTime} />
               </TodoInfoBtn>
             </TodoInfoBtnWrapper>
             <TodoSubmitBtnWrapper>
@@ -174,6 +178,15 @@ const AddTodoSheet = ({ onClick }: BackdropProps) => {
             if (date) {
               setDueDate(date.toISOString());
             }
+          }}
+        />
+      )}
+      {isAlramSheetOpen && (
+        <AddAlramTime
+          onClick={() => setIsAlramSheetOpen(false)}
+          onConfirm={(time) => {
+            setAlarmTime(time); // 상태 업데이트
+            setIsAlramSheetOpen(false); // 팝업 닫기
           }}
         />
       )}
