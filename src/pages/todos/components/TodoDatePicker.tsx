@@ -5,8 +5,7 @@ import { BottomSheet } from '../../../components/common/BottomSheet';
 import Grabber from '../../../components/common/Grabber';
 import { PrimaryButton } from '../../../components/buttons/PrimaryButton';
 import Calendar from '../../../components/common/Calendar';
-import { format, isSameDay } from 'date-fns';
-import { ko } from 'date-fns/locale';
+import dayjs from 'dayjs';
 
 type TodoDatePickerProps = BackdropProps & {
   onConfirm: (date?: Date) => void;
@@ -57,18 +56,18 @@ const TodoDatePicker = ({ onClick, onConfirm }: TodoDatePickerProps) => {
       <TodoDateWrap>
         <Grabber />
         <DateBtnWrapper>
-          <DateBtn type="button" onClick={() => quickSelect(today)} $selected={selected ? isSameDay(selected, today) : false}>
-            오늘({format(today, 'd일', { locale: ko })})
+          <DateBtn type="button" onClick={() => quickSelect(today)} $selected={selected ? dayjs(selected).isSame(today, 'day') : false}>
+            오늘({dayjs(today).format('D일')})
           </DateBtn>
-          <DateBtn type="button" onClick={() => quickSelect(tomorrow)} $selected={selected ? isSameDay(selected, tomorrow) : false}>
-            내일({format(tomorrow, 'd일', { locale: ko })})
+          <DateBtn type="button" onClick={() => quickSelect(tomorrow)} $selected={selected ? dayjs(selected).isSame(tomorrow, 'day') : false}>
+            내일({dayjs(tomorrow).format('D일')})
           </DateBtn>
-          <DateBtn type="button" onClick={() => quickSelect(nextWeek)} $selected={selected ? isSameDay(selected, nextWeek) : false}>
-            다음주({format(nextWeek, 'd일', { locale: ko })})
+          <DateBtn type="button" onClick={() => quickSelect(nextWeek)} $selected={selected ? dayjs(selected).isSame(nextWeek, 'day') : false}>
+            다음주({dayjs(nextWeek).format('D일')})
           </DateBtn>
         </DateBtnWrapper>
         <ContentsWrapper>
-          <Calendar selected={selected} onSelect={setSelected} />
+          <Calendar selected={selected} onSelect={setSelected} fixedMonthView={true} />
         </ContentsWrapper>
         <ContentsWrapper>
           <PrimaryButton

@@ -34,16 +34,19 @@ const AddTodoBtn = styled.button`
 
 const CalendarWrapper = styled.div`
   margin: var(--size-gap-xl) 0;
+  position: relative;
 `;
 
 const TodosPage = () => {
   const [isAddSheetOpen, setIsAddSheetOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [viewMode, setViewMode] = useState<'week' | 'month'>('week');
 
   return (
     <TodoWrap bgColor="gray-light">
       <TodoHeader />
       <CalendarWrapper>
-        <Calendar />
+        <Calendar selected={selectedDate} onSelect={setSelectedDate} viewMode={viewMode} />
       </CalendarWrapper>
       <div>
         <TodoList />
