@@ -6,6 +6,7 @@ import SelectableInput from '../../../components/inputs/SelectableInput';
 import { StyledLegend } from './OnboardingStep1Form';
 import CircleBadge from '../../../components/common/CircleBadge';
 import Calendar from '../../../components/common/Calendar';
+import dayjs from 'dayjs';
 
 const CalendarWrapper = styled.div`
   grid-column: span 2;
@@ -27,7 +28,11 @@ const OnboardingStep2Form = ({ className, where }: BaseProps) => {
             <CircleBadge value={3} label="출산예정일을 선택해주세요" />
           </StyledLegend>
           <CalendarWrapper>
-            <Calendar />
+            <Calendar
+              fixedMonthView={true}
+              selected={duedate ? new Date(duedate) : undefined}
+              onSelect={(date) => setDuedate(dayjs(date).format('YYYY-MM-DD'))}
+            />
           </CalendarWrapper>
         </OnboardingFieldset>
       ) : (

@@ -13,6 +13,7 @@ import ShadowBox from '../../components/common/ShadowBox';
 import aiBanner from '../../assets/features/ai/ai-banner.webp';
 import { FixedCenter } from '../../layouts/FixedCenterContainer';
 import AiCharacter from '../../components/icons/ai/AiCharacter';
+import { usePregnancyInfo } from '../../hooks/usePregnancyInfo';
 
 const BriefingLayout = styled(InnerLayout)`
   padding-bottom: var(--size-inner-padding-4x);
@@ -31,7 +32,6 @@ const AiBanner = styled(ShadowBox)`
   color: var(--color-text-gray-300);
   display: flex;
   align-items: center;
-  padding-right: 40%;
 `;
 
 const AiSummary = styled.p`
@@ -76,10 +76,13 @@ const BriefingPage = () => {
   const dataLevel: AnalysisLevel = 'normal'; // <- 나중에 API 값으로 대체
   const { briefing } = aiAnalysisData[dataLevel];
 
+  const dueDate = '2025-12-25'; // <- 나중에 API 값
+  const { dday, week, today } = usePregnancyInfo(dueDate);
+
   return (
     <BriefingLayout innerPadding={false} bgColor="gray-light">
       <InnerLayout>
-        <BriefingHeader dueDate={'2025-12-01'} />
+        <BriefingHeader dday={dday} week={week} today={today} />
         <BriefingTodo />
         <AiBanner>
           <Link to="/aianalysis">
@@ -90,7 +93,7 @@ const BriefingPage = () => {
       </InnerLayout>
       <BoldLine />
       <InnerLayout>
-        <BriefingWeekGuide />
+        <BriefingWeekGuide week={week} />
       </InnerLayout>
       <InnerLayout>
         <InfosList />

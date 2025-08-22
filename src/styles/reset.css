@@ -161,6 +161,7 @@ button:disabled {
 
 input {
   height: inherit;
+  color: inherit;
 }
 
 input:focus {
@@ -183,4 +184,14 @@ body:not(:-moz-handler-blocked) fieldset {
 img {
   max-width: 100%;
   vertical-align: top;
+}
+
+textarea {
+  font: inherit;
+  color: inherit;
+  resize: none;
+}
+
+form {
+  width: 100%;
 }

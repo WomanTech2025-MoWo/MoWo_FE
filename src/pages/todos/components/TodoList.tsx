@@ -64,19 +64,23 @@ const TodoListWrap = styled.div`
   gap: var(--size-gap-lg);
 `;
 
-const TodoListWrapper = styled(ShadowBox)``;
+const TodoListWrapper = styled(ShadowBox)`
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-gap-md);
+`;
 
 const SectionTitle = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
 `;
 
 const CategoryTitle = styled.h4`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--size-gap-xs);
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
 `;
 
@@ -93,6 +97,7 @@ const TodoItemWrapper = styled.ul`
 
 const TodoList = () => {
   const [activeCategory, setActiveCategory] = useState<CategoryList>('health');
+  const [openItemId, setOpenItemId] = useState<number | null>(null);
 
   const [sections] = useState<TodoSection[]>(dummyData);
   const sectionRefs = useRef<Partial<Record<CategoryList, HTMLDivElement | null>>>({}); // 카테고리별 ref 저장
@@ -166,18 +171,26 @@ const TodoList = () => {
             data-category={section.name}>
             <SectionTitle>
               <CategoryTitle>
-                <IconCategory status={section.name as any} />
+                <IconCategory status={section.name as any} width="24" height="24" />
                 {section.label}
               </CategoryTitle>
               <CategoryTotal>
                 {section.done}/{section.total}
               </CategoryTotal>
             </SectionTitle>
+            {/** 아이템 없으면 여기부터 안 보이게 처리 */}
             <TodoItemWrapper>
               {section.items.map((item) => (
-                <TodoListItem key={item.id} {...item} />
+                <TodoListItem
+                  key={item.id}
+                  {...item}
+                  isOpen={openItemId === item.id}
+                  onOpen={() => setOpenItemId(item.id)}
+                  onClose={() => setOpenItemId(null)}
+                />
               ))}
             </TodoItemWrapper>
+            {/** 아이템 없으면 여기까지 안 보이게 처리 */}
           </TodoListWrapper>
         ))}
       </TodoListWrap>

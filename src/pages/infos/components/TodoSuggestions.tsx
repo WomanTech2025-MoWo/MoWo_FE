@@ -38,7 +38,7 @@ const TodoSuggestions = () => {
 
   const handleAddClick = (todoText: string) => {
     // 프리라이팅 모드 페이지로 이동
-    navigate('/todos', { state: { mode: 'freewriting', presetText: todoText } });
+    navigate(`/todos?prefill=${encodeURIComponent(todoText)}`);
   };
 
   return (

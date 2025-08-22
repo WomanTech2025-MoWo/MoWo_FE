@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ScrollToTop from './ScrollToTop';
 
 // 핵심 콘텐츠 페이지
 import BriefingPage from '../pages/briefing/BriefingPage';
@@ -11,6 +12,9 @@ import InfosPage from '../pages/infos/InfosPage';
 // 상세 페이지
 import GuideDetailPage from '../pages/guides/GuideDetailPage';
 import InfosDetailPage from '../pages/infos/InfosDetailPage';
+import TodoDrafts from '../pages/todos/TodoDrafts';
+import TodoSearch from '../pages/todos/TodoSearch';
+import InfosBookmark from '../pages/infos/InfosBookmarks';
 
 // 인증 관련 페이지
 import LoginPage from '../pages/auth/LoginPage';
@@ -29,17 +33,19 @@ import CommonLayout from '../layouts/CommonLayout';
 const AppRouter = () => {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route element={<CommonLayout />}>
           <Route path="/" element={<BriefingPage />} />
           <Route path="/todos" element={<TodosPage />} />
-          <Route path="/todos/drafts" element={<TodosPage />} />
+          <Route path="/todos/drafts" element={<TodoDrafts />} />
+          <Route path="/todos/search" element={<TodoSearch />} />
           <Route path="/guides" element={<GuidesPage />} />
           <Route path="/guides/:period/:testname" element={<GuideDetailPage />} />
           <Route path="/aianalysis" element={<AiAnalysisPage />} />
           <Route path="/infos" element={<InfosPage />} />
           <Route path="/infos/:type/:id" element={<InfosDetailPage />} />
-          <Route path="/infos/bookmark" element={<TodosPage />} />
+          <Route path="/infos/bookmarks" element={<InfosBookmark />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />

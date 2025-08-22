@@ -10,7 +10,8 @@ const TodoWrap = styled(ShadowBox)`
   padding: 0;
 `;
 
-const TodoCategory = styled.div`
+const CategoryBtn = styled.button`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -34,7 +35,7 @@ const TodoListWrapper = styled.div<{ $isOpen: boolean }>`
   /* slide down 애니메이션 */
   max-height: ${({ $isOpen }) => ($isOpen ? '500px' : '0')};
   overflow: hidden;
-  transition: max-height 0.3s ease, padding 0.3s ease;
+  transition: var(--transition);
 
   /* 열려있을 때만 padding 보이게 */
   padding-top: ${({ $isOpen }) => ($isOpen ? 'var(--size-gap-sm)' : '0')};
@@ -57,10 +58,17 @@ const TodoListItemWrap = styled.ul`
 `;
 
 const BriefingTodo = () => {
-  const cateItems: { name: 'health' | 'work' | 'personal'; label: string; icon: JSX.Element }[] = [
-    { name: 'health', label: '건강', icon: <IconCategory status="health" width="24" height="24" /> },
-    { name: 'work', label: '업무', icon: <IconCategory status="work" width="24" height="24" /> },
-    { name: 'personal', label: '개인', icon: <IconCategory status="personal" width="24" height="24" /> },
+  const [openItemId, setOpenItemId] = useState<number | null>(null);
+
+  const cateItems: {
+    length: string | number;
+    name: 'health' | 'work' | 'personal';
+    label: string;
+    icon: JSX.Element;
+  }[] = [
+    { name: 'health', label: '건강', icon: <IconCategory status="health" width="24" height="24" />, length: 2 },
+    { name: 'work', label: '업무', icon: <IconCategory status="work" width="24" height="24" />, length: 2 },
+    { name: 'personal', label: '개인', icon: <IconCategory status="personal" width="24" height="24" />, length: 2 },
   ];
 
   // 카테고리별 열림/닫힘 상태 저장
@@ -78,23 +86,27 @@ const BriefingTodo = () => {
 
           return (
             <li key={id}>
-              <TodoCategory>
+              <CategoryBtn type="button" onClick={() => toggleCategory(item.name)}>
                 <CategoryTitle>
                   {item.icon}
                   {item.label}
-                  <StyledCircleBadge value={0} circleColor="var(--color-basic-red)" />
+                  <StyledCircleBadge value={item.length} circleColor="var(--color-basic-red)" />
                 </CategoryTitle>
-                <button type="button" onClick={() => toggleCategory(item.name)}>
-                  <IconArrowUpDown status={isOpen ? 'up' : 'down'} width="14" />
-                </button>
-              </TodoCategory>
+                <IconArrowUpDown status={isOpen ? 'up' : 'down'} width="14" />
+              </CategoryBtn>
               <TodoListWrapper $isOpen={isOpen}>
                 <TodoListItemWrap>
                   {[
                     { id: 1, text: '산책하기', category: item.name, checked: false },
                     { id: 2, text: '건강검진 예약', category: item.name, checked: true },
                   ].map((todo) => (
-                    <TodoListItem key={todo.id} {...todo} />
+                    <TodoListItem
+                      key={todo.id}
+                      {...todo}
+                      isOpen={openItemId === todo.id}
+                      onOpen={() => setOpenItemId(todo.id)}
+                      onClose={() => setOpenItemId(null)}
+                    />
                   ))}
                 </TodoListItemWrap>
               </TodoListWrapper>

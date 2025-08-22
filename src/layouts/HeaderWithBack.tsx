@@ -26,15 +26,16 @@ const BackButton = styled.button`
   left: 0;
   display: flex;
   align-items: center;
-  padding-left: var(--size-inner-padding);
+  padding-left: calc(var(--size-inner-padding) + var(--size-gap-xs));
   background-color: transparent;
-  width: var(--size-header-with-back);
+  width: calc(var(--size-header-with-back) - var(--size-gap-xl));
   height: var(--size-header-with-back);
 `;
 
 const Title = styled.h1`
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semi-bold);
+  width: 100%;
 `;
 
 const HeaderWithBack = ({ children, bgColor }: HeaderWithBackProps) => {
