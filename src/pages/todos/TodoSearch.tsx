@@ -5,6 +5,7 @@ import HeaderWithBack from '../../layouts/HeaderWithBack';
 import TodoListItem, { TodoListItemProps } from './components/TodoListItem';
 import { ShadowBoxStyles } from '../../components/common/ShadowBox';
 import { SortText } from './TodoDrafts';
+import IconDeleteCircle from '../../components/icons/inputs/IconDeleteCircle';
 
 export const dummySearchs: TodoListItemProps[] = [
   {
@@ -57,13 +58,31 @@ const StyledSearchInput = styled.input`
   padding-left: 40px;
 `;
 
+const DeleteBtn = styled.button`
+  position: absolute;
+  right: var(--size-inner-padding);
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--size-height-md);
+  height: var(--size-height-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const TodoSearch = () => {
   const [openItemId, setOpenItemId] = useState<number | null>(null);
+  const [searchText, setSearchText] = useState('');
 
   return (
     <InnerLayout bgColor="gray-light" innerPadding={false} withHeader={true} withNav={false}>
       <HeaderWithBack bgColor="gray-light">
-        <StyledSearchInput type="text" name="search" />
+        <StyledSearchInput type="text" name="search" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
+        {searchText && (
+          <DeleteBtn type="button" onClick={() => setSearchText('')}>
+            <IconDeleteCircle />
+          </DeleteBtn>
+        )}
       </HeaderWithBack>
       <InnerLayout paddingTop={false}>
         <SortText>최신순</SortText>
