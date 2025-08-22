@@ -14,7 +14,7 @@ import GuideDetailPage from '../pages/guides/GuideDetailPage';
 import InfosDetailPage from '../pages/infos/InfosDetailPage';
 import TodoDrafts from '../pages/todos/TodoDrafts';
 import TodoSearch from '../pages/todos/TodoSearch';
-import InfosBookmark from '../pages/infos/InfosBookmark';
+import InfosBookmark from '../pages/infos/InfosBookmarks';
 
 // 인증 관련 페이지
 import LoginPage from '../pages/auth/LoginPage';
@@ -45,7 +45,7 @@ const AppRouter = () => {
           <Route path="/aianalysis" element={<AiAnalysisPage />} />
           <Route path="/infos" element={<InfosPage />} />
           <Route path="/infos/:type/:id" element={<InfosDetailPage />} />
-          <Route path="/infos/bookmark" element={<InfosBookmark />} />
+          <Route path="/infos/bookmarks" element={<InfosBookmark />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />

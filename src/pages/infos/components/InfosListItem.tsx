@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import ShadowBox from '../../../components/common/ShadowBox';
 import IconBookmark from '../../../components/icons/features/infos/IconBookmark';
 
-interface PolicyPost {
+export interface PolicyPost {
   id: number;
   title: string;
   bookmarked: boolean;
@@ -31,13 +31,13 @@ const InfosListItemBox = styled(ShadowBox)`
   align-items: center;
 `;
 
-const ItemTitle = styled.p`
+export const ItemTitle = styled.p`
   font-size: var(--font-size-md);
   font-weight: var(--font-weight-semi-bold);
   line-height: var(--line-height-sm);
 `;
 
-const BookmarkButton = styled.button<{ $bookmarked: boolean }>`
+export const BookmarkButton = styled.button<{ $bookmarked: boolean }>`
   background: none;
   border: none;
   cursor: pointer;

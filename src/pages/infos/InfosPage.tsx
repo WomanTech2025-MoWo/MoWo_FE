@@ -52,7 +52,7 @@ const InfosPage = () => {
       <InnerLayout>
         <InfoHeader>
           <PageTitle>정보</PageTitle>
-          <Link to="/infos/bookmark">
+          <Link to="/infos/bookmarks">
             <IconBookmark status="fill" />
           </Link>
         </InfoHeader>

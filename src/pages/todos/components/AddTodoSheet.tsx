@@ -10,6 +10,10 @@ import IconArrowTop from '../../../components/icons/common/IconArrowTop';
 import TodoDatePicker from './TodoDatePicker';
 import AddAlramTime from './AddAlarmTime';
 
+interface AddTodoSheetProps extends BackdropProps {
+  initialText?: string;
+}
+
 const AddTodoWrap = styled(BottomSheet)`
   height: 250px;
   padding-top: var(--size-inner-padding);
@@ -106,8 +110,8 @@ const AddTodoBtn = styled.button`
   box-shadow: var(--box-shadow-default);
 `;
 
-const AddTodoSheet = ({ onClick }: BackdropProps) => {
-  const [text, setText] = useState('');
+const AddTodoSheet = ({ onClick, initialText = '' }: AddTodoSheetProps) => {
+  const [text, setText] = useState(initialText);
   const [memo, setMemo] = useState('');
   const [category, setCategory] = useState<'건강' | '업무' | '개인' | null>(null);
   const [dueDate, setDueDate] = useState<string>('');
