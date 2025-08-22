@@ -7,6 +7,7 @@ import TodoList from './components/TodoList';
 import { FixedCenter } from '../../layouts/FixedCenterContainer';
 import IconAdd from '../../components/icons/common/IconAdd';
 import Calendar from '../../components/common/Calendar';
+import AddTodoSheet from './components/AddTodoSheet';
 
 const TodoWrap = styled(InnerLayout)`
   padding-bottom: calc(var(--size-inner-padding-4x) + var(--size-inner-padding));
@@ -33,23 +34,29 @@ const AddTodoBtn = styled.button`
 
 const CalendarWrapper = styled.div`
   margin: var(--size-gap-xl) 0;
+  position: relative;
 `;
 
 const TodosPage = () => {
+  const [isAddSheetOpen, setIsAddSheetOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [viewMode, setViewMode] = useState<'week' | 'month'>('week');
+
   return (
     <TodoWrap bgColor="gray-light">
       <TodoHeader />
       <CalendarWrapper>
-        <Calendar />
+        <Calendar selected={selectedDate} onSelect={setSelectedDate} viewMode={viewMode} />
       </CalendarWrapper>
       <div>
         <TodoList />
       </div>
       <AddTodoBtnWrapper>
-        <AddTodoBtn>
+        <AddTodoBtn type="button" onClick={() => setIsAddSheetOpen(true)}>
           <IconAdd />
         </AddTodoBtn>
       </AddTodoBtnWrapper>
+      {isAddSheetOpen && <AddTodoSheet onClick={() => setIsAddSheetOpen(false)} />}
       <GlobalNavigation />
     </TodoWrap>
   );
