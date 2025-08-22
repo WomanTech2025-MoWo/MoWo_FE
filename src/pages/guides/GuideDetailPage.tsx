@@ -91,7 +91,7 @@ const GuideDetailPage = () => {
           </NoteWrapper>
         )}
       </ContentsWrapper>
-      <AddTodoButton />
+      <AddTodoButton prefillText={testData.testName} />
       <GlobalNavigation />
     </InnerLayout>
   );

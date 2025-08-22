@@ -8,6 +8,7 @@ import { FixedCenter } from '../../layouts/FixedCenterContainer';
 import IconAdd from '../../components/icons/common/IconAdd';
 import Calendar from '../../components/common/Calendar';
 import AddTodoSheet from './components/AddTodoSheet';
+import { useLocation } from 'react-router-dom';
 
 const TodoWrap = styled(InnerLayout)`
   padding-bottom: calc(var(--size-inner-padding-4x) + var(--size-inner-padding));
@@ -41,6 +42,19 @@ const TodosPage = () => {
   const [isAddSheetOpen, setIsAddSheetOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [viewMode, setViewMode] = useState<'week' | 'month'>('week');
+  const [prefillText, setPrefillText] = useState('');
+
+  const location = useLocation();
+
+  // 쿼리 파라미터에서 prefill 값 가져오기
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const prefill = params.get('prefill');
+    if (prefill) {
+      setPrefillText(prefill);
+      setIsAddSheetOpen(true); // 바로 시트 열기
+    }
+  }, [location.search]);
 
   return (
     <TodoWrap bgColor="gray-light">
@@ -56,7 +70,7 @@ const TodosPage = () => {
           <IconAdd />
         </AddTodoBtn>
       </AddTodoBtnWrapper>
-      {isAddSheetOpen && <AddTodoSheet onClick={() => setIsAddSheetOpen(false)} />}
+      {isAddSheetOpen && <AddTodoSheet onClick={() => setIsAddSheetOpen(false)} initialText={prefillText} />}
       <GlobalNavigation />
     </TodoWrap>
   );
