@@ -76,8 +76,8 @@ const BriefingPage = () => {
   const dataLevel: AnalysisLevel = 'normal'; // <- 나중에 API 값으로 대체
   const { briefing } = aiAnalysisData[dataLevel];
 
-  const dueDate = '2025-12-25'; // <- 나중에 API 값
-  const { dday, week, today } = usePregnancyInfo(dueDate);
+  const pregnancyInfo = usePregnancyInfo() ?? { week: 0, dday: 0, today: new Date() };
+  const { week, dday, today } = pregnancyInfo;
 
   return (
     <BriefingLayout innerPadding={false} bgColor="gray-light">
