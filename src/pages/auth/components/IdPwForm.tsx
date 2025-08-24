@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import InputField from '../../../components/inputs/InputField';
 
-const IdPwForm = () => {
-  const [memberId, setMemberId] = useState('');
-  const [password, setPassword] = useState('');
+interface IdPwFormProps {
+  username: string;
+  password: string;
+  onChangeUsername: (value: string) => void;
+  onChangePassword: (value: string) => void;
+}
 
+const IdPwForm = ({ username, password, onChangeUsername, onChangePassword }: IdPwFormProps) => {
   return (
     <>
       <InputField
@@ -12,8 +16,8 @@ const IdPwForm = () => {
         type="email"
         iconType="email"
         placeholder="이메일 아이디"
-        value={memberId}
-        onChange={(e) => setMemberId(e.target.value)}
+        value={username}
+        onChange={(e) => onChangeUsername(e.target.value)}
         required
       />
       <InputField
@@ -22,7 +26,7 @@ const IdPwForm = () => {
         iconType="password"
         placeholder="비밀번호"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e) => onChangePassword(e.target.value)}
         required
       />
     </>
