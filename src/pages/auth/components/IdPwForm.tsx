@@ -26,6 +26,7 @@ const IdPwForm = ({ username, password, onChangeUsername, onChangePassword }: Id
         iconType="password"
         placeholder="비밀번호"
         value={password}
+        name="password"
         onChange={(e) => onChangePassword(e.target.value)}
         required
       />

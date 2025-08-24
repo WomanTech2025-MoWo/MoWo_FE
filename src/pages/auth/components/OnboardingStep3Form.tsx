@@ -4,15 +4,18 @@ import SelectableInput from '../../../components/inputs/SelectableInput';
 import { StyledLegend } from './OnboardingStep1Form';
 import CircleBadge from '../../../components/common/CircleBadge';
 
-const OnboardingStep3Form = ({ className, where }: BaseProps) => {
-  const [symptoms, setSymptoms] = useState<string[]>([]); // 증상
+interface OnboardingStep3FormProps extends BaseProps {
+  symptoms: string[];
+  onChangeSymptoms: (symptoms: string[]) => void;
+}
 
+const OnboardingStep3Form = ({ className, where, symptoms, onChangeSymptoms }: OnboardingStep3FormProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
     if (checked) {
-      setSymptoms((prev) => [...prev, value]);
+      onChangeSymptoms([...symptoms, value]);
     } else {
-      setSymptoms((prev) => prev.filter((v) => v !== value));
+      onChangeSymptoms(symptoms.filter((v) => v !== value));
     }
   };
 

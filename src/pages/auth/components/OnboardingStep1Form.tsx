@@ -4,6 +4,13 @@ import OnboardingFieldset, { BaseProps } from './OnboardingFieldset';
 import SelectableInput from '../../../components/inputs/SelectableInput';
 import CircleBadge from '../../../components/common/CircleBadge';
 
+interface OnboardingStep1FormProps extends BaseProps {
+  pregnantStatus: string; // 임신 여부
+  onChangePregnantStatus: (value: string) => void;
+  isMultiparous: string; // 출산 경험 여부
+  onChangeIsMultiparous: (value: string) => void;
+}
+
 export const StyledLegend = styled.legend<{ $where: 'onboarding' | 'profile' }>`
   ${(props) =>
     props.$where === 'onboarding'
@@ -20,10 +27,14 @@ export const StyledLegend = styled.legend<{ $where: 'onboarding' | 'profile' }>`
       `}
 `;
 
-const OnboardingStep1Form = ({ className, where }: BaseProps) => {
-  const [pregnantStatus, setPregnantStatus] = useState(''); // 임신 여부
-  const [isMultiparous, setIsMultiparous] = useState(''); // 출산 경험
-
+const OnboardingStep1Form = ({
+  className,
+  where,
+  pregnantStatus,
+  onChangePregnantStatus,
+  isMultiparous,
+  onChangeIsMultiparous,
+}: OnboardingStep1FormProps) => {
   return (
     <div className={className}>
       <OnboardingFieldset columns={3} where={where}>
@@ -40,25 +51,25 @@ const OnboardingStep1Form = ({ className, where }: BaseProps) => {
           label="임신 준비중"
           type="radio"
           name="pregnantstatus"
-          value="준비중"
-          checked={pregnantStatus === '준비중'}
-          onChange={(e) => setPregnantStatus(e.target.value)}
+          value="PREPARING_FOR_PREGNANCY"
+          checked={pregnantStatus === 'PREPARING_FOR_PREGNANCY'}
+          onChange={(e) => onChangePregnantStatus(e.target.value)}
         />
         <SelectableInput
           label="임신 중"
           type="radio"
           name="pregnantstatus"
-          value="임신 중"
-          checked={pregnantStatus === '임신 중'}
-          onChange={(e) => setPregnantStatus(e.target.value)}
+          value="PREGNANT"
+          checked={pregnantStatus === 'PREGNANT'}
+          onChange={(e) => onChangePregnantStatus(e.target.value)}
         />
         <SelectableInput
           label="예정 없음"
           type="radio"
           name="pregnantstatus"
-          value="예정 없음"
-          checked={pregnantStatus === '예정 없음'}
-          onChange={(e) => setPregnantStatus(e.target.value)}
+          value="NOT_PREGNANT"
+          checked={pregnantStatus === 'NOT_PREGNANT'}
+          onChange={(e) => onChangePregnantStatus(e.target.value)}
         />
       </OnboardingFieldset>
 
@@ -80,7 +91,7 @@ const OnboardingStep1Form = ({ className, where }: BaseProps) => {
             name="ismultiparous"
             value="네"
             checked={isMultiparous === '네'}
-            onChange={(e) => setIsMultiparous(e.target.value)}
+            onChange={(e) => onChangeIsMultiparous(e.target.value)}
           />
           <SelectableInput
             label="아니오"
@@ -88,7 +99,7 @@ const OnboardingStep1Form = ({ className, where }: BaseProps) => {
             name="ismultiparous"
             value="아니오"
             checked={isMultiparous === '아니오'}
-            onChange={(e) => setIsMultiparous(e.target.value)}
+            onChange={(e) => onChangeIsMultiparous(e.target.value)}
           />
         </OnboardingFieldset>
       )}

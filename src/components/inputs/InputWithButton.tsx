@@ -8,6 +8,7 @@ import { generateId } from '../../utils/generateId';
 type InputWithButtonProps = React.ComponentProps<typeof InputField> & {
   buttonText?: string;
   onButtonClick?: () => void;
+  value?: string;
 };
 
 const InputRow = styled.div`
@@ -24,8 +25,9 @@ const CheckBtn = styled(PrimaryButton)`
 
 const StyledInputFlex = styled(StyledInput)``;
 
-const InputWithButton = ({ label, id, iconType, buttonText = '중복확인', onButtonClick, ...props }: InputWithButtonProps) => {
+const InputWithButton = ({ label, id, iconType, buttonText = '중복확인', onButtonClick, value, ...props }: InputWithButtonProps) => {
   const inputId = id ?? generateId();
+  const isDisabled = !value || value.trim() === '';
 
   return (
     <Wrap>
@@ -33,9 +35,9 @@ const InputWithButton = ({ label, id, iconType, buttonText = '중복확인', onB
       <InputRow>
         <InputWrapper>
           <InputIcon type={iconType} />
-          <StyledInputFlex id={inputId} {...props} />
+          <StyledInputFlex id={inputId} {...props} value={value} />
         </InputWrapper>
-        <CheckBtn type="button" onClick={onButtonClick}>
+        <CheckBtn type="button" onClick={() => !isDisabled && onButtonClick?.()} disabled={isDisabled}>
           {buttonText}
         </CheckBtn>
       </InputRow>
