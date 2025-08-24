@@ -5,6 +5,12 @@ import ShadowBox from '../../../components/common/ShadowBox';
 import IconCategory from '../../../components/icons/features/todos/IconCategory';
 import IconArrowUpDown from '../../../components/icons/features/todos/IconArrowUpDown';
 import CircleBadge from '../../../components/common/CircleBadge';
+import { CategoryList } from '../../todos/components/TodoList';
+
+const dummyTodos = [
+  { id: 1, title: '엽산제 복용하기', checked: false },
+  { id: 2, title: '8/25 산부인과 정기 검진', checked: false },
+];
 
 const TodoWrap = styled(ShadowBox)`
   padding: 0;
@@ -62,13 +68,20 @@ const BriefingTodo = () => {
 
   const cateItems: {
     length: string | number;
-    name: 'health' | 'work' | 'personal';
+    name: CategoryList;
     label: string;
     icon: JSX.Element;
+    todos: typeof dummyTodos;
   }[] = [
-    { name: 'health', label: '건강', icon: <IconCategory status="health" width="24" height="24" />, length: 2 },
-    { name: 'work', label: '업무', icon: <IconCategory status="work" width="24" height="24" />, length: 2 },
-    { name: 'personal', label: '개인', icon: <IconCategory status="personal" width="24" height="24" />, length: 2 },
+    { name: 'HEALTH', label: '건강', icon: <IconCategory status="HEALTH" width="24" height="24" />, length: dummyTodos.length, todos: dummyTodos },
+    { name: 'WORK', label: '업무', icon: <IconCategory status="WORK" width="24" height="24" />, length: dummyTodos.length, todos: dummyTodos },
+    {
+      name: 'PERSONAL',
+      label: '개인',
+      icon: <IconCategory status="PERSONAL" width="24" height="24" />,
+      length: dummyTodos.length,
+      todos: dummyTodos,
+    },
   ];
 
   // 카테고리별 열림/닫힘 상태 저장
@@ -96,12 +109,10 @@ const BriefingTodo = () => {
               </CategoryBtn>
               <TodoListWrapper $isOpen={isOpen}>
                 <TodoListItemWrap>
-                  {[
-                    { id: 1, text: '산책하기', category: item.name, checked: false },
-                    { id: 2, text: '건강검진 예약', category: item.name, checked: true },
-                  ].map((todo) => (
+                  {dummyTodos.map((todo, id) => (
                     <TodoListItem
-                      key={todo.id}
+                      key={id}
+                      todoTitle={todo.title}
                       {...todo}
                       isOpen={openItemId === todo.id}
                       onOpen={() => setOpenItemId(todo.id)}

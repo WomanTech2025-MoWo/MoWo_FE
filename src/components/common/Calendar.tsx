@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
+import IconArrowLeftCal from '../icons/common/IconArrowLeftCal';
+import IconArrowLeftDouble from '../icons/common/IconArrowLeftDouble';
+import IconArrowRIghtDouble from '../icons/common/IconArrowRIghtDouble';
+import IconArrowRightCal from '../icons/common/IconArrowRightCal';
 
 dayjs.locale('ko');
 dayjs.extend(weekOfYear);
@@ -70,10 +74,11 @@ const CalendarTitleWrap = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
+  gap: var(--size-gap-sm);
 `;
 
 const CalendarTitle = styled.h3`
-  padding: var();
+  padding: 0 var(--size-gap-xxs);
 `;
 
 const DayOfWeekText = styled.p`
@@ -165,11 +170,19 @@ const Calendar = ({ selected, onSelect, viewMode = 'month', fixedMonthView }: Ca
     <CalendarWrap>
       <CalendarHeader>
         <CalendarTitleWrap>
-          <button onClick={handlePrevDouble}>{'<<'}</button>
-          <button onClick={handlePrev}>{'<'}</button>
+          <button onClick={handlePrevDouble}>
+            <IconArrowLeftDouble />
+          </button>
+          <button onClick={handlePrev}>
+            <IconArrowLeftCal />
+          </button>
           <CalendarTitle>{title}</CalendarTitle>
-          <button onClick={handleNext}>{'>'}</button>
-          <button onClick={handleNextDouble}>{'>>'}</button>
+          <button onClick={handleNext}>
+            <IconArrowRightCal />
+          </button>
+          <button onClick={handleNextDouble}>
+            <IconArrowRIghtDouble />
+          </button>
         </CalendarTitleWrap>
         {!fixedMonthView && (
           <SwipeBtnWrapper>

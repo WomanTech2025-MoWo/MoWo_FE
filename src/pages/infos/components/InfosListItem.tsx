@@ -12,11 +12,9 @@ export interface PolicyPost {
 
 // API 호출을 시뮬레이션할 가상 데이터
 const dummyPosts: PolicyPost[] = [
-  { id: 1, title: '2024년 청년 지원 정책 업데이트', bookmarked: true },
-  { id: 2, title: '신혼부부 전세자금 대출 기준 변경 안내', bookmarked: false },
-  { id: 3, title: '미래 핵심 산업 인재 양성 지원 사업 공고', bookmarked: true },
-  { id: 4, title: '새로운 소상공인 정책 지원 사업 발표', bookmarked: false },
-  { id: 5, title: '경력단절 여성 재취업 지원 프로그램', bookmarked: false },
+  { id: 1, title: '임산부 교통비 지원', bookmarked: true },
+  { id: 2, title: '서울엄마아빠택시지원', bookmarked: false },
+  { id: 3, title: '하반기 자녀출산 무주택가구 주거비 지원', bookmarked: true },
 ];
 
 const InfosListItemWrap = styled.ul`
