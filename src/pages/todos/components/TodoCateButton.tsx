@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { SegmentedContainer, SegmentedList, SegmentedButton } from '../../../components/buttons/ui/SegmentedControlStyle';
-
-type CategoryList = 'all' | 'health' | 'work' | 'personal';
+import { CategoryList } from './TodoList';
 
 interface TodoCateButtonProps {
   activeCategory: CategoryList;
@@ -10,9 +9,9 @@ interface TodoCateButtonProps {
 }
 
 const cateItems: { name: CategoryList; label: string }[] = [
-  { name: 'health', label: '건강' },
-  { name: 'work', label: '업무' },
-  { name: 'personal', label: '개인' },
+  { name: 'HEALTH', label: '건강' },
+  { name: 'WORK', label: '업무' },
+  { name: 'PERSONAL', label: '개인' },
 ];
 
 const TodoCateButton = ({ activeCategory, onCategoryClick }: TodoCateButtonProps) => {

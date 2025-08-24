@@ -63,7 +63,7 @@ const TodosPage = () => {
         <Calendar selected={selectedDate} onSelect={setSelectedDate} viewMode={viewMode} />
       </CalendarWrapper>
       <div>
-        <TodoList />
+        <TodoList selectedDate={selectedDate} />
       </div>
       <AddTodoBtnWrapper>
         <AddTodoBtn type="button" onClick={() => setIsAddSheetOpen(true)}>
