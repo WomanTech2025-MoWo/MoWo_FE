@@ -7,39 +7,6 @@ import { ShadowBoxStyles } from '../../components/common/ShadowBox';
 import { SortText } from './TodoDrafts';
 import IconDeleteCircle from '../../components/icons/inputs/IconDeleteCircle';
 
-export const dummySearchs: TodoListItemProps[] = [
-  {
-    id: 1,
-    text: '헬스장 등록하기',
-    category: 'health',
-    todoDate: '2025-08-20',
-    checked: false,
-    isOpen: false, // 더미 데이터용 기본값
-    onOpen: () => {}, // 더미용
-    onClose: () => {}, // 더미용
-  },
-  {
-    id: 2,
-    text: '팀 회의 준비',
-    category: 'work',
-    todoDate: '2025-08-21',
-    checked: true,
-    isOpen: false, // 더미 데이터용 기본값
-    onOpen: () => {}, // 더미용
-    onClose: () => {}, // 더미용
-  },
-  {
-    id: 3,
-    text: '부모님 선물 사기',
-    category: 'personal',
-    todoDate: '2025-09-05',
-    checked: false,
-    isOpen: false, // 더미 데이터용 기본값
-    onOpen: () => {}, // 더미용
-    onClose: () => {}, // 더미용
-  },
-];
-
 const TodoListWrap = styled.ul`
   display: flex;
   flex-direction: column;
@@ -87,7 +54,7 @@ const TodoSearch = () => {
       <InnerLayout paddingTop={false}>
         <SortText>최신순</SortText>
         <TodoListWrap>
-          {dummySearchs.map((item) => (
+          {/* {dummySearchs.map((item) => (
             <StyledTodoListItem
               key={item.id}
               {...item}
@@ -96,7 +63,7 @@ const TodoSearch = () => {
               onClose={() => setOpenItemId(null)}
               showCheckbox={true}
             />
-          ))}
+          ))} */}
         </TodoListWrap>
       </InnerLayout>
     </InnerLayout>

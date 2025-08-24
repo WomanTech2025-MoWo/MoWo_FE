@@ -6,29 +6,6 @@ import TodoListItem from './components/TodoListItem';
 import { DraftTodo } from '../../types/todo';
 import { ShadowBoxStyles } from '../../components/common/ShadowBox';
 
-export const dummyDrafts: DraftTodo[] = [
-  {
-    id: 1,
-    text: '헬스장 등록하기',
-    memo: '회사 근처 PT샵 비교',
-    category: 'health',
-    dueDate: '2025-08-20',
-  },
-  {
-    id: 2,
-    text: '팀 회의 안건 정리',
-    category: 'work',
-    // dueDate, memo 없는 경우도 있음
-  },
-  {
-    id: 3,
-    text: '부모님 선물 사기',
-    memo: '추석 전까지',
-    category: 'personal',
-    dueDate: '2025-09-05',
-  },
-];
-
 export const SortText = styled.p`
   text-align: right;
   color: var(--color-text-gray-300);
@@ -55,7 +32,7 @@ const TodoDrafts = () => {
       <InnerLayout paddingTop={false}>
         <SortText>최근 등록순</SortText>
         <TodoListWrap>
-          {dummyDrafts.map((item) => (
+          {/* {dummyDrafts.map((item) => (
             <StyledTodoListItem
               key={item.id}
               id={item.id}
@@ -66,7 +43,7 @@ const TodoDrafts = () => {
               showCheckbox={false}
               disableCheck={true}
             />
-          ))}
+          ))} */}
         </TodoListWrap>
       </InnerLayout>
     </InnerLayout>
