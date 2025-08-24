@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import InnerLayout from '../../layouts/InnerLayout';
 import HeaderWithBack from '../../layouts/HeaderWithBack';
@@ -9,41 +9,142 @@ import OnboardingStep2Form from './components/OnboardingStep2Form';
 import OnboardingStep3Form from './components/OnboardingStep3Form';
 import { PrimaryButton } from '../../components/buttons/PrimaryButton';
 import { SegmentedContainer, SegmentedList, SegmentedButton } from '../../components/buttons/ui/SegmentedControlStyle';
+import ErrorMessage from '../../components/common/ErrorMessage';
 
 const ProfileWrap = styled(InnerLayout)``;
 
-const Section = styled.div<{ $visible: boolean }>`
-  display: ${({ $visible }) => ($visible ? 'block' : 'none')};
-`;
-
 const ProfilePage = () => {
-  const [activeTab, setActiveTab] = useState<'account' | 'health'>('account');
+  // form state
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordCheck, setPasswordCheck] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [birthdate, setBirthdate] = useState('');
+  const [pregnantStatus, setPregnantStatus] = useState('');
+  const [isMultiparous, setIsMultiparous] = useState('');
+  const [duedate, setDuedate] = useState('');
+  const [hasTwins, setHasTwins] = useState('');
+  const [symptoms, setSymptoms] = useState<string[]>([]);
 
+  const [activeTab, setActiveTab] = useState<'account' | 'health'>('account');
+  const [error, setError] = useState('');
+  const [nicknameCheckMessage, setNicknameCheckMessage] = useState('');
+
+  // 🔹 마운트 시 사용자 정보 조회
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) throw new Error('로그인이 필요합니다.');
+
+        const res = await fetch('/api/members', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          credentials: 'include',
+        });
+
+        if (!res.ok) throw new Error('사용자 정보 조회 실패');
+        const data = await res.json();
+        const result = data.result;
+
+        // API 응답 구조에 맞춰 값 세팅
+        setUsername(result.userName || '');
+        setNickname(result.nickName || '');
+        setBirthdate(result.birthday || '');
+        setPregnantStatus(result.pregnantStatus || '');
+        setIsMultiparous(result.hasTwins ? '네' : '아니오'); // API boolean → UI string
+        setDuedate(result.dueDate || '');
+        setHasTwins(result.hasTwins ? '네' : '아니오');
+        setSymptoms([
+          ...(result.frequentUrination ? ['이뇨감'] : []),
+          ...(result.jointPain ? ['관절 통증'] : []),
+          ...(result.heartburn ? ['속쓰림'] : []),
+          ...(result.abdominalTightness ? ['배 뭉침'] : []),
+          ...(result.drowsiness ? ['졸림'] : []),
+          ...(result.morningSickness ? ['입덧'] : []),
+          ...(result.constipationOrHemorrhoids ? ['변비치질'] : []),
+          ...(result.swelling ? ['부종'] : []),
+          ...(result.dizziness ? ['어지럼증'] : []),
+          ...(result.insomniaOrSleepDisorder ? ['불면수면장애'] : []),
+        ]);
+      } catch (err: any) {
+        setError(err.message);
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  // 🔹 닉네임 중복 확인
+  const handleCheckNickname = async () => {
+    if (!nickname) return;
+    try {
+      const res = await fetch(`/api/members/auth/check-nickname?nickname=${encodeURIComponent(nickname)}`);
+      const data = await res.json();
+      if (data.isSuccess) {
+        setNicknameCheckMessage('사용 가능한 닉네임입니다.');
+      } else {
+        setNicknameCheckMessage('이미 사용 중인 닉네임입니다.');
+      }
+    } catch {
+      setNicknameCheckMessage('닉네임 확인 중 오류가 발생했습니다.');
+    }
+  };
+
+  // 🔹 프로필 수정 (PATCH)
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError('');
+    setNicknameCheckMessage('');
 
-    // 모든 인풋을 한 번에 수집(FormData는 display:none인 것도 포함)
-    const formData = new FormData(e.currentTarget);
+    if (password && password !== passwordCheck) {
+      setError('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+      return;
+    }
 
-    // 중복 name도 처리되는 JSON 변환
-    const payload = Array.from(formData.entries()).reduce<Record<string, any>>((acc, [k, v]) => {
-      if (k in acc) {
-        const cur = acc[k];
-        acc[k] = Array.isArray(cur) ? [...cur, v] : [cur, v];
-      } else {
-        acc[k] = v;
+    let payload: any = {};
+
+    if (activeTab === 'account') {
+      if (username) payload.userName = username;
+      if (nickname) payload.nickName = nickname;
+      if (birthdate) payload.birthday = birthdate;
+      if (password && passwordCheck) {
+        payload.password1 = password;
+        payload.password2 = passwordCheck;
       }
-      return acc;
-    }, {});
+    } else if (activeTab === 'health') {
+      // 건강정보 탭
+      payload = {
+        pregnantStatus,
+        hasTwins: hasTwins === '네',
+        dueDate: duedate,
+        frequentUrination: symptoms.includes('이뇨감'),
+        jointPain: symptoms.includes('관절 통증'),
+        heartburn: symptoms.includes('속쓰림'),
+        abdominalTightness: symptoms.includes('배 뭉침'),
+        drowsiness: symptoms.includes('졸림'),
+        morningSickness: symptoms.includes('입덧'),
+        constipationOrHemorrhoids: symptoms.includes('변비치질'),
+        swelling: symptoms.includes('부종'),
+        dizziness: symptoms.includes('어지럼증'),
+        insomniaOrSleepDisorder: symptoms.includes('불면수면장애'),
+      };
+    }
 
-    // 하나의 API로 통합 전송(엔드포인트는 알아서 변경)
-    await fetch('/api/profile', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) throw new Error('로그인이 필요합니다.');
 
-    // TODO: 성공/에러 처리
+      const res = await fetch('/api/members', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        credentials: 'include',
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error('회원정보 수정 실패');
+      alert('회원정보가 수정되었습니다.');
+    } catch (err: any) {
+      setError(err.message);
+    }
   };
 
   return (
@@ -63,20 +164,51 @@ const ProfilePage = () => {
           </li>
         </SegmentedList>
       </SegmentedContainer>
-      <form onSubmit={handleSubmit}>
-        {/* 회원정보 섹션 */}
-        <Section $visible={activeTab === 'account'} aria-hidden={activeTab !== 'account'}>
-          <IdPwForm />
-          <AccountForm />
-        </Section>
-        {/* 건강정보 섹션 */}
-        <Section $visible={activeTab === 'health'} aria-hidden={activeTab !== 'health'}>
-          <OnboardingStep1Form where="profile" />
-          <OnboardingStep2Form where="profile" />
-          <OnboardingStep3Form where="profile" />
-        </Section>
-        <PrimaryButton type="submit">수정하기</PrimaryButton>
-      </form>
+
+      {/* 회원정보 섹션 */}
+      {activeTab === 'account' && (
+        <form onSubmit={handleSubmit}>
+          {error && <ErrorMessage>{error}</ErrorMessage>}
+          {nicknameCheckMessage && <ErrorMessage>{nicknameCheckMessage}</ErrorMessage>}
+
+          <section>
+            <IdPwForm username={username} password={password} onChangeUsername={setUsername} onChangePassword={setPassword} />
+            <AccountForm
+              passwordCheck={passwordCheck}
+              onChangePasswordCheck={setPasswordCheck}
+              nickname={nickname}
+              onChangeNickname={setNickname}
+              onCheckNickname={handleCheckNickname}
+              birthdate={birthdate}
+              onChangeBirthdate={setBirthdate}
+            />
+          </section>
+
+          <PrimaryButton type="submit">수정하기</PrimaryButton>
+        </form>
+      )}
+
+      {/* 건강정보 섹션 */}
+      {activeTab === 'health' && (
+        <form onSubmit={handleSubmit}>
+          {error && <ErrorMessage>{error}</ErrorMessage>}
+          {nicknameCheckMessage && <ErrorMessage>{nicknameCheckMessage}</ErrorMessage>}
+
+          <section>
+            <OnboardingStep1Form
+              where="profile"
+              pregnantStatus={pregnantStatus}
+              onChangePregnantStatus={setPregnantStatus}
+              isMultiparous={isMultiparous}
+              onChangeIsMultiparous={setIsMultiparous}
+            />
+            <OnboardingStep2Form where="profile" duedate={duedate} onChangeDuedate={setDuedate} hasTwins={hasTwins} onChangeHasTwins={setHasTwins} />
+            <OnboardingStep3Form where="profile" symptoms={symptoms} onChangeSymptoms={setSymptoms} />
+          </section>
+
+          <PrimaryButton type="submit">수정하기</PrimaryButton>
+        </form>
+      )}
     </ProfileWrap>
   );
 };

@@ -2,61 +2,53 @@ import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import TodoCateButton from './TodoCateButton';
 import ShadowBox from '../../../components/common/ShadowBox';
-import TodoListItem from './TodoListItem';
+import TodoListItem, { TodoListItemProps } from './TodoListItem';
 import IconCategory from '../../../components/icons/features/todos/IconCategory';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 
-type CategoryList = 'all' | 'health' | 'work' | 'personal';
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+export type CategoryList = 'ALL' | 'HEALTH' | 'WORK' | 'PERSONAL';
 
 interface TodoItem {
   id: number;
-  text: string;
-  category: 'health' | 'work' | 'personal';
-  checked: boolean;
+  todoDate: string;
+  completeDate: string;
+  alarmDate: string;
+  title: string;
+  memo: string;
+  isFixed: boolean;
+  category: 'WORK' | 'HEALTH' | 'PERSONAL';
+  isDone: boolean;
+  createdAt: string;
 }
 
 interface TodoSection {
   name: CategoryList;
   label: string;
-  done: number;
-  total: number;
-  items: TodoItem[];
+  todos: TodoItem[];
+  totalCount: number;
+  completedCount: number;
 }
 
-const dummyData: TodoSection[] = [
-  {
-    name: 'health',
-    label: '건강',
-    done: 1,
-    total: 3,
-    items: [
-      { id: 1, text: '운동하기', category: 'health', checked: true },
-      { id: 2, text: '물 마시기', category: 'health', checked: false },
-      { id: 3, text: '비타민 챙기기', category: 'health', checked: false },
-    ],
-  },
-  {
-    name: 'work',
-    label: '업무',
-    done: 2,
-    total: 4,
-    items: [
-      { id: 4, text: '회의 준비', category: 'work', checked: true },
-      { id: 5, text: '리포트 작성', category: 'work', checked: true },
-      { id: 6, text: '코드 리뷰', category: 'work', checked: false },
-      { id: 7, text: '배포', category: 'work', checked: false },
-    ],
-  },
-  {
-    name: 'personal',
-    label: '개인',
-    done: 0,
-    total: 2,
-    items: [
-      { id: 8, text: '영화 보기', category: 'personal', checked: false },
-      { id: 9, text: '책 읽기', category: 'personal', checked: false },
-    ],
-  },
-];
+interface TodosApiResponse {
+  isSuccess: boolean;
+  code: string;
+  message: string;
+  result: {
+    WORK: TodoSection;
+    HEALTH: TodoSection;
+    PERSONAL: TodoSection;
+  };
+}
+
+interface TodoListProps {
+  selectedDate: Date;
+  todos?: TodoListItemProps[];
+}
 
 const TodoListWrap = styled.div`
   display: flex;
@@ -95,15 +87,68 @@ const TodoItemWrapper = styled.ul`
   gap: var(--size-gap-sm);
 `;
 
-const TodoList = () => {
-  const [activeCategory, setActiveCategory] = useState<CategoryList>('health');
+const TodoList = ({ selectedDate, todos }: TodoListProps) => {
+  const [activeCategory, setActiveCategory] = useState<CategoryList>('HEALTH');
   const [openItemId, setOpenItemId] = useState<number | null>(null);
 
-  const [sections] = useState<TodoSection[]>(dummyData);
-  const sectionRefs = useRef<Partial<Record<CategoryList, HTMLDivElement | null>>>({}); // 카테고리별 ref 저장
+  const [sections, setSections] = useState<TodoSection[]>([]);
 
+  const sectionRefs = useRef<Partial<Record<CategoryList, HTMLDivElement | null>>>({}); // 카테고리별 ref 저장
   const isManualScroll = useRef(false);
 
+  const filteredTodos = todos?.filter((todo) => todo.todoDate === dayjs(selectedDate).format('YYYY-MM-DD')) ?? [];
+
+  // API 연동
+  const fetchTodos = async (): Promise<TodoSection[]> => {
+    const formattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
+    const res = await fetch(`/api/todos?date=${formattedDate}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+
+    const data = await res.json();
+
+    const mapCategory = (key: string) => {
+      switch (key.toUpperCase()) {
+        case 'WORK':
+          return 'WORK';
+        case 'HEALTH':
+          return 'HEALTH';
+        case 'PERSONAL':
+          return 'PERSONAL';
+        default:
+          return 'ALL';
+      }
+    };
+
+    // sections 배열 생성
+    const sectionsArr: TodoSection[] = (Object.entries(data.result) as [string, TodoSection][]).map(([key, section]) => ({
+      name: mapCategory(key),
+      label: key.toLowerCase() === 'work' ? '업무' : key.toLowerCase() === 'health' ? '건강' : '개인',
+      completedCount: section.completedCount,
+      totalCount: section.totalCount,
+      todos: section.todos.map((todo) => ({
+        ...todo,
+        category: mapCategory(key) as 'HEALTH' | 'WORK' | 'PERSONAL',
+      })),
+    }));
+
+    // 순서 변경: HEALTH -> WORK -> PERSONAL
+    const order: CategoryList[] = ['HEALTH', 'WORK', 'PERSONAL'];
+    const sortedSections = sectionsArr.sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name));
+
+    return sortedSections;
+  };
+
+  // API 호출
+  useEffect(() => {
+    fetchTodos().then((data) => {
+      setSections(data);
+    });
+  }, [selectedDate]);
+
+  // 스크롤
   const scrollToSection = (name: CategoryList) => {
     isManualScroll.current = true;
     setActiveCategory(name);
@@ -131,13 +176,13 @@ const TodoList = () => {
         if (visibleEntries.length === 0) return;
 
         // 화면에 모든 섹션이 다 들어오는 경우 첫 번째 섹션 active
-        const allVisible = dummyData.every((section) => {
+        const allVisible = sections.every((section) => {
           const ref = sectionRefs.current[section.name];
           return ref && ref.getBoundingClientRect().top >= 0 && ref.getBoundingClientRect().bottom <= window.innerHeight;
         });
 
         if (allVisible) {
-          setActiveCategory('health');
+          setActiveCategory('HEALTH');
           return;
         }
 
@@ -162,9 +207,9 @@ const TodoList = () => {
     <>
       <TodoCateButton activeCategory={activeCategory} onCategoryClick={scrollToSection} />
       <TodoListWrap>
-        {sections.map((section) => (
+        {sections.map((section, id) => (
           <TodoListWrapper
-            key={section.name}
+            key={id}
             ref={(el) => {
               sectionRefs.current[section.name] = el;
             }}
@@ -175,22 +220,26 @@ const TodoList = () => {
                 {section.label}
               </CategoryTitle>
               <CategoryTotal>
-                {section.done}/{section.total}
+                {section.completedCount}/{section.totalCount}
               </CategoryTotal>
             </SectionTitle>
-            {/** 아이템 없으면 여기부터 안 보이게 처리 */}
-            <TodoItemWrapper>
-              {section.items.map((item) => (
-                <TodoListItem
-                  key={item.id}
-                  {...item}
-                  isOpen={openItemId === item.id}
-                  onOpen={() => setOpenItemId(item.id)}
-                  onClose={() => setOpenItemId(null)}
-                />
-              ))}
-            </TodoItemWrapper>
-            {/** 아이템 없으면 여기까지 안 보이게 처리 */}
+            {section.todos.length > 0 && (
+              <TodoItemWrapper>
+                {section.todos.map((todo) => (
+                  <TodoListItem
+                    todoTitle={todo.title}
+                    key={todo.id}
+                    {...todo}
+                    isOpen={openItemId === todo.id}
+                    onOpen={() => setOpenItemId(todo.id)}
+                    onClose={() => setOpenItemId(null)}
+                  />
+                ))}
+                {filteredTodos.map((todo) => (
+                  <TodoListItem key={todo.id} {...todo} />
+                ))}
+              </TodoItemWrapper>
+            )}
           </TodoListWrapper>
         ))}
       </TodoListWrap>

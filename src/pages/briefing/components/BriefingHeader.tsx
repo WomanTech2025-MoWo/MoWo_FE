@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 import IconMy from '../../../components/icons/common/IconMy';
 import IconAlarm from '../../../components/icons/common/IconAlarm';
 import AlertPopup from './AlertPopup';
+import { AlertItem } from '../../../hooks/useNotifications';
 
 interface BriefingHeaderProps {
   dday: number;
   week: number;
   today: Date;
+  alerts: AlertItem[];
 }
 
 const DdayWrapper = styled.div`
@@ -51,7 +53,7 @@ const formatDate = (date: Date) =>
     weekday: 'long',
   });
 
-const BriefingHeader = ({ dday, week, today }: BriefingHeaderProps) => {
+const BriefingHeader = ({ dday, week, today, alerts }: BriefingHeaderProps) => {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   const todayText = today.toLocaleDateString('ko-KR', {
@@ -89,16 +91,7 @@ const BriefingHeader = ({ dday, week, today }: BriefingHeaderProps) => {
           </li>
         </IconWrapper>
       </DateWrapper>
-      {isAlertOpen && (
-        <AlertPopup
-          onClose={handleAlertClose}
-          alerts={[
-            { id: 1, status: 'health', content: '점심식사 후 엽산 복용' },
-            { id: 2, status: 'work', content: '출산 휴가 신청서 제출' },
-            { id: 3, status: 'personal', content: '7시 저녁 약속' },
-          ]}
-        />
-      )}
+      {isAlertOpen && <AlertPopup onClose={() => setIsAlertOpen(false)} alerts={alerts} />}
     </>
   );
 };

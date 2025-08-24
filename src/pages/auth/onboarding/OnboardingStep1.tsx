@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import InnerLayout from '../../../layouts/InnerLayout';
 import OnboardingIntro from '../components/OnboardingIntro';
@@ -14,10 +14,19 @@ const StyledOnboardingStep1Form = styled(OnboardingStep1Form)`
 `;
 
 const OnboardingStep1 = () => {
+  const [pregnantStatus, setPregnantStatus] = useState('');
+  const [isMultiparous, setIsMultiparous] = useState('');
+
   return (
     <InnerLayout bgColor="gray-light" withHeader={true} withNav={false}>
       <OnboardingIntro step="step1" />
-      <StyledOnboardingStep1Form where="onboarding" />
+      <StyledOnboardingStep1Form
+        where="onboarding"
+        pregnantStatus={pregnantStatus}
+        onChangePregnantStatus={setPregnantStatus}
+        isMultiparous={isMultiparous}
+        onChangeIsMultiparous={setIsMultiparous}
+      />
       <PrimaryButton to="/signup/onboarding/step2">다음</PrimaryButton>
     </InnerLayout>
   );

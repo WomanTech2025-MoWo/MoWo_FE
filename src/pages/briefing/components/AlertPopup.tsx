@@ -3,12 +3,7 @@ import styled from 'styled-components';
 import Backdrop from '../../../components/common/Backdrop';
 import { FixedCenter } from '../../../layouts/FixedCenterContainer';
 import IconCategory from '../../../components/icons/features/todos/IconCategory';
-
-interface AlertItem {
-  id: number;
-  status: 'health' | 'work' | 'personal';
-  content: string;
-}
+import { AlertItem } from '../../../hooks/useNotifications';
 
 interface AlertPopupProps {
   onClose: () => void;
@@ -58,9 +53,9 @@ const AlertPopup = ({ onClose, alerts }: AlertPopupProps) => {
       <AlertPopupWrap>
         <AlertTitle>알림</AlertTitle>
         <AlertListWrapper>
-          {alerts.map((alert) => (
-            <AlertList key={alert.id}>
-              <IconCategory status={alert.status} />
+          {alerts.map((alert, id) => (
+            <AlertList key={id}>
+              <IconCategory status={alert.todoCategory} />
               <p>{alert.content}</p>
             </AlertList>
           ))}

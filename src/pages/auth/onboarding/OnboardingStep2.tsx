@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import HeaderWithBack from '../../../layouts/HeaderWithBack';
 import InnerLayout from '../../../layouts/InnerLayout';
@@ -26,6 +26,9 @@ export const StepDot = styled.span`
 `;
 
 const OnboardingStep2 = () => {
+  const [duedate, setDuedate] = useState('');
+  const [hasTwins, setHasTwins] = useState('');
+
   return (
     <InnerLayout bgColor="gray-light" withHeader={true} withNav={false}>
       <HeaderWithBack bgColor="gray-light">
@@ -35,7 +38,7 @@ const OnboardingStep2 = () => {
         </StepDotWrap>
       </HeaderWithBack>
       <OnboardingIntro step="step2" />
-      <OnboardingStep2Form where="onboarding" />
+      <OnboardingStep2Form where="onboarding" duedate={duedate} onChangeDuedate={setDuedate} hasTwins={hasTwins} onChangeHasTwins={setHasTwins} />
       <PrimaryButton to="/signup/onboarding/step3">다음</PrimaryButton>
     </InnerLayout>
   );

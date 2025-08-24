@@ -3,15 +3,16 @@ import styled from 'styled-components';
 import IconCheckbox from '../../../components/icons/features/todos/IconCheckbox';
 import IconMeatball from '../../../components/icons/features/todos/IconMeatball';
 import TodoEditDeleteButtons from '../../../components/common/TodoEditDeleteButtons';
+import { CategoryList } from './TodoList';
 
 export type TodoListItemProps = {
   id: number;
-  text: string;
-  category?: 'health' | 'work' | 'personal' | undefined;
+  todoTitle: string;
+  category?: CategoryList;
   checked?: boolean;
   isOpen: boolean;
-  onOpen: () => void;
-  onClose: () => void;
+  onOpen?: () => void;
+  onClose?: () => void;
   showCheckbox?: boolean; // 기본 true
   disableCheck?: boolean; // 기본 false
   className?: string;
@@ -41,7 +42,7 @@ const TodoDate = styled.p`
 
 const TodoListItem = ({
   id,
-  text,
+  todoTitle,
   category,
   checked = false,
   isOpen,
@@ -75,7 +76,7 @@ const TodoListItem = ({
       <TodoContentWrapper>
         <TodoContent onClick={handleCheck}>
           {showCheckbox && <IconCheckbox category={category} status={isChecked} />}
-          <span>{text}</span>
+          <span>{todoTitle}</span>
         </TodoContent>
         <button type="button" onClick={onOpen}>
           <IconMeatball width="14" />

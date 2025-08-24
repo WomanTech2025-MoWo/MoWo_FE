@@ -8,6 +8,13 @@ import CircleBadge from '../../../components/common/CircleBadge';
 import Calendar from '../../../components/common/Calendar';
 import dayjs from 'dayjs';
 
+interface OnboardingStep2FormProps extends BaseProps {
+  duedate: string; // 출산 예정일
+  onChangeDuedate: (value: string) => void;
+  hasTwins: string; // 쌍둥이 여부
+  onChangeHasTwins: (value: string) => void;
+}
+
 const CalendarWrapper = styled.div`
   grid-column: span 2;
   width: 100%;
@@ -16,10 +23,7 @@ const CalendarWrapper = styled.div`
   justify-content: center;
 `;
 
-const OnboardingStep2Form = ({ className, where }: BaseProps) => {
-  const [duedate, setDuedate] = useState(''); // 출산예정일
-  const [hasTwins, sethasTwins] = useState(''); // 쌍둥이
-
+const OnboardingStep2Form = ({ className, where, duedate, onChangeDuedate, hasTwins, onChangeHasTwins }: OnboardingStep2FormProps) => {
   return (
     <div className={className}>
       {where === 'onboarding' ? (
@@ -31,12 +35,12 @@ const OnboardingStep2Form = ({ className, where }: BaseProps) => {
             <Calendar
               fixedMonthView={true}
               selected={duedate ? new Date(duedate) : undefined}
-              onSelect={(date) => setDuedate(dayjs(date).format('YYYY-MM-DD'))}
+              onSelect={(date) => onChangeDuedate(dayjs(date).format('YYYY-MM-DD'))}
             />
           </CalendarWrapper>
         </OnboardingFieldset>
       ) : (
-        <InputField label="출산예정일" type="date" iconType="date" value={duedate} onChange={(e) => setDuedate(e.target.value)} required />
+        <InputField label="출산예정일" type="date" iconType="date" value={duedate} onChange={(e) => onChangeDuedate(e.target.value)} />
       )}
       <OnboardingFieldset columns={2} where={where}>
         <StyledLegend $where={where}>
@@ -54,7 +58,7 @@ const OnboardingStep2Form = ({ className, where }: BaseProps) => {
           name="ismultiparous"
           value="네"
           checked={hasTwins === '네'}
-          onChange={(e) => sethasTwins(e.target.value)}
+          onChange={(e) => onChangeHasTwins(e.target.value)}
         />
         <SelectableInput
           label="아니오"
@@ -62,7 +66,7 @@ const OnboardingStep2Form = ({ className, where }: BaseProps) => {
           name="ismultiparous"
           value="아니오"
           checked={hasTwins === '아니오'}
-          onChange={(e) => sethasTwins(e.target.value)}
+          onChange={(e) => onChangeHasTwins(e.target.value)}
         />
       </OnboardingFieldset>
     </div>
