@@ -2,8 +2,14 @@ import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import TodoCateButton from './TodoCateButton';
 import ShadowBox from '../../../components/common/ShadowBox';
-import TodoListItem from './TodoListItem';
+import TodoListItem, { TodoListItemProps } from './TodoListItem';
 import IconCategory from '../../../components/icons/features/todos/IconCategory';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export type CategoryList = 'ALL' | 'HEALTH' | 'WORK' | 'PERSONAL';
 
@@ -41,6 +47,7 @@ interface TodosApiResponse {
 
 interface TodoListProps {
   selectedDate: Date;
+  todos?: TodoListItemProps[];
 }
 
 const TodoListWrap = styled.div`
@@ -80,7 +87,7 @@ const TodoItemWrapper = styled.ul`
   gap: var(--size-gap-sm);
 `;
 
-const TodoList = ({ selectedDate }: TodoListProps) => {
+const TodoList = ({ selectedDate, todos }: TodoListProps) => {
   const [activeCategory, setActiveCategory] = useState<CategoryList>('HEALTH');
   const [openItemId, setOpenItemId] = useState<number | null>(null);
 
@@ -89,15 +96,18 @@ const TodoList = ({ selectedDate }: TodoListProps) => {
   const sectionRefs = useRef<Partial<Record<CategoryList, HTMLDivElement | null>>>({}); // 카테고리별 ref 저장
   const isManualScroll = useRef(false);
 
+  const filteredTodos = todos?.filter((todo) => todo.todoDate === dayjs(selectedDate).format('YYYY-MM-DD')) ?? [];
+
   // API 연동
   const fetchTodos = async (): Promise<TodoSection[]> => {
-    const formattedDate = selectedDate.toISOString().split('T')[0];
+    const formattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
     const res = await fetch(`/api/todos?date=${formattedDate}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     });
-    const data: TodosApiResponse = await res.json();
+
+    const data = await res.json();
 
     const mapCategory = (key: string) => {
       switch (key.toUpperCase()) {
@@ -134,12 +144,7 @@ const TodoList = ({ selectedDate }: TodoListProps) => {
   // API 호출
   useEffect(() => {
     fetchTodos().then((data) => {
-      // 선택 날짜 필터링
-      const filteredSections = data.map((section) => ({
-        ...section,
-        todos: section.todos.filter((todo) => todo.todoDate === selectedDate.toISOString().split('T')[0]),
-      }));
-      setSections(filteredSections);
+      setSections(data);
     });
   }, [selectedDate]);
 
@@ -218,7 +223,7 @@ const TodoList = ({ selectedDate }: TodoListProps) => {
                 {section.completedCount}/{section.totalCount}
               </CategoryTotal>
             </SectionTitle>
-            {section.totalCount !== 0 && (
+            {section.todos.length > 0 && (
               <TodoItemWrapper>
                 {section.todos.map((todo) => (
                   <TodoListItem
@@ -229,6 +234,9 @@ const TodoList = ({ selectedDate }: TodoListProps) => {
                     onOpen={() => setOpenItemId(todo.id)}
                     onClose={() => setOpenItemId(null)}
                   />
+                ))}
+                {filteredTodos.map((todo) => (
+                  <TodoListItem key={todo.id} {...todo} />
                 ))}
               </TodoItemWrapper>
             )}

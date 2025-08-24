@@ -11,8 +11,8 @@ export type TodoListItemProps = {
   category?: CategoryList;
   checked?: boolean;
   isOpen: boolean;
-  onOpen: () => void;
-  onClose: () => void;
+  onOpen?: () => void;
+  onClose?: () => void;
   showCheckbox?: boolean; // 기본 true
   disableCheck?: boolean; // 기본 false
   className?: string;

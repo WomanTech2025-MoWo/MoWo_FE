@@ -9,9 +9,28 @@ import IconX from '../../../components/icons/common/IconX';
 import IconArrowTop from '../../../components/icons/common/IconArrowTop';
 import TodoDatePicker from './TodoDatePicker';
 import AddAlramTime from './AddAlarmTime';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import { TodoListItemProps } from './TodoListItem';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 interface AddTodoSheetProps extends BackdropProps {
   initialText?: string;
+  selectedDate: Date;
+  onTodoAdded?: (newTodo: TodoListItemProps) => void;
+}
+
+interface TodoPayload {
+  todoDate: string;
+  title: string;
+  memo?: string;
+  todoCategory: string;
+  isFixed: boolean;
+  isStorage: boolean;
+  alarmDate?: string; // optional
 }
 
 const AddTodoWrap = styled(BottomSheet)`
@@ -110,7 +129,7 @@ const AddTodoBtn = styled.button`
   box-shadow: var(--box-shadow-default);
 `;
 
-const AddTodoSheet = ({ onClick, initialText = '' }: AddTodoSheetProps) => {
+const AddTodoSheet = ({ onClick, initialText = '', selectedDate, onTodoAdded }: AddTodoSheetProps) => {
   const [text, setText] = useState(initialText);
   const [memo, setMemo] = useState('');
   const [category, setCategory] = useState<'건강' | '업무' | '개인' | null>(null);
@@ -120,22 +139,127 @@ const AddTodoSheet = ({ onClick, initialText = '' }: AddTodoSheetProps) => {
   const [isDateSheetOpen, setIsDateSheetOpen] = useState(false);
   const [isAlramSheetOpen, setIsAlramSheetOpen] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // 등록 API 호출
-    console.log('등록 데이터', { text, memo, category, dueDate, isPinned, alarmTime });
+    if (!text || !category || !dueDate) {
+      alert('할 일, 카테고리, 날짜를 모두 입력해주세요.');
+      return;
+    }
+
+    const payload: TodoPayload = {
+      todoDate: dueDate.split('T')[0], // yyyy-mm-dd
+      title: text,
+      memo,
+      todoCategory: category === '업무' ? 'WORK' : category === '건강' ? 'HEALTH' : 'PERSONAL',
+      isFixed: isPinned,
+      isStorage: false,
+    };
+
+    if (alarmTime) {
+      payload.alarmDate = alarmTime;
+    }
+
+    try {
+      const res = await fetch('/api/todos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error('투두 등록 실패', errorData);
+        alert('투두 등록 실패');
+        return;
+      }
+
+      const data = await res.json();
+      console.log('등록 성공', data);
+
+      // // ✅ 부모에 새 투두 전달 (화면 즉시 반영)
+      onTodoAdded?.({
+        id: data.id,
+        todoDate: payload.todoDate,
+        todoTitle: payload.title,
+        category: payload.todoCategory as 'HEALTH' | 'WORK' | 'PERSONAL',
+        checked: false,
+        isOpen: false,
+      });
+
+      // 등록 후 입력 초기화
+      setText('');
+      setMemo('');
+      setCategory(null);
+      setDueDate('');
+      setAlarmTime('');
+      setIsPinned(false);
+
+      // 시트 닫기
+      onClick?.();
+    } catch (err) {
+      console.error(err);
+      alert('서버 오류');
+    }
   };
 
-  const handleSaveDraft = () => {
-    // 임시보관 API 호출
-    console.log('임시보관 데이터', { text, memo, category, dueDate, isPinned, alarmTime });
+  const handleSaveDraft = async () => {
+    if (!text || !category || !dueDate) {
+      alert('할 일, 카테고리, 날짜를 모두 입력해주세요.');
+      return;
+    }
+
+    const payload: TodoPayload = {
+      todoDate: dueDate.split('T')[0],
+      title: text,
+      memo,
+      todoCategory: category === '업무' ? 'WORK' : category === '건강' ? 'HEALTH' : 'PERSONAL',
+      isFixed: isPinned,
+      isStorage: true, // 임시보관은 true
+    };
+
+    if (alarmTime) payload.alarmDate = alarmTime;
+
+    try {
+      const res = await fetch('/api/todos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error('임시보관 실패', errorData);
+        alert('임시보관 실패');
+        return;
+      }
+
+      const data = await res.json();
+      console.log('임시보관 성공', data);
+      // 필요한 경우 입력 초기화
+      setText('');
+      setMemo('');
+      setCategory(null);
+      setDueDate('');
+      setAlarmTime('');
+      setIsPinned(false);
+    } catch (err) {
+      console.error(err);
+      alert('서버 오류');
+    }
   };
 
   return (
     <>
       <Backdrop onClick={onClick} />
       <AddTodoWrap>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div>
             <StyledInput type="text" placeholder="할 일" value={text} onChange={(e) => setText(e.target.value)} />
           </div>
@@ -180,7 +304,7 @@ const AddTodoSheet = ({ onClick, initialText = '' }: AddTodoSheetProps) => {
           onClick={() => setIsDateSheetOpen(false)}
           onConfirm={(date) => {
             if (date) {
-              setDueDate(date.toISOString());
+              setDueDate(dayjs(date).tz('Asia/Seoul').format('YYYY-MM-DD'));
             }
           }}
         />

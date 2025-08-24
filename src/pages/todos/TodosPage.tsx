@@ -9,6 +9,7 @@ import IconAdd from '../../components/icons/common/IconAdd';
 import Calendar from '../../components/common/Calendar';
 import AddTodoSheet from './components/AddTodoSheet';
 import { useLocation } from 'react-router-dom';
+import { TodoListItemProps } from './components/TodoListItem';
 
 const TodoWrap = styled(InnerLayout)`
   padding-bottom: calc(var(--size-inner-padding-4x) + var(--size-inner-padding));
@@ -43,6 +44,7 @@ const TodosPage = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [viewMode, setViewMode] = useState<'week' | 'month'>('week');
   const [prefillText, setPrefillText] = useState('');
+  const [todos, setTodos] = useState<TodoListItemProps[]>([]);
 
   const location = useLocation();
 
@@ -63,14 +65,21 @@ const TodosPage = () => {
         <Calendar selected={selectedDate} onSelect={setSelectedDate} viewMode={viewMode} />
       </CalendarWrapper>
       <div>
-        <TodoList selectedDate={selectedDate} />
+        <TodoList selectedDate={selectedDate} todos={todos} />
       </div>
       <AddTodoBtnWrapper>
         <AddTodoBtn type="button" onClick={() => setIsAddSheetOpen(true)}>
           <IconAdd />
         </AddTodoBtn>
       </AddTodoBtnWrapper>
-      {isAddSheetOpen && <AddTodoSheet onClick={() => setIsAddSheetOpen(false)} initialText={prefillText} />}
+      {isAddSheetOpen && (
+        <AddTodoSheet
+          selectedDate={selectedDate}
+          onClick={() => setIsAddSheetOpen(false)}
+          initialText={prefillText}
+          onTodoAdded={(newTodo) => setTodos((prev) => [...prev, newTodo])}
+        />
+      )}
       <GlobalNavigation />
     </TodoWrap>
   );
