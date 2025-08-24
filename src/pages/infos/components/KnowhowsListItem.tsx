@@ -12,11 +12,10 @@ interface KnowhowsPost {
 
 // API 호출을 시뮬레이션할 가상 데이터
 const dummyPosts: KnowhowsPost[] = [
-  { id: 1, title: '2024년 청년 지원 정책 업데이트', summary: '2024년 청년 지원 정책 업데이트' },
-  { id: 2, title: '신혼부부 전세자금 대출 기준 변경 안내', summary: '2024년 청년 지원 정책 업데이트' },
-  { id: 3, title: '미래 핵심 산업 인재 양성 지원 사업 공고', summary: '2024년 청년 지원 정책 업데이트' },
-  { id: 4, title: '새로운 소상공인 정책 지원 사업 발표', summary: '2024년 청년 지원 정책 업데이트' },
-  { id: 5, title: '경력단절 여성 재취업 지원 프로그램', summary: '2024년 청년 지원 정책 업데이트' },
+  { id: 1, title: '입덧, 힘들어도 관리할 수 있어요!', summary: '임신 초기 입덧 관리' },
+  { id: 2, title: '엽산, 비타민D, 철분 등 영양제 101', summary: '임산부 영양제 가이드' },
+  { id: 3, title: '아기용품, 미리 준비해도 될까요?', summary: '현명하게 준비하는 꿀팁' },
+  { id: 4, title: '내가 먹는 것은 아이가 먹는 것이니까', summary: '임산부 식단 관리' },
 ];
 
 const KnowhowsListItemWrap = styled.ul`
