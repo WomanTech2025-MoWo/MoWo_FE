@@ -39,19 +39,19 @@ const LoginPage = () => {
         throw new Error('유효하지 않은 액세스 토큰');
       }
       
-      if (!isNumber(loginResult.expiresIn) || loginResult.expiresIn <= 0) {
-        throw new Error('유효하지 않은 토큰 만료 시간');
+      if (!isNumber(loginResult.userId) || loginResult.userId <= 0) {
+        throw new Error('유효하지 않은 사용자 ID');
       }
       
-      // 토큰 저장 (expiresIn 기반으로 만료시간 계산)
-      const expiresAt = Date.now() + (loginResult.expiresIn * 1000);
+      // 토큰 저장 (기본 24시간 만료)
+      const expiresAt = Date.now() + (24 * 60 * 60 * 1000); // 24시간
       SecureTokenStorage.setTokens({
         accessToken: loginResult.accessToken,
-        refreshToken: loginResult.refreshToken,
+        refreshToken: undefined, // 현재 API에서 제공하지 않음
         expiresAt,
       });
       
-      console.log('✅ 로그인 성공:', loginResult.userInfo?.nickName || '사용자');
+      console.log('✅ 로그인 성공: 사용자 ID', loginResult.userId);
       
       // 로그인 성공 후 리다이렉트
       window.location.href = '/';

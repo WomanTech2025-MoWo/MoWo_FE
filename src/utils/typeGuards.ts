@@ -61,15 +61,14 @@ export const isApiResponse = (value: unknown): value is { isSuccess: boolean; co
 export interface TodoItem {
   id: number;
   title: string;
-  todoCategory: 'HEALTH' | 'WORK' | 'PERSONAL';
+  category: 'HEALTH' | 'WORK' | 'PERSONAL';
   todoDate: string;
   memo?: string;
-  isCompleted: boolean;
-  completeDate?: string;
-  alarmDate?: string;
-  isFixed?: boolean;
-  isDone?: boolean;
-  createdAt?: string;
+  isDone: boolean;
+  completeDate?: string | null;
+  alarmDate?: string | null;
+  isFixed: boolean;
+  createdAt: string;
 }
 
 export const isTodoItem = (value: unknown): value is TodoItem => {
@@ -78,16 +77,15 @@ export const isTodoItem = (value: unknown): value is TodoItem => {
   return (
     isNumber(value.id) &&
     isString(value.title) &&
-    isString(value.todoCategory) &&
-    ['HEALTH', 'WORK', 'PERSONAL'].includes(value.todoCategory as string) &&
+    isString(value.category) &&
+    ['HEALTH', 'WORK', 'PERSONAL'].includes(value.category as string) &&
     isString(value.todoDate) &&
-    isBoolean(value.isCompleted) &&
+    isBoolean(value.isDone) &&
+    isBoolean(value.isFixed) &&
+    isString(value.createdAt) &&
     (value.memo === undefined || isString(value.memo)) &&
-    (value.completeDate === undefined || isString(value.completeDate)) &&
-    (value.alarmDate === undefined || isString(value.alarmDate)) &&
-    (value.isFixed === undefined || isBoolean(value.isFixed)) &&
-    (value.isDone === undefined || isBoolean(value.isDone)) &&
-    (value.createdAt === undefined || isString(value.createdAt))
+    (value.completeDate === undefined || value.completeDate === null || isString(value.completeDate)) &&
+    (value.alarmDate === undefined || value.alarmDate === null || isString(value.alarmDate))
   );
 };
 
@@ -131,16 +129,24 @@ export const isTodosResponse = (value: unknown): value is TodosResponse => {
 };
 
 /**
+ * 투두 생성 응답 타입 가드
+ */
+export interface CreateTodoResponse {
+  todoId: number;
+}
+
+export const isCreateTodoResponse = (value: unknown): value is CreateTodoResponse => {
+  if (!isObject(value)) return false;
+
+  return isNumber(value.todoId);
+};
+
+/**
  * 로그인 응답 타입 가드
  */
 export interface LoginResponse {
   accessToken: string;
-  refreshToken?: string;
-  expiresIn: number;
-  userInfo: {
-    username: string;
-    nickName: string;
-  };
+  userId: number;
 }
 
 export const isLoginResponse = (value: unknown): value is LoginResponse => {
@@ -148,11 +154,7 @@ export const isLoginResponse = (value: unknown): value is LoginResponse => {
 
   return (
     isString(value.accessToken) &&
-    isNumber(value.expiresIn) &&
-    isObject(value.userInfo) &&
-    isString((value.userInfo as any).username) &&
-    isString((value.userInfo as any).nickName) &&
-    (value.refreshToken === undefined || isString(value.refreshToken))
+    isNumber(value.userId)
   );
 };
 
@@ -160,31 +162,46 @@ export const isLoginResponse = (value: unknown): value is LoginResponse => {
  * 사용자 정보 타입 가드
  */
 export interface UserInfo {
-  userName: string;
+  userId: number;
   nickName: string;
-  region?: string;
-  pregnantWeek?: number;
-  ddayToBirth?: number;
-  birthday?: string;
-  pregnantStatus?: string;
-  hasTwins?: boolean;
-  dueDate?: string;
-  // ... 기타 선택적 필드들
+  userName: string;
+  birthday?: string | null;
+  pregnantStatus: string;
+  hasTwins: boolean;
+  dueDate?: string | null;
+  frequentUrination: boolean;
+  jointPain: boolean;
+  heartburn: boolean;
+  abdominalTightness: boolean;
+  drowsiness: boolean;
+  morningSickness: boolean;
+  constipationOrHemorrhoids: boolean;
+  swelling: boolean;
+  dizziness: boolean;
+  insomniaOrSleepDisorder: boolean;
 }
 
 export const isUserInfo = (value: unknown): value is UserInfo => {
   if (!isObject(value)) return false;
 
   return (
-    isString(value.userName) &&
+    isNumber(value.userId) &&
     isString(value.nickName) &&
-    (value.region === undefined || isString(value.region)) &&
-    (value.pregnantWeek === undefined || isNumber(value.pregnantWeek)) &&
-    (value.ddayToBirth === undefined || isNumber(value.ddayToBirth)) &&
-    (value.birthday === undefined || isString(value.birthday)) &&
-    (value.pregnantStatus === undefined || isString(value.pregnantStatus)) &&
-    (value.hasTwins === undefined || isBoolean(value.hasTwins)) &&
-    (value.dueDate === undefined || isString(value.dueDate))
+    isString(value.userName) &&
+    isString(value.pregnantStatus) &&
+    isBoolean(value.hasTwins) &&
+    isBoolean(value.frequentUrination) &&
+    isBoolean(value.jointPain) &&
+    isBoolean(value.heartburn) &&
+    isBoolean(value.abdominalTightness) &&
+    isBoolean(value.drowsiness) &&
+    isBoolean(value.morningSickness) &&
+    isBoolean(value.constipationOrHemorrhoids) &&
+    isBoolean(value.swelling) &&
+    isBoolean(value.dizziness) &&
+    isBoolean(value.insomniaOrSleepDisorder) &&
+    (value.birthday === undefined || value.birthday === null || isString(value.birthday)) &&
+    (value.dueDate === undefined || value.dueDate === null || isString(value.dueDate))
   );
 };
 
