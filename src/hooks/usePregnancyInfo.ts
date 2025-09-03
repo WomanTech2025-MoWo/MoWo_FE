@@ -1,5 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
-import { getPregnancyInfo, PregnancyInfo } from '../utils/pregnancyUtils';
+import { useEffect, useState } from 'react';
+import { PregnancyInfo } from '../utils/pregnancyUtils';
+import { userService } from '../api/services';
+import { ApiError } from '../api/client';
+import SecureTokenStorage from '../utils/secureStorage';
 
 export const usePregnancyInfo = (): PregnancyInfo | null => {
   const [info, setInfo] = useState<PregnancyInfo | null>(null);
@@ -7,26 +10,28 @@ export const usePregnancyInfo = (): PregnancyInfo | null => {
   useEffect(() => {
     const fetchPregnancyWeek = async () => {
       try {
-        const token = localStorage.getItem('token');
-        if (!token) return;
+        // 인증 확인
+        if (!SecureTokenStorage.isTokenValid()) return;
 
-        const res = await fetch('/api/members/pregnancy-week', {
-          headers: { Authorization: `Bearer ${token}` },
-          credentials: 'include',
-        });
-
-        if (!res.ok) throw new Error('임신 주차 조회 실패');
-
-        const data = await res.json();
-        const { pregnantWeek, ddayToBirth } = data.result;
-
+        // 새로운 userService 사용
+        const pregnancyData = await userService.getPregnancyInfo();
+        
         setInfo({
-          week: pregnantWeek,
-          dday: ddayToBirth,
+          week: pregnancyData.pregnantWeek,
+          dday: pregnancyData.ddayToBirth,
           today: new Date(),
         });
+        
+        console.log('✅ 임신 정보 조회 성공:', pregnancyData);
       } catch (err) {
-        console.error(err);
+        console.error('❌ 임신 정보 조회 실패:', err);
+        
+        if (err instanceof ApiError && err.statusCode === 401) {
+          // 401 에러는 이미 인터셉터에서 처리됨
+          return;
+        }
+        
+        setInfo(null);
       }
     };
 

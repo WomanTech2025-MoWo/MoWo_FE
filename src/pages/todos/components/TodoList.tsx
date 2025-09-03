@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import TodoCateButton from './TodoCateButton';
 import ShadowBox from '../../../components/common/ShadowBox';
@@ -7,6 +7,9 @@ import IconCategory from '../../../components/icons/features/todos/IconCategory'
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
+import { todoService } from '../../../api/services';
+import { ApiError } from '../../../api/client';
+import SecureTokenStorage from '../../../utils/secureStorage';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -34,16 +37,6 @@ interface TodoSection {
   completedCount: number;
 }
 
-interface TodosApiResponse {
-  isSuccess: boolean;
-  code: string;
-  message: string;
-  result: {
-    WORK: TodoSection;
-    HEALTH: TodoSection;
-    PERSONAL: TodoSection;
-  };
-}
 
 interface TodoListProps {
   selectedDate: Date;
@@ -99,17 +92,20 @@ const TodoList = ({ selectedDate, todos }: TodoListProps) => {
   const filteredTodos = todos?.filter((todo) => todo.todoDate === dayjs(selectedDate).format('YYYY-MM-DD')) ?? [];
 
   // API 연동
-  const fetchTodos = async (): Promise<TodoSection[]> => {
-    const formattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
-    const res = await fetch(`/api/todos?date=${formattedDate}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
+  const fetchTodos = useCallback(async (): Promise<TodoSection[]> => {
+    try {
+      // 인증 확인
+      if (!SecureTokenStorage.isTokenValid()) return [];
 
-    const data = await res.json();
+      const formattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
+      
+      // 새로운 todoService 사용
+      const todosData = await todoService.getTodos(formattedDate);
+      
+      console.log('✅ 투두 목록 조회 성공:', todosData);
+      console.log('✅ todosData 타입:', typeof todosData, Array.isArray(todosData));
 
-    const mapCategory = (key: string) => {
+    const mapCategory = (key: string): CategoryList => {
       switch (key.toUpperCase()) {
         case 'WORK':
           return 'WORK';
@@ -122,31 +118,62 @@ const TodoList = ({ selectedDate, todos }: TodoListProps) => {
       }
     };
 
-    // sections 배열 생성
-    const sectionsArr: TodoSection[] = (Object.entries(data.result) as [string, TodoSection][]).map(([key, section]) => ({
-      name: mapCategory(key),
-      label: key.toLowerCase() === 'work' ? '업무' : key.toLowerCase() === 'health' ? '건강' : '개인',
-      completedCount: section.completedCount,
-      totalCount: section.totalCount,
-      todos: section.todos.map((todo) => ({
-        ...todo,
-        category: mapCategory(key) as 'HEALTH' | 'WORK' | 'PERSONAL',
-      })),
-    }));
+    // sections 배열 생성 (실제 API 응답 구조에 맞게)
+    const sectionsArr: TodoSection[] = [];
+    
+    Object.entries(todosData || {}).forEach(([key, categoryData]: [string, any]) => {
+      const category = mapCategory(key);
+      if (!category || category === 'ALL') return;
+
+      // categoryData는 {completedCount, todos, totalCount} 구조
+      const todos = categoryData?.todos || [];
+      console.log(`카테고리 ${key}:`, categoryData);
+
+      sectionsArr.push({
+        name: category,
+        label: key.toLowerCase() === 'work' ? '업무' : key.toLowerCase() === 'health' ? '건강' : '개인',
+        completedCount: categoryData?.completedCount || 0,
+        totalCount: categoryData?.totalCount || 0,
+        todos: todos.map((todo: any) => ({
+          id: todo.id,
+          title: todo.title,
+          todoCategory: todo.todoCategory,
+          todoDate: todo.todoDate,
+          memo: todo.memo || '',
+          isCompleted: todo.isCompleted || false,
+          category: category as 'HEALTH' | 'WORK' | 'PERSONAL',
+          completeDate: todo.completeDate || '',
+          alarmDate: todo.alarmDate || '',
+          isFixed: todo.isFixed || false,
+          isDone: todo.isCompleted || false,
+          createdAt: todo.createdAt || '',
+        })),
+      });
+    });
 
     // 순서 변경: HEALTH -> WORK -> PERSONAL
     const order: CategoryList[] = ['HEALTH', 'WORK', 'PERSONAL'];
     const sortedSections = sectionsArr.sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name));
 
     return sortedSections;
-  };
+    } catch (err) {
+      console.error('❌ 투두 목록 조회 실패:', err);
+      
+      if (err instanceof ApiError && err.statusCode === 401) {
+        // 401 에러는 이미 인터셉터에서 처리됨
+        return [];
+      }
+      
+      return [];
+    }
+  }, [selectedDate]);
 
   // API 호출
   useEffect(() => {
     fetchTodos().then((data) => {
       setSections(data);
     });
-  }, [selectedDate]);
+  }, [selectedDate, fetchTodos]);
 
   // 스크롤
   const scrollToSection = (name: CategoryList) => {

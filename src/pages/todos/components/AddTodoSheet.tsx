@@ -13,6 +13,8 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import { TodoListItemProps } from './TodoListItem';
+import { todoService } from '../../../api/services';
+import { ApiError } from '../../../api/client';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -27,7 +29,7 @@ interface TodoPayload {
   todoDate: string;
   title: string;
   memo?: string;
-  todoCategory: string;
+  todoCategory: 'HEALTH' | 'WORK' | 'PERSONAL';
   isFixed: boolean;
   isStorage: boolean;
   alarmDate?: string; // optional
@@ -161,31 +163,17 @@ const AddTodoSheet = ({ onClick, initialText = '', selectedDate, onTodoAdded }: 
     }
 
     try {
-      const res = await fetch('/api/todos', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify(payload),
-      });
+      // 새로운 todoService 사용
+      const newTodo = await todoService.createTodo(payload);
+      
+      console.log('✅ 투두 등록 성공:', newTodo);
 
-      if (!res.ok) {
-        const errorData = await res.json();
-        console.error('투두 등록 실패', errorData);
-        alert('투두 등록 실패');
-        return;
-      }
-
-      const data = await res.json();
-      console.log('등록 성공', data);
-
-      // // ✅ 부모에 새 투두 전달 (화면 즉시 반영)
+      // ✅ 부모에 새 투두 전달 (화면 즉시 반영)
       onTodoAdded?.({
-        id: data.id,
+        id: newTodo.id,
         todoDate: payload.todoDate,
         todoTitle: payload.title,
-        category: payload.todoCategory as 'HEALTH' | 'WORK' | 'PERSONAL',
+        category: payload.todoCategory,
         checked: false,
         isOpen: false,
       });
@@ -224,24 +212,8 @@ const AddTodoSheet = ({ onClick, initialText = '', selectedDate, onTodoAdded }: 
     if (alarmTime) payload.alarmDate = alarmTime;
 
     try {
-      const res = await fetch('/api/todos', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        console.error('임시보관 실패', errorData);
-        alert('임시보관 실패');
-        return;
-      }
-
-      const data = await res.json();
-      console.log('임시보관 성공', data);
+      const response = await todoService.createTodo(payload);
+      console.log('임시보관 성공', response);
       // 필요한 경우 입력 초기화
       setText('');
       setMemo('');

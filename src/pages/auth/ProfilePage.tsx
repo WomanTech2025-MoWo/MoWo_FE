@@ -8,6 +8,9 @@ import OnboardingStep1Form from './components/OnboardingStep1Form';
 import OnboardingStep2Form from './components/OnboardingStep2Form';
 import OnboardingStep3Form from './components/OnboardingStep3Form';
 import { PrimaryButton } from '../../components/buttons/PrimaryButton';
+import { userService } from '../../api/services';
+import SecureTokenStorage from '../../utils/secureStorage';
+import { ApiError } from '../../api/client';
 import { SegmentedContainer, SegmentedList, SegmentedButton } from '../../components/buttons/ui/SegmentedControlStyle';
 import ErrorMessage from '../../components/common/ErrorMessage';
 
@@ -34,18 +37,11 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const token = localStorage.getItem('token');
-        if (!token) throw new Error('로그인이 필요합니다.');
+        if (!SecureTokenStorage.isTokenValid()) {
+          throw new Error('로그인이 필요합니다.');
+        }
 
-        const res = await fetch('/api/members', {
-          method: 'GET',
-          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-          credentials: 'include',
-        });
-
-        if (!res.ok) throw new Error('사용자 정보 조회 실패');
-        const data = await res.json();
-        const result = data.result;
+        const result = await userService.getProfile();
 
         // API 응답 구조에 맞춰 값 세팅
         setUsername(result.userName || '');
@@ -67,8 +63,15 @@ const ProfilePage = () => {
           ...(result.dizziness ? ['어지럼증'] : []),
           ...(result.insomniaOrSleepDisorder ? ['불면수면장애'] : []),
         ]);
-      } catch (err: any) {
-        setError(err.message);
+      } catch (err) {
+        console.error('❌ 프로필 조회 실패:', err);
+        
+        if (err instanceof ApiError && err.statusCode === 401) {
+          // 401 에러는 이미 인터셉터에서 처리됨
+          return;
+        }
+        
+        setError(err instanceof Error ? err.message : '프로필 정보를 가져올 수 없습니다.');
       }
     };
     fetchProfile();
@@ -131,19 +134,21 @@ const ProfilePage = () => {
     }
 
     try {
-      const token = localStorage.getItem('token');
-      if (!token) throw new Error('로그인이 필요합니다.');
+      if (!SecureTokenStorage.isTokenValid()) {
+        throw new Error('로그인이 필요합니다.');
+      }
 
-      const res = await fetch('/api/members', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        credentials: 'include',
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) throw new Error('회원정보 수정 실패');
-      alert('회원정보가 수정되었습니다.');
-    } catch (err: any) {
-      setError(err.message);
+      await userService.updateProfile(payload);
+      alert('회원정보가 성공적으로 수정되었습니다.');
+    } catch (err) {
+      console.error('❌ 프로필 수정 실패:', err);
+      
+      if (err instanceof ApiError && err.statusCode === 401) {
+        // 401 에러는 이미 인터셉터에서 처리됨
+        return;
+      }
+      
+      setError(err instanceof Error ? err.message : '회원정보를 수정할 수 없습니다.');
     }
   };
 
