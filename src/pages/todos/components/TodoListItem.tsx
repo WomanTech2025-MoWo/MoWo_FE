@@ -88,4 +88,17 @@ const TodoListItem = ({
   );
 };
 
-export default TodoListItem;
+// React.memo로 성능 최적화
+export default React.memo(TodoListItem, (prevProps, nextProps) => {
+  // props 변경 감지를 위한 커스텀 비교 함수
+  return (
+    prevProps.id === nextProps.id &&
+    prevProps.todoTitle === nextProps.todoTitle &&
+    prevProps.category === nextProps.category &&
+    prevProps.checked === nextProps.checked &&
+    prevProps.isOpen === nextProps.isOpen &&
+    prevProps.showCheckbox === nextProps.showCheckbox &&
+    prevProps.disableCheck === nextProps.disableCheck &&
+    prevProps.todoDate === nextProps.todoDate
+  );
+});

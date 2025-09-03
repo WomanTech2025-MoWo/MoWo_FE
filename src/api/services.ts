@@ -1,4 +1,13 @@
 import { api } from './client';
+import { 
+  isTodosResponse, 
+  isLoginResponse, 
+  isUserInfo,
+  isTodoItem,
+  isNotificationItem,
+  parseApiResponse,
+  safeFilter
+} from '../utils/typeGuards';
 
 // === 타입 정의 ===
 
@@ -25,7 +34,7 @@ export interface PregnancyInfo {
   region?: string;
 }
 
-// 사용자 정보
+// 사용자 정보 (백엔드 API와 일치)
 export interface UserInfo {
   userName: string;
   nickName: string;
@@ -97,15 +106,17 @@ export interface NotificationItem {
 // === API 서비스들 ===
 
 export const authService = {
-  // 로그인
+  // 로그인 (타입 가드 적용)
   login: async (credentials: LoginRequest) => {
     const response = await api.post<LoginResponse>('/members/auth/login', credentials);
     
-    if (!response.data.isSuccess) {
-      throw new Error(response.data.message || '로그인 실패');
+    const parsedResult = parseApiResponse(response.data, isLoginResponse);
+    
+    if (!parsedResult.success) {
+      throw new Error(parsedResult.error);
     }
     
-    return response.data.result!;
+    return parsedResult.data;
   },
 
   // 로그아웃 (서버 API가 있다면)
@@ -119,26 +130,30 @@ export const authService = {
 };
 
 export const userService = {
-  // 사용자 정보 조회
+  // 사용자 정보 조회 (타입 가드 적용)
   getProfile: async () => {
     const response = await api.get<UserInfo>('/members');
     
-    if (!response.data.isSuccess) {
-      throw new Error(response.data.message || '사용자 정보 조회 실패');
+    const parsedResult = parseApiResponse(response.data, isUserInfo);
+    
+    if (!parsedResult.success) {
+      throw new Error(parsedResult.error);
     }
     
-    return response.data.result!;
+    return parsedResult.data;
   },
 
-  // 사용자 정보 수정
+  // 사용자 정보 수정 (타입 가드 적용)
   updateProfile: async (data: Partial<UserInfo>) => {
     const response = await api.patch<UserInfo>('/members', data);
     
-    if (!response.data.isSuccess) {
-      throw new Error(response.data.message || '사용자 정보 수정 실패');
+    const parsedResult = parseApiResponse(response.data, isUserInfo);
+    
+    if (!parsedResult.success) {
+      throw new Error(parsedResult.error);
     }
     
-    return response.data.result!;
+    return parsedResult.data;
   },
 
   // 임신 정보 조회
@@ -154,38 +169,44 @@ export const userService = {
 };
 
 export const todoService = {
-  // 투두 목록 조회 (날짜별)
+  // 투두 목록 조회 (타입 가드 적용)
   getTodos: async (date?: string) => {
     const params = date ? { date } : {};
     const response = await api.get<TodosResponse>('/todos', { params });
     
-    if (!response.data.isSuccess) {
-      throw new Error(response.data.message || '투두 목록 조회 실패');
+    const parsedResult = parseApiResponse(response.data, isTodosResponse);
+    
+    if (!parsedResult.success) {
+      throw new Error(parsedResult.error);
     }
     
-    return response.data.result!;
+    return parsedResult.data;
   },
 
-  // 투두 생성
+  // 투두 생성 (타입 가드 적용)
   createTodo: async (todo: CreateTodoRequest) => {
     const response = await api.post<TodoItem>('/todos', todo);
     
-    if (!response.data.isSuccess) {
-      throw new Error(response.data.message || '투두 생성 실패');
+    const parsedResult = parseApiResponse(response.data, isTodoItem);
+    
+    if (!parsedResult.success) {
+      throw new Error(parsedResult.error);
     }
     
-    return response.data.result!;
+    return parsedResult.data;
   },
 
-  // 투두 수정
+  // 투두 수정 (타입 가드 적용)
   updateTodo: async (id: number, todo: Partial<TodoItem>) => {
     const response = await api.patch<TodoItem>(`/todos/${id}`, todo);
     
-    if (!response.data.isSuccess) {
-      throw new Error(response.data.message || '투두 수정 실패');
+    const parsedResult = parseApiResponse(response.data, isTodoItem);
+    
+    if (!parsedResult.success) {
+      throw new Error(parsedResult.error);
     }
     
-    return response.data.result!;
+    return parsedResult.data;
   },
 
   // 투두 삭제
@@ -199,15 +220,19 @@ export const todoService = {
     return response.data.result!;
   },
 
-  // 알림 조회
+  // 알림 조회 (타입 가드 적용)
   getNotifications: async () => {
     const response = await api.get<NotificationItem[]>('/todos/notifications');
     
-    if (!response.data.isSuccess) {
-      throw new Error(response.data.message || '알림 조회 실패');
+    const parsedResult = parseApiResponse(response.data, (data: unknown): data is NotificationItem[] => {
+      return Array.isArray(data) && data.every(isNotificationItem);
+    });
+    
+    if (!parsedResult.success) {
+      throw new Error(parsedResult.error);
     }
     
-    return response.data.result!;
+    return parsedResult.data;
   },
 };
 

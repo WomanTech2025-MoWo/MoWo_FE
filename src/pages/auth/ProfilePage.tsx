@@ -8,7 +8,7 @@ import OnboardingStep1Form from './components/OnboardingStep1Form';
 import OnboardingStep2Form from './components/OnboardingStep2Form';
 import OnboardingStep3Form from './components/OnboardingStep3Form';
 import { PrimaryButton } from '../../components/buttons/PrimaryButton';
-import { userService } from '../../api/services';
+import { userService, UserInfo } from '../../api/services';
 import SecureTokenStorage from '../../utils/secureStorage';
 import { ApiError } from '../../api/client';
 import { SegmentedContainer, SegmentedList, SegmentedButton } from '../../components/buttons/ui/SegmentedControlStyle';
@@ -46,22 +46,22 @@ const ProfilePage = () => {
         // API 응답 구조에 맞춰 값 세팅
         setUsername(result.userName || '');
         setNickname(result.nickName || '');
-        setBirthdate(result.birthday || '');
-        setPregnantStatus(result.pregnantStatus || '');
-        setIsMultiparous(result.hasTwins ? '네' : '아니오'); // API boolean → UI string
-        setDuedate(result.dueDate || '');
-        setHasTwins(result.hasTwins ? '네' : '아니오');
+        setBirthdate((result as any).birthday || '');
+        setPregnantStatus((result as any).pregnantStatus || '');
+        setIsMultiparous((result as any).hasTwins ? '네' : '아니오'); // API boolean → UI string
+        setDuedate((result as any).dueDate || '');
+        setHasTwins((result as any).hasTwins ? '네' : '아니오');
         setSymptoms([
-          ...(result.frequentUrination ? ['이뇨감'] : []),
-          ...(result.jointPain ? ['관절 통증'] : []),
-          ...(result.heartburn ? ['속쓰림'] : []),
-          ...(result.abdominalTightness ? ['배 뭉침'] : []),
-          ...(result.drowsiness ? ['졸림'] : []),
-          ...(result.morningSickness ? ['입덧'] : []),
-          ...(result.constipationOrHemorrhoids ? ['변비치질'] : []),
-          ...(result.swelling ? ['부종'] : []),
-          ...(result.dizziness ? ['어지럼증'] : []),
-          ...(result.insomniaOrSleepDisorder ? ['불면수면장애'] : []),
+          ...((result as any).frequentUrination ? ['이뇨감'] : []),
+          ...((result as any).jointPain ? ['관절 통증'] : []),
+          ...((result as any).heartburn ? ['속쓰림'] : []),
+          ...((result as any).abdominalTightness ? ['배 뭉침'] : []),
+          ...((result as any).drowsiness ? ['졸림'] : []),
+          ...((result as any).morningSickness ? ['입덧'] : []),
+          ...((result as any).constipationOrHemorrhoids ? ['변비치질'] : []),
+          ...((result as any).swelling ? ['부종'] : []),
+          ...((result as any).dizziness ? ['어지럼증'] : []),
+          ...((result as any).insomniaOrSleepDisorder ? ['불면수면장애'] : []),
         ]);
       } catch (err) {
         console.error('❌ 프로필 조회 실패:', err);

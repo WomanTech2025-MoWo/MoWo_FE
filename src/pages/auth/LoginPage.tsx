@@ -8,6 +8,7 @@ import ErrorMessage from '../../components/common/ErrorMessage';
 import { authService } from '../../api/services';
 import { ApiError } from '../../api/client';
 import SecureTokenStorage from '../../utils/secureStorage';
+import { isString, isNumber } from '../../utils/typeGuards';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -19,8 +20,28 @@ const LoginPage = () => {
     setError('');
 
     try {
-      // 새로운 authService 사용
-      const loginResult = await authService.login({ username, password });
+      // 입력 값 검증
+      if (!isString(username) || username.trim().length === 0) {
+        setError('사용자명을 입력해주세요.');
+        return;
+      }
+      
+      if (!isString(password) || password.trim().length === 0) {
+        setError('비밀번호를 입력해주세요.');
+        return;
+      }
+
+      // 새로운 authService 사용 (타입 가드로 검증됨)
+      const loginResult = await authService.login({ username: username.trim(), password });
+      
+      // 응답 데이터 추가 검증
+      if (!isString(loginResult.accessToken) || loginResult.accessToken.length === 0) {
+        throw new Error('유효하지 않은 액세스 토큰');
+      }
+      
+      if (!isNumber(loginResult.expiresIn) || loginResult.expiresIn <= 0) {
+        throw new Error('유효하지 않은 토큰 만료 시간');
+      }
       
       // 토큰 저장 (expiresIn 기반으로 만료시간 계산)
       const expiresAt = Date.now() + (loginResult.expiresIn * 1000);
@@ -30,7 +51,7 @@ const LoginPage = () => {
         expiresAt,
       });
       
-      console.log('✅ 로그인 성공:', loginResult.userInfo.nickName);
+      console.log('✅ 로그인 성공:', loginResult.userInfo?.nickName || '사용자');
       
       // 로그인 성공 후 리다이렉트
       window.location.href = '/';
