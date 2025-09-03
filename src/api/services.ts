@@ -4,6 +4,7 @@ import {
   isLoginResponse, 
   isUserInfo,
   isTodoItem,
+  isCreateTodoResponse,
   isNotificationItem,
   parseApiResponse,
   safeFilter
@@ -108,12 +109,16 @@ export interface NotificationItem {
 export const authService = {
   // 로그인 (타입 가드 적용)
   login: async (credentials: LoginRequest) => {
-    const response = await api.post<LoginResponse>('/members/auth/login', credentials);
+    const response = await api.post('/members/auth/login', credentials);
     
+    console.log('🔍 로그인 API 전체 응답:', response.data);
+    
+    // API 응답이 {isSuccess, code, message, result} 형태이므로 parseApiResponse 사용
     const parsedResult = parseApiResponse(response.data, isLoginResponse);
     
     if (!parsedResult.success) {
-      throw new Error(parsedResult.error);
+      console.error('❌ 로그인 응답 검증 실패:', parsedResult.error);
+      throw new Error(`Invalid login response: ${parsedResult.error}`);
     }
     
     return parsedResult.data;
@@ -132,11 +137,16 @@ export const authService = {
 export const userService = {
   // 사용자 정보 조회 (타입 가드 적용)
   getProfile: async () => {
-    const response = await api.get<UserInfo>('/members');
+    const response = await api.get('/members');
+    
+    console.log('🔍 프로필 조회 API 전체 응답:', response.data);
+    console.log('🔍 프로필 조회 result 부분:', response.data.result);
     
     const parsedResult = parseApiResponse(response.data, isUserInfo);
     
     if (!parsedResult.success) {
+      console.error('❌ 프로필 조회 응답 검증 실패:', parsedResult.error);
+      console.error('❌ 실제 응답 데이터:', JSON.stringify(response.data, null, 2));
       throw new Error(parsedResult.error);
     }
     
@@ -145,15 +155,16 @@ export const userService = {
 
   // 사용자 정보 수정 (타입 가드 적용)
   updateProfile: async (data: Partial<UserInfo>) => {
-    const response = await api.patch<UserInfo>('/members', data);
+    const response = await api.patch('/members', data);
     
-    const parsedResult = parseApiResponse(response.data, isUserInfo);
+    console.log('🔍 프로필 수정 API 전체 응답:', response.data);
     
-    if (!parsedResult.success) {
-      throw new Error(parsedResult.error);
+    // 프로필 수정은 단순히 성공 메시지만 반환하므로 성공 여부만 확인
+    if (!response.data.isSuccess) {
+      throw new Error(response.data.message || '프로필 수정 실패');
     }
     
-    return parsedResult.data;
+    return response.data.result; // 성공 메시지 반환
   },
 
   // 임신 정보 조회
@@ -174,9 +185,16 @@ export const todoService = {
     const params = date ? { date } : {};
     const response = await api.get<TodosResponse>('/todos', { params });
     
+    console.log('🔍 투두 목록 API 전체 응답:', response.data);
+    console.log('🔍 투두 목록 result 부분:', response.data.result);
+    console.log('🔍 result 타입:', typeof response.data.result);
+    
     const parsedResult = parseApiResponse(response.data, isTodosResponse);
     
     if (!parsedResult.success) {
+      console.error('❌ 투두 목록 응답 검증 실패:', parsedResult.error);
+      console.error('❌ 실제 응답 데이터 전체:', response.data);
+      console.error('❌ result 부분 상세:', JSON.stringify(response.data.result, null, 2));
       throw new Error(parsedResult.error);
     }
     
@@ -185,11 +203,15 @@ export const todoService = {
 
   // 투두 생성 (타입 가드 적용)
   createTodo: async (todo: CreateTodoRequest) => {
-    const response = await api.post<TodoItem>('/todos', todo);
+    const response = await api.post('/todos', todo);
     
-    const parsedResult = parseApiResponse(response.data, isTodoItem);
+    console.log('🔍 투두 생성 API 전체 응답:', response.data);
+    
+    const parsedResult = parseApiResponse(response.data, isCreateTodoResponse);
     
     if (!parsedResult.success) {
+      console.error('❌ 투두 생성 응답 검증 실패:', parsedResult.error);
+      console.error('❌ 실제 응답 데이터:', JSON.stringify(response.data, null, 2));
       throw new Error(parsedResult.error);
     }
     
@@ -198,11 +220,15 @@ export const todoService = {
 
   // 투두 수정 (타입 가드 적용)
   updateTodo: async (id: number, todo: Partial<TodoItem>) => {
-    const response = await api.patch<TodoItem>(`/todos/${id}`, todo);
+    const response = await api.patch(`/todos/${id}`, todo);
+    
+    console.log('🔍 투두 수정 API 전체 응답:', response.data);
     
     const parsedResult = parseApiResponse(response.data, isTodoItem);
     
     if (!parsedResult.success) {
+      console.error('❌ 투두 수정 응답 검증 실패:', parsedResult.error);
+      console.error('❌ 실제 응답 데이터:', JSON.stringify(response.data, null, 2));
       throw new Error(parsedResult.error);
     }
     
