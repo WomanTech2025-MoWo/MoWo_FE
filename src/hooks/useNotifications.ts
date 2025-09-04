@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import { todoService } from '../api/services';
+import { ApiError } from '../api/client';
+import SecureTokenStorage from '../utils/secureStorage';
 
 export interface AlertItem {
   content: string;
@@ -11,19 +14,22 @@ export const useNotifications = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const token = localStorage.getItem('token');
-        if (!token) return;
+        // 인증 확인
+        if (!SecureTokenStorage.isTokenValid()) return;
 
-        const res = await fetch('/api/todos/notifications', {
-          headers: { Authorization: `Bearer ${token}` },
-          credentials: 'include',
-        });
-
-        if (!res.ok) throw new Error('알림 조회 실패');
-        const data = await res.json();
-        setAlerts(data.result || []);
+        // 새로운 todoService 사용
+        const notifications = await todoService.getNotifications();
+        setAlerts(notifications || []);
+        
       } catch (err) {
-        console.error(err);
+        console.error('❌ 알림 조회 실패:', err);
+        
+        if (err instanceof ApiError && err.statusCode === 401) {
+          // 401 에러는 이미 인터셉터에서 처리됨
+          return;
+        }
+        
+        setAlerts([]);
       }
     };
 

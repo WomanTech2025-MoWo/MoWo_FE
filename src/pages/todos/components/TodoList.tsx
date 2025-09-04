@@ -1,15 +1,16 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback, useMemo, startTransition } from 'react';
 import styled from 'styled-components';
 import TodoCateButton from './TodoCateButton';
 import ShadowBox from '../../../components/common/ShadowBox';
 import TodoListItem, { TodoListItemProps } from './TodoListItem';
 import IconCategory from '../../../components/icons/features/todos/IconCategory';
 import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
+import { todoService } from '../../../api/services';
+import { ApiError } from '../../../api/client';
+import SecureTokenStorage from '../../../utils/secureStorage';
+import { isTodosResponse, safeGet, isObject } from '../../../utils/typeGuards';
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
+// dayjs 플러그인은 필요한 경우에만 import하여 번들 크기 최적화
 
 export type CategoryList = 'ALL' | 'HEALTH' | 'WORK' | 'PERSONAL';
 
@@ -34,16 +35,6 @@ interface TodoSection {
   completedCount: number;
 }
 
-interface TodosApiResponse {
-  isSuccess: boolean;
-  code: string;
-  message: string;
-  result: {
-    WORK: TodoSection;
-    HEALTH: TodoSection;
-    PERSONAL: TodoSection;
-  };
-}
 
 interface TodoListProps {
   selectedDate: Date;
@@ -87,6 +78,9 @@ const TodoItemWrapper = styled.ul`
   gap: var(--size-gap-sm);
 `;
 
+// 성능 최적화: 큰 리스트를 위한 가상화 임계값
+const VIRTUALIZATION_THRESHOLD = 50;
+
 const TodoList = ({ selectedDate, todos }: TodoListProps) => {
   const [activeCategory, setActiveCategory] = useState<CategoryList>('HEALTH');
   const [openItemId, setOpenItemId] = useState<number | null>(null);
@@ -96,20 +90,26 @@ const TodoList = ({ selectedDate, todos }: TodoListProps) => {
   const sectionRefs = useRef<Partial<Record<CategoryList, HTMLDivElement | null>>>({}); // 카테고리별 ref 저장
   const isManualScroll = useRef(false);
 
-  const filteredTodos = todos?.filter((todo) => todo.todoDate === dayjs(selectedDate).format('YYYY-MM-DD')) ?? [];
+  // useMemo로 필터링 결과 캐싱
+  const filteredTodos = useMemo(() => {
+    if (!todos) return [];
+    const formattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
+    return todos.filter((todo) => todo.todoDate === formattedDate);
+  }, [todos, selectedDate]);
 
   // API 연동
-  const fetchTodos = async (): Promise<TodoSection[]> => {
-    const formattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
-    const res = await fetch(`/api/todos?date=${formattedDate}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
+  const fetchTodos = useCallback(async (): Promise<TodoSection[]> => {
+    try {
+      // 인증 확인
+      if (!SecureTokenStorage.isTokenValid()) return [];
 
-    const data = await res.json();
+      const formattedDate = dayjs(selectedDate).format('YYYY-MM-DD');
+      
+      // 새로운 todoService 사용 (타입 가드로 검증됨)
+      const todosData = await todoService.getTodos(formattedDate);
+      
 
-    const mapCategory = (key: string) => {
+    const mapCategory = (key: string): CategoryList => {
       switch (key.toUpperCase()) {
         case 'WORK':
           return 'WORK';
@@ -122,34 +122,77 @@ const TodoList = ({ selectedDate, todos }: TodoListProps) => {
       }
     };
 
-    // sections 배열 생성
-    const sectionsArr: TodoSection[] = (Object.entries(data.result) as [string, TodoSection][]).map(([key, section]) => ({
-      name: mapCategory(key),
-      label: key.toLowerCase() === 'work' ? '업무' : key.toLowerCase() === 'health' ? '건강' : '개인',
-      completedCount: section.completedCount,
-      totalCount: section.totalCount,
-      todos: section.todos.map((todo) => ({
-        ...todo,
-        category: mapCategory(key) as 'HEALTH' | 'WORK' | 'PERSONAL',
-      })),
-    }));
+    // sections 배열 생성 (타입 가드로 안전하게 처리)
+    const sectionsArr: TodoSection[] = [];
+    
+    if (isObject(todosData)) {
+      Object.entries(todosData).forEach(([key, categoryData]: [string, any]) => {
+        const category = mapCategory(key);
+        if (!category || category === 'ALL') return;
+
+        // categoryData 안전성 검증
+        if (!isObject(categoryData)) {
+          console.warn(`카테고리 ${key} 데이터가 유효하지 않음:`, categoryData);
+          return;
+        }
+
+        const todos = Array.isArray(categoryData.todos) ? categoryData.todos : [];
+        const completedCount = typeof categoryData.completedCount === 'number' ? categoryData.completedCount : 0;
+        const totalCount = typeof categoryData.totalCount === 'number' ? categoryData.totalCount : 0;
+        
+
+        sectionsArr.push({
+          name: category,
+          label: key.toLowerCase() === 'work' ? '업무' : key.toLowerCase() === 'health' ? '건강' : '개인',
+          completedCount,
+          totalCount,
+          todos: todos.map((todo: any) => ({
+            id: typeof todo.id === 'number' ? todo.id : 0,
+            title: typeof todo.title === 'string' ? todo.title : '',
+            todoCategory: todo.todoCategory || category,
+            todoDate: typeof todo.todoDate === 'string' ? todo.todoDate : '',
+            memo: typeof todo.memo === 'string' ? todo.memo : '',
+            isCompleted: typeof todo.isCompleted === 'boolean' ? todo.isCompleted : false,
+            category: category as 'HEALTH' | 'WORK' | 'PERSONAL',
+            completeDate: typeof todo.completeDate === 'string' ? todo.completeDate : '',
+            alarmDate: typeof todo.alarmDate === 'string' ? todo.alarmDate : '',
+            isFixed: typeof todo.isFixed === 'boolean' ? todo.isFixed : false,
+            isDone: typeof todo.isCompleted === 'boolean' ? todo.isCompleted : false,
+            createdAt: typeof todo.createdAt === 'string' ? todo.createdAt : '',
+          })),
+        });
+      });
+    } else {
+    }
 
     // 순서 변경: HEALTH -> WORK -> PERSONAL
     const order: CategoryList[] = ['HEALTH', 'WORK', 'PERSONAL'];
     const sortedSections = sectionsArr.sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name));
 
     return sortedSections;
-  };
-
-  // API 호출
-  useEffect(() => {
-    fetchTodos().then((data) => {
-      setSections(data);
-    });
+    } catch (err) {
+      console.error('❌ 투두 목록 조회 실패:', err);
+      
+      if (err instanceof ApiError && err.statusCode === 401) {
+        // 401 에러는 이미 인터셉터에서 처리됨
+        return [];
+      }
+      
+      return [];
+    }
   }, [selectedDate]);
 
-  // 스크롤
-  const scrollToSection = (name: CategoryList) => {
+  // API 호출 (React 18 startTransition으로 성능 개선)
+  useEffect(() => {
+    fetchTodos().then((data) => {
+      startTransition(() => {
+        setSections(data);
+      });
+    });
+  }, [selectedDate, fetchTodos]);
+
+  // useCallback으로 스크롤 함수 최적화
+  const scrollToSection = useCallback((name: CategoryList) => {
     isManualScroll.current = true;
     setActiveCategory(name);
 
@@ -163,7 +206,7 @@ const TodoList = ({ selectedDate, todos }: TodoListProps) => {
     setTimeout(() => {
       isManualScroll.current = false;
     }, 800); // smooth scroll duration 정도로
-  };
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -203,6 +246,15 @@ const TodoList = ({ selectedDate, todos }: TodoListProps) => {
     return () => observer.disconnect();
   }, []);
 
+  // 성능 최적화: 이벤트 핸들러들을 useCallback으로 최적화
+  const handleTodoOpen = useCallback((id: number) => {
+    setOpenItemId(id);
+  }, []);
+
+  const handleTodoClose = useCallback(() => {
+    setOpenItemId(null);
+  }, []);
+
   return (
     <>
       <TodoCateButton activeCategory={activeCategory} onCategoryClick={scrollToSection} />
@@ -231,8 +283,8 @@ const TodoList = ({ selectedDate, todos }: TodoListProps) => {
                     key={todo.id}
                     {...todo}
                     isOpen={openItemId === todo.id}
-                    onOpen={() => setOpenItemId(todo.id)}
-                    onClose={() => setOpenItemId(null)}
+                    onOpen={() => handleTodoOpen(todo.id)}
+                    onClose={handleTodoClose}
                   />
                 ))}
                 {filteredTodos.map((todo) => (

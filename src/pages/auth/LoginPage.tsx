@@ -5,6 +5,10 @@ import { PrimaryButton } from '../../components/buttons/PrimaryButton';
 import Logo from '../../components/common/Logo';
 import { NormalButton } from '../../components/buttons/NormalButton';
 import ErrorMessage from '../../components/common/ErrorMessage';
+import { authService } from '../../api/services';
+import { ApiError } from '../../api/client';
+import SecureTokenStorage from '../../utils/secureStorage';
+import { isString, isNumber } from '../../utils/typeGuards';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -12,31 +16,52 @@ const LoginPage = () => {
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // 페이지 새로고침 방지
+    e.preventDefault();
+    setError('');
 
     try {
-      const res = await fetch('/api/members/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        setError(errorData.message || '로그인 실패');
+      // 입력 값 검증
+      if (!isString(username) || username.trim().length === 0) {
+        setError('사용자명을 입력해주세요.');
+        return;
+      }
+      
+      if (!isString(password) || password.trim().length === 0) {
+        setError('비밀번호를 입력해주세요.');
         return;
       }
 
-      const data = await res.json();
-      const token = data.result.accessToken;
-      localStorage.setItem('token', token); // JWT 저장
+      // 새로운 authService 사용 (타입 가드로 검증됨)
+      const loginResult = await authService.login({ username: username.trim(), password });
+      
+      // 응답 데이터 추가 검증
+      if (!isString(loginResult.accessToken) || loginResult.accessToken.length === 0) {
+        throw new Error('유효하지 않은 액세스 토큰');
+      }
+      
+      if (!isNumber(loginResult.userId) || loginResult.userId <= 0) {
+        throw new Error('유효하지 않은 사용자 ID');
+      }
+      
+      // 토큰 저장 (기본 24시간 만료)
+      const expiresAt = Date.now() + (24 * 60 * 60 * 1000); // 24시간
+      SecureTokenStorage.setTokens({
+        accessToken: loginResult.accessToken,
+        refreshToken: undefined, // 현재 API에서 제공하지 않음
+        expiresAt,
+      });
+      
+      
       // 로그인 성공 후 리다이렉트
       window.location.href = '/';
     } catch (err) {
-      setError('로그인 중 오류 발생');
-      console.error(err);
+      console.error('❌ 로그인 실패:', err);
+      
+      if (err instanceof ApiError) {
+        setError(err.message);
+      } else {
+        setError('로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
+      }
     }
   };
 
