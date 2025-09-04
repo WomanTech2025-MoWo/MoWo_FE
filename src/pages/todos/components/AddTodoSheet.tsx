@@ -166,7 +166,6 @@ const AddTodoSheet = ({ onClick, initialText = '', selectedDate, onTodoAdded }: 
       // 새로운 todoService 사용
       const newTodo = await todoService.createTodo(payload);
       
-      console.log('✅ 투두 등록 성공:', newTodo);
 
       // ✅ 부모에 완료 신호 전달 (부모에서 전체 목록 새로고침)
       onTodoAdded?.();
@@ -206,7 +205,6 @@ const AddTodoSheet = ({ onClick, initialText = '', selectedDate, onTodoAdded }: 
 
     try {
       const response = await todoService.createTodo(payload);
-      console.log('임시보관 성공', response);
       // 필요한 경우 입력 초기화
       setText('');
       setMemo('');

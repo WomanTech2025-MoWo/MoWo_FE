@@ -21,7 +21,6 @@ export const useNotifications = () => {
         const notifications = await todoService.getNotifications();
         setAlerts(notifications || []);
         
-        console.log('✅ 알림 조회 성공:', notifications);
       } catch (err) {
         console.error('❌ 알림 조회 실패:', err);
         

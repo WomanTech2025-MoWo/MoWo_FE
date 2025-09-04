@@ -108,8 +108,6 @@ const TodoList = ({ selectedDate, todos }: TodoListProps) => {
       // 새로운 todoService 사용 (타입 가드로 검증됨)
       const todosData = await todoService.getTodos(formattedDate);
       
-      console.log('✅ 투두 목록 조회 성공:', todosData);
-      console.log('✅ todosData 타입 검증 완료:', typeof todosData, isTodosResponse(todosData));
 
     const mapCategory = (key: string): CategoryList => {
       switch (key.toUpperCase()) {
@@ -142,7 +140,6 @@ const TodoList = ({ selectedDate, todos }: TodoListProps) => {
         const completedCount = typeof categoryData.completedCount === 'number' ? categoryData.completedCount : 0;
         const totalCount = typeof categoryData.totalCount === 'number' ? categoryData.totalCount : 0;
         
-        console.log(`✅ 카테고리 ${key} 처리 완료:`, { completedCount, totalCount, todosCount: todos.length });
 
         sectionsArr.push({
           name: category,
@@ -166,7 +163,6 @@ const TodoList = ({ selectedDate, todos }: TodoListProps) => {
         });
       });
     } else {
-      console.error('❌ todosData가 객체가 아닙니다:', todosData);
     }
 
     // 순서 변경: HEALTH -> WORK -> PERSONAL

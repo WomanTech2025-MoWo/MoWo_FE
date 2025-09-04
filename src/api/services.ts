@@ -111,8 +111,6 @@ export const authService = {
   login: async (credentials: LoginRequest) => {
     const response = await api.post('/members/auth/login', credentials);
     
-    console.log('🔍 로그인 API 전체 응답:', response.data);
-    
     // API 응답이 {isSuccess, code, message, result} 형태이므로 parseApiResponse 사용
     const parsedResult = parseApiResponse(response.data, isLoginResponse);
     
@@ -139,9 +137,6 @@ export const userService = {
   getProfile: async () => {
     const response = await api.get('/members');
     
-    console.log('🔍 프로필 조회 API 전체 응답:', response.data);
-    console.log('🔍 프로필 조회 result 부분:', response.data.result);
-    
     const parsedResult = parseApiResponse(response.data, isUserInfo);
     
     if (!parsedResult.success) {
@@ -156,8 +151,6 @@ export const userService = {
   // 사용자 정보 수정 (타입 가드 적용)
   updateProfile: async (data: Partial<UserInfo>) => {
     const response = await api.patch('/members', data);
-    
-    console.log('🔍 프로필 수정 API 전체 응답:', response.data);
     
     // 프로필 수정은 단순히 성공 메시지만 반환하므로 성공 여부만 확인
     if (!response.data.isSuccess) {
@@ -185,10 +178,6 @@ export const todoService = {
     const params = date ? { date } : {};
     const response = await api.get<TodosResponse>('/todos', { params });
     
-    console.log('🔍 투두 목록 API 전체 응답:', response.data);
-    console.log('🔍 투두 목록 result 부분:', response.data.result);
-    console.log('🔍 result 타입:', typeof response.data.result);
-    
     const parsedResult = parseApiResponse(response.data, isTodosResponse);
     
     if (!parsedResult.success) {
@@ -205,8 +194,6 @@ export const todoService = {
   createTodo: async (todo: CreateTodoRequest) => {
     const response = await api.post('/todos', todo);
     
-    console.log('🔍 투두 생성 API 전체 응답:', response.data);
-    
     const parsedResult = parseApiResponse(response.data, isCreateTodoResponse);
     
     if (!parsedResult.success) {
@@ -221,8 +208,6 @@ export const todoService = {
   // 투두 수정 (타입 가드 적용)
   updateTodo: async (id: number, todo: Partial<TodoItem>) => {
     const response = await api.patch(`/todos/${id}`, todo);
-    
-    console.log('🔍 투두 수정 API 전체 응답:', response.data);
     
     const parsedResult = parseApiResponse(response.data, isTodoItem);
     

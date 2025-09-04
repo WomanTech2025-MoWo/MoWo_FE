@@ -22,7 +22,6 @@ export const usePregnancyInfo = (): PregnancyInfo | null => {
           today: new Date(),
         });
         
-        console.log('✅ 임신 정보 조회 성공:', pregnancyData);
       } catch (err) {
         console.error('❌ 임신 정보 조회 실패:', err);
         

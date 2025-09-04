@@ -51,7 +51,6 @@ const LoginPage = () => {
         expiresAt,
       });
       
-      console.log('✅ 로그인 성공: 사용자 ID', loginResult.userId);
       
       // 로그인 성공 후 리다이렉트
       window.location.href = '/';
