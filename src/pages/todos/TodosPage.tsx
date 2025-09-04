@@ -10,6 +10,7 @@ import Calendar from '../../components/common/Calendar';
 import AddTodoSheet from './components/AddTodoSheet';
 import { useLocation } from 'react-router-dom';
 import { TodoListItemProps } from './components/TodoListItem';
+import { todoService } from '../../api/services';
 
 const TodoWrap = styled(InnerLayout)`
   padding-bottom: calc(var(--size-inner-padding-4x) + var(--size-inner-padding));
@@ -45,6 +46,7 @@ const TodosPage = () => {
   const [viewMode, setViewMode] = useState<'week' | 'month'>('week');
   const [prefillText, setPrefillText] = useState('');
   const [todos, setTodos] = useState<TodoListItemProps[]>([]);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const location = useLocation();
 
@@ -65,7 +67,7 @@ const TodosPage = () => {
         <Calendar selected={selectedDate} onSelect={setSelectedDate} viewMode={viewMode} />
       </CalendarWrapper>
       <div>
-        <TodoList selectedDate={selectedDate} todos={todos} />
+        <TodoList key={refreshKey} selectedDate={selectedDate} todos={todos} />
       </div>
       <AddTodoBtnWrapper>
         <AddTodoBtn type="button" onClick={() => setIsAddSheetOpen(true)}>
@@ -77,7 +79,11 @@ const TodosPage = () => {
           selectedDate={selectedDate}
           onClick={() => setIsAddSheetOpen(false)}
           initialText={prefillText}
-          onTodoAdded={(newTodo) => setTodos((prev) => [...prev, newTodo])}
+          onTodoAdded={() => {
+            // TodoList를 강제로 리렌더링하여 새 데이터를 가져오도록 함
+            setRefreshKey(prev => prev + 1);
+            setIsAddSheetOpen(false);
+          }}
         />
       )}
       <GlobalNavigation />

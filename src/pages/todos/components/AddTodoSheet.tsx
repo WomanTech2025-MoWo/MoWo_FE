@@ -22,7 +22,7 @@ dayjs.extend(timezone);
 interface AddTodoSheetProps extends BackdropProps {
   initialText?: string;
   selectedDate: Date;
-  onTodoAdded?: (newTodo: TodoListItemProps) => void;
+  onTodoAdded?: () => void;
 }
 
 interface TodoPayload {
@@ -168,15 +168,8 @@ const AddTodoSheet = ({ onClick, initialText = '', selectedDate, onTodoAdded }: 
       
       console.log('✅ 투두 등록 성공:', newTodo);
 
-      // ✅ 부모에 새 투두 전달 (화면 즉시 반영)
-      onTodoAdded?.({
-        id: newTodo.id,
-        todoDate: payload.todoDate,
-        todoTitle: payload.title,
-        category: payload.todoCategory,
-        checked: false,
-        isOpen: false,
-      });
+      // ✅ 부모에 완료 신호 전달 (부모에서 전체 목록 새로고침)
+      onTodoAdded?.();
 
       // 등록 후 입력 초기화
       setText('');
