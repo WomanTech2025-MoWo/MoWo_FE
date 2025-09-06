@@ -69,6 +69,11 @@
 [![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white)](https://www.mysql.com/)
 [![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=Python&logoColor=white)](https://www.python.org/)
 
+## 🔀 브랜치 안내
+
+- `main`: 최종 시연 버전(데모 사이트 기준)
+- `develop`: 일부 API 연결 및 성능 개선 버전
+
 ## 📂 컴포넌트 구조
 
 ```bash
